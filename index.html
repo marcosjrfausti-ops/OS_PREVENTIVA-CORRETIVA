@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ordem de Serviço - Conterplan</title>
+    
+    <!-- Fonte Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        conterLaranja: '#FE8C00',
+                        conterAzul: '#0065FF',
+                        fundo: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Estilos Adicionais Base -->
+    <style>
+        input[type="text"], textarea { text-transform: uppercase; }
+        input, select, textarea { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+        canvas { touch-action: none; }
+    </style>
+</head>
+<body class="bg-fundo text-gray-800 font-sans antialiased">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: HOME                               -->
+    <!-- ========================================== -->
+    <section id="view-home" class="flex min-h-screen flex-col">
+        <header class="bg-conterLaranja text-white py-6 shadow-md flex items-center justify-center">
+            <h1 class="text-xl font-bold tracking-wide uppercase text-center px-4">
+                Manutenção Conterplan
+            </h1>
+        </header>
+
+        <main class="flex-1 flex flex-col items-center justify-center p-6 gap-4">
+            <button onclick="iniciarNovaOS('normal')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="plus-circle" class="w-6 h-6"></i>
+                + NOVA OS
+            </button>
+            <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="zap" class="w-6 h-6"></i>
+                SERVIÇO RÁPIDO
+            </button>
+            <button onclick="abrirGaleria('atualizar')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                ATUALIZAR
+            </button>
+            <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="droplet" class="w-6 h-6"></i>
+                LUBRIFICAÇÃO
+            </button>
+            
+            <hr class="w-full max-w-sm border-gray-300 my-2">
+
+            <button onclick="abrirGaleria('finalizar')" class="w-full max-w-sm bg-white border-2 border-conterAzul text-conterAzul font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-blue-50 transition-colors">
+                <i data-lucide="check-square" class="w-6 h-6"></i>
+                FINALIZAR / EXPORTAR
+            </button>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: GALERIA                            -->
+    <!-- ========================================== -->
+    <section id="view-gallery" class="hidden min-h-screen flex-col pb-10">
+        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    <span class="font-medium hidden sm:inline">Voltar</span>
+                </button>
+                <h1 id="gallery-title" class="text-lg font-semibold tracking-wide flex-1 text-center pr-8 sm:pr-24">
+                    Equipamentos
+                </h1>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto w-full mt-6 px-4">
+            <div id="gallery-list" class="space-y-4">
+                <!-- Cards injetados via JS -->
+            </div>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: FORMULÁRIO COMPLETO (NOVA OS)      -->
+    <!-- ========================================== -->
+    <section id="view-form" class="hidden min-h-screen flex-col pb-20">
+        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
+                    REGISTRO O.S. (COMPLETA)
+                </h1>
+                <div class="w-6"></div>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto w-full mt-6 px-4 space-y-6">
+            
+            <!-- 1. Cabeçalho -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-conterLaranja"></i>
+                        Dados da Ordem de Serviço
+                    </h2>
+                    <span id="label_os_id" class="text-xs font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded border">NOVO</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label><input type="text" id="os_numero" class="w-full border rounded-lg px-3 py-2"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TIPO DE O.S.</label>
+                        <select id="os_tipo" class="w-full border rounded-lg px-3 py-2 bg-white">
+                            <option value="" disabled selected>Selecione...</option><option value="PREVENTIVA">PREVENTIVA</option><option value="CORRETIVA">CORRETIVA</option><option value="INSPEÇÃO">INSPEÇÃO</option><option value="OUTROS">OUTROS</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG do Equipamento</label><select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Local de Execução</label>
+                        <select id="os_local" class="w-full border rounded-lg px-3 py-2 bg-white">
+                            <option value="" disabled selected>Selecione...</option><option value="Oficina Central">Oficina Central</option><option value="Rio Doce">Rio Doce</option><option value="Barao de Cocais">Barão de Cocais</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">KM / Horímetro</label><input type="text" id="os_km" class="w-full border rounded-lg px-3 py-2"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">DATA DA PARADA</label><input type="date" id="data_parada" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">HORA DA PARADA</label><input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                </div>
+            </section>
+
+            <!-- 2. Mecânicos Executantes -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">Outro</span>
+</label>
+                </div>
+            </section>
+
+            <!-- 3. Problema Apresentado -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_motor" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">MOTOR</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_caixa" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">CAIXA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_freio" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">FREIO</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_hidraulica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">HIDRÁULICA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
+                </div>
+                <div class="mt-4 space-y-1">
+                    <label class="text-sm font-medium text-gray-600">Descrição do Problema</label>
+                    <textarea id="os_obs_problema" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="Detalhes..."></textarea>
+                </div>
+            </section>
+
+            <!-- 4. Serviços Executados (Tabela Completa) -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviços Executados</h2>
+                    <button type="button" id="btnAddServico" class="text-sm text-conterAzul font-semibold flex items-center gap-1 hover:text-blue-800"><i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar</button>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-sm border-b">
+                                <th class="p-3 font-medium w-1/2">Descrição do Serviço</th><th class="p-3 font-medium text-center">Início</th><th class="p-3 font-medium text-center">Fim</th><th class="p-3 font-medium text-center">Total (h)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaServicosBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 5. Peças Aplicadas -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
+                    <button type="button" id="btnAddPeca" class="text-sm text-conterAzul font-semibold flex items-center gap-1 hover:text-blue-800"><i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar</button>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full text-left border-collapse min-w-[500px]">
+                        <thead><tr class="bg-gray-50 text-gray-600 text-sm border-b"><th class="p-3 font-medium w-3/5">Código / Descrição</th><th class="p-3 font-medium text-center">Qtd.</th><th class="p-3 font-medium text-center">Unid.</th></tr></thead>
+                        <tbody id="tabelaPecasBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 6. Mídias e Assinatura -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Anexos e Assinaturas</h2>
+
+                <div class="mb-8">
+                    <p class="text-sm font-medium text-gray-600 mb-2">Fotos do Serviço (Máx. 5)</p>
+                    <label for="inputFotos" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i data-lucide="camera" class="w-8 h-8 text-gray-400 mb-2"></i>
+                            <p class="text-sm text-gray-500"><span class="font-semibold text-conterAzul">Abrir Câmera</span> ou Galeria</p>
+                        </div>
+                        <input id="inputFotos" type="file" class="hidden" accept="image/*" multiple capture="environment">
+                    </label>
+                    <div id="containerMiniaturas" class="flex gap-2 mt-3 overflow-x-auto pb-2"></div>
+                </div>
+
+                <hr class="border-gray-200 mb-8">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div class="flex flex-col items-center">
+                        <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Eng. Mecânica / Responsável</p>
+                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+                            <canvas id="canvasAssinaturaEngenheiro" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                        </div>
+                        <button type="button" onclick="limparCanvasEspecifico('canvasAssinaturaEngenheiro')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar</button>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Controlador de Manutenção</p>
+                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+                            <canvas id="canvasAssinaturaControlador" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                        </div>
+                        <button type="button" onclick="limparCanvasEspecifico('canvasAssinaturaControlador')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-4 pt-4">
+                <button type="button" onclick="salvarComoFinalizada()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="check-circle" class="w-7 h-7"></i>
+                    CONCLUIR O.S.
+                </button>
+            </section>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: SERVIÇO RÁPIDO (ENRIQUECIDO)       -->
+    <!-- ========================================== -->
+    <section id="view-rapido" class="hidden min-h-screen flex-col pb-20">
+        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
+                    SERVIÇO RÁPIDO
+                </h1>
+                <div class="w-6"></div>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto w-full mt-6 px-4 space-y-6">
+            
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-conterLaranja"></i>Dados Básicos</h2>
+                    <span id="r_label_os_id" class="text-xs font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded border">NOVO</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG do Equipamento</label><select id="r_os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="r_equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">KM / Horímetro</label><input type="text" id="r_os_km" class="w-full border rounded-lg px-3 py-2"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Data do Serviço</label><input type="date" id="r_data" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-conterLaranja">HORA DE INÍCIO</label><input type="time" id="r_hora_inicio" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-conterLaranja">HORA DE TÉRMINO</label><input type="time" id="r_hora_fim" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                </div>
+            </section>
+
+            <!-- NOVO: Mecânicos Executantes -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
+</label>
+
+<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+    <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
+    <span class="text-sm font-medium text-gray-700">Outro</span>
+</label>
+                </div>
+            </section>
+
+            <!-- NOVO: Problema Apresentado -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_motor" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">MOTOR</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_caixa" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">CAIXA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_freio" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">FREIO</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_hidraulica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">HIDRÁULICA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
+                </div>
+            </section>
+
+            <!-- Serviços Executados Simplificado -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviço Executado</h2>
+                <textarea id="r_servicos_executados" rows="6" class="w-full border rounded-lg px-3 py-2" placeholder="Descreva os serviços realizados..."></textarea>
+            </section>
+
+            <!-- NOVO: Peças Aplicadas -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
+                    <button type="button" id="r_btnAddPeca" class="text-sm text-conterAzul font-semibold flex items-center gap-1 hover:text-blue-800"><i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar</button>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full text-left border-collapse min-w-[500px]">
+                        <thead><tr class="bg-gray-50 text-gray-600 text-sm border-b"><th class="p-3 font-medium w-3/5">Código / Descrição</th><th class="p-3 font-medium text-center">Qtd.</th><th class="p-3 font-medium text-center">Unid.</th></tr></thead>
+                        <tbody id="r_tabelaPecasBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- NOVO: Mídias e Assinatura Técnica -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Evidências e Assinatura</h2>
+
+                <div class="mb-8">
+                    <label for="r_inputFotos" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i data-lucide="camera" class="w-8 h-8 text-gray-400 mb-2"></i>
+                            <p class="text-sm text-gray-500"><span class="font-semibold text-conterAzul">Abrir Câmera</span> ou Galeria</p>
+                        </div>
+                        <input id="r_inputFotos" type="file" class="hidden" accept="image/*" multiple capture="environment">
+                    </label>
+                    <div id="r_containerMiniaturas" class="flex gap-2 mt-3 overflow-x-auto pb-2"></div>
+                </div>
+
+                <hr class="border-gray-200 mb-8">
+                
+                <div class="flex flex-col items-center">
+                    <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Assinatura do Técnico Responsável</p>
+                    <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+                        <canvas id="r_canvasAssinatura" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                    </div>
+                    <button type="button" onclick="limparCanvasEspecifico('r_canvasAssinatura')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar Assinatura</button>
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-4 pt-4">
+                <button type="button" onclick="salvarComoFinalizada()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="check-circle" class="w-7 h-7"></i>
+                    CONCLUIR SERVIÇO RÁPIDO
+                </button>
+            </section>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: LUBRIFICAÇÃO                       -->
+    <!-- ========================================== -->
+    <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
+        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
+                    APONTAMENTO DE LUBRIFICAÇÃO
+                </h1>
+                <div class="w-6"></div>
+            </div>
+        </header>
+
+        <main class="max-w-5xl mx-auto w-full mt-6 px-4 space-y-6">
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-conterAzul font-semibold flex items-center gap-2">
+                        <i data-lucide="droplet" class="w-5 h-5 text-conterLaranja"></i>
+                        Registro Contínuo
+                    </h2>
+                    <button type="button" onclick="adicionarLinhaLubrificacao()" class="text-sm text-conterAzul font-semibold flex items-center gap-1 hover:text-blue-800">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Equipamento
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-sm border-b">
+                                <th class="p-3 font-medium text-center w-10">Item</th>
+                                <th class="p-3 font-medium">Data</th>
+                                <th class="p-3 font-medium">TAG</th>
+                                <th class="p-3 font-medium">Lubrificador</th>
+                                <th class="p-3 font-medium">Cidade</th>
+                                <th class="p-3 font-medium text-center w-10">Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaLubrificacaoBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
+    <!-- ========================================== -->
+    <script>
+        let currentOSId = null; 
+        let tipoOSAtual = 'normal'; 
+        let osDatabase = JSON.parse(localStorage.getItem('conterplan_db_v3')) || {};
+        let lubDatabase = JSON.parse(localStorage.getItem('conterplan_lub_v1')) || [];
+
+        const relacaoFrota = {
+           "CON-001": "CAMINHÃO BASCULANTE", "CON-002": "CAMINHÃO BASCULANTE", "CON-003": "CAMINHÃO PIPA",
+           "CON-004": "CAMINHÃO PIPA", "CON-006": "CAVALO MECÂNICO", "CON-007": "CAMINHÃO CARROCERIA SECA",
+           "CON-008": "CAMINHÃO CABINE | CARROCERIA", "CON-013": "ESCAVADEIRA HIDRAULICA 13t", "CON-014": "PÁ CARREGADEIRA",
+           "CON-016": "MOTONIVELADORA", "CON-017": "CAMINHÃO CABINE | CARROCERIA", "CON-018": "SEMI-REBOQUE BASCULA",
+           "CON-019": "RETROESCAVADEIRA", "CON-020": "RETROESCAVADEIRA", "CON-021": "ESCAVADEIRA HIDRAULICA 13t",
+           "CON-022": "RETROESCAVADEIRA", "CON-023": "ROLO COMPACTADOR", "CON-024": "SEMI-REBOQUE CARROCERIA",
+           "CON-025": "ROLO COMPACTADOR", "CON-026": "SEMI REBOQUE SIEPIERSKI - PRANCHA", "CON-027": "RETROESCAVADEIRA",
+           "CON-028": "CAMINHÃO MUNCK", "CON-029": "CAMINHÃO PIPA", "CON-030": "ESCAVADEIRA HIDRAULICA 21t",
+           "CON-031": "SEMI-REBOQUE BASCULA", "CON-032": "ESCAVADEIRA HIDRAULICA 21t", "CON-033": "CAMINHÃO BASCULANTE",
+           "CON-034": "CAMINHÃO BASCULANTE", "CON-035": "RETROESCAVADEIRA", "CON-036": "MINI CARREGADEIRA",
+           "CON-037": "CAMINHÃO  BOIADEIRO", "CON-038": "COMBOIO", "CON-039": "CAMINHÃO CABINE | CARROCERIA",
+           "CON-040": "CAMINHÃO CABINE | BASCULA", "CON-041": "ESCAVADEIRA HIDRAULICA 21t", "CON-042": "CAMINHÃO PIPA",
+           "CON-043": "ESCAVADEIRA HIDRAULICA 13t", "CON-044": "CAMINHÃO MUNCK", "CON-045": "CAMINHÃO PRANCHA",
+           "CON-046": "RETROESCAVADEIRA", "CON-047": "RETROESCAVADEIRA", "CON-048": "RETROESCAVADEIRA",
+           "CON-049": "CAMINHÃO CABINE | CARROCERIA", "CON-050": "CAMINHÃO CABINE | CARROCERIA", "CON-051": "ESCAVADEIRA HIDRAULICA 13t",
+           "CON-052": "CAMINHÃO BASCULANTE", "CON-053": "CAMINHÃO BASCULANTE", "CON-054": "TRATOR DE ESTEIRA",
+           "CON-055": "CAMINHÃO PIPA", "CON-056": "CAMINHÃO PIPA", "CON-057": "PÁ CARREGADEIRA",
+           "CON-058": "ROLO COMPACTADOR", "CON-059": "ESCAVADEIRA HIDRAULICA 13t", "CON-060": "CAMINHÃO CABINE | CARROCERIA",
+           "CON-061": "CAMINHÃO CABINE | CARROCERIA", "CON-062": "RETROESCAVADEIRA", "CON-063": "ESCAVADEIRA HIDRAULICA 13t",
+           "CON-064": "ESCAVADEIRA HIDRAULICA 13t", "CON-065": "TRATOR DE ESTEIRA", "CON-066": "CAVALO MECÂNICO",
+           "CON-067": "MOTONIVELADORA", "CON-068": "MOTONIVELADORA", "CON-069": "CAVALO MECÂNICO",
+           "CON-070": "MICRO-ÔNIBUS", "CON-071": "EMPILHADEIRA", "CON-072": "COMBOIO", "CON-073": "ESCAVADEIRA HIDRÁULICA",
+           "CON-074": "ESCAVADEIRA HIDRÁULICA", "CON-075": "ESCAVADEIRA HIDRÁULICA", "CON-076": "MOTONIVELADORA",
+           "CON-077": "RETROESCAVADEIRA", "CON-078": "RETROESCAVADEIRA", "CON-079": "ESCAVADEIRA HIDRAÚLICA"
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            gerarOpcoesTAG();
+            configurarEventosUI();
+            
+            // Inicializa os Canvas Touch-Friendly
+            configurarCanvas('canvasAssinaturaEngenheiro');
+            configurarCanvas('canvasAssinaturaControlador');
+            configurarCanvas('r_canvasAssinatura');
+        });
+
+        // ====================================================
+        // NAVEGAÇÃO SPA
+        // ====================================================
+        function showView(viewId) {
+            const views = ['view-home', 'view-gallery', 'view-form', 'view-rapido', 'view-lubrificacao'];
+            views.forEach(id => {
+                const element = document.getElementById(id);
+                if (id === viewId) {
+                    element.classList.remove('hidden');
+                    element.classList.add('flex');
+                } else {
+                    element.classList.add('hidden');
+                    element.classList.remove('flex');
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function iniciarNovaOS(tipo) {
+            currentOSId = null; 
+            tipoOSAtual = tipo;
+            limparFormularioOS(tipo);
+            
+            if (tipo === 'normal') {
+                adicionarLinhaServico('tabelaServicosBody');
+                adicionarLinhaPeca('tabelaPecasBody');
+                document.getElementById('label_os_id').textContent = 'NOVO RASCUNHO';
+                showView('view-form');
+            } else {
+                adicionarLinhaPeca('r_tabelaPecasBody');
+                document.getElementById('r_label_os_id').textContent = 'NOVO RASCUNHO (RÁPIDO)';
+                showView('view-rapido');
+            }
+        }
+
+        function abrirGaleria(acao) {
+            const list = document.getElementById('gallery-list');
+            list.innerHTML = ''; 
+            const isAtualizar = (acao === 'atualizar');
+            document.getElementById('gallery-title').textContent = isAtualizar ? 'Em Andamento' : 'Prontas para Finalizar';
+
+            const chaves = Object.keys(osDatabase);
+            let temOS = false;
+
+            chaves.reverse().forEach(id => {
+                const os = osDatabase[id];
+                if ((isAtualizar && os.status === 'Em Andamento') || (!isAtualizar && os.status === 'Em Andamento')) { 
+                    temOS = true;
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center transition-all hover:border-conterAzul cursor-pointer';
+                    card.onclick = () => carregarFormulario(id);
+                    
+                    const tagDisplay = os.cabecalho.os_tag || os.cabecalho.r_os_tag || 'SEM TAG';
+                    const tipoDisplay = os.tipoRegistro === 'rapido' ? 'RÁPIDO' : 'NORMAL';
+
+                    card.innerHTML = `
+                        <div>
+                            <p class="font-bold text-conterAzul text-lg">${tagDisplay}</p>
+                            <p class="text-xs font-mono text-conterLaranja font-bold mt-1">[${tipoDisplay}] <span class="text-gray-500 font-normal">${id}</span></p>
+                            <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                <i data-lucide="calendar" class="w-3 h-3"></i> ${os.dataAbertura}
+                            </p>
+                        </div>
+                        <div class="bg-gray-100 text-conterAzul px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 flex items-center gap-1">
+                            Abrir <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                }
+            });
+
+            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. pendente encontrada.</p></div>`; }
+            lucide.createIcons();
+            showView('view-gallery');
+        }
+
+        // ====================================================
+        // GESTÃO DE LUBRIFICAÇÃO
+        // ====================================================
+        function abrirLubrificacao() {
+            const tbody = document.getElementById('tabelaLubrificacaoBody');
+            tbody.innerHTML = '';
+            if (lubDatabase.length === 0) adicionarLinhaLubrificacao();
+            else lubDatabase.forEach(item => adicionarLinhaLubrificacao(item));
+            showView('view-lubrificacao');
+        }
+
+        function adicionarLinhaLubrificacao(dado = {}) {
+            const tbody = document.getElementById('tabelaLubrificacaoBody');
+            const tr = document.createElement('tr');
+            tr.className = "border-b border-gray-100 hover:bg-gray-50";
+
+            let tagOptions = '<option value="" disabled selected>TAG...</option>';
+            Object.keys(relacaoFrota).forEach(tag => { tagOptions += `<option value="${tag}" ${dado.tag === tag ? 'selected' : ''}>${tag}</option>`; });
+
+            const dataHoje = new Date().toISOString().split('T')[0];
+
+            tr.innerHTML = `
+                <td class="p-2 text-center font-bold text-gray-500 lub-item"></td>
+                <td class="p-2"><input type="date" class="w-full border border-gray-300 rounded px-2 py-1 lub-data text-sm" value="${dado.data || dataHoje}"></td>
+                <td class="p-2"><select class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm bg-white">${tagOptions}</select></td>
+                <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-resp uppercase text-sm" value="${dado.resp || ''}" placeholder="Nome"></td>
+                <td class="p-2">
+                    <select class="w-full border border-gray-300 rounded px-2 py-1 lub-cidade text-sm bg-white">
+                        <option value="" disabled ${!dado.cidade ? 'selected' : ''}>Selecione...</option>
+                        <option value="Oficina Central" ${dado.cidade === 'Oficina Central' ? 'selected' : ''}>Oficina Central</option>
+                        <option value="Mariana" ${dado.cidade === 'Mariana' ? 'selected' : ''}>Mariana</option>
+                        <option value="Rio Doce" ${dado.cidade === 'Rio Doce' ? 'selected' : ''}>Rio Doce</option>
+                        <option value="Barão de Cocais" ${dado.cidade === 'Barão de Cocais' ? 'selected' : ''}>Barão de Cocais</option>
+                    </select>
+                </td>
+                <td class="p-2 text-center"><button type="button" class="text-red-500 font-bold hover:text-red-700" onclick="this.closest('tr').remove(); atualizarIndicesLubrificacao(); salvarLubrificacao();">X</button></td>
+            `;
+            tbody.appendChild(tr);
+            atualizarIndicesLubrificacao();
+            salvarLubrificacao();
+        }
+
+        function atualizarIndicesLubrificacao() {
+            document.querySelectorAll('#tabelaLubrificacaoBody tr').forEach((tr, index) => tr.querySelector('.lub-item').textContent = index + 1);
+        }
+
+        function salvarLubrificacao() {
+            const data = [];
+            document.querySelectorAll('#tabelaLubrificacaoBody tr').forEach(tr => {
+                data.push({
+                    data: tr.querySelector('.lub-data').value,
+                    tag: tr.querySelector('.lub-tag').value,
+                    resp: tr.querySelector('.lub-resp').value,
+                    cidade: tr.querySelector('.lub-cidade').value
+                });
+            });
+            lubDatabase = data;
+            localStorage.setItem('conterplan_lub_v1', JSON.stringify(lubDatabase));
+        }
+
+        // ====================================================
+        // LÓGICA DE DADOS (JSON / LOCALSTORAGE)
+        // ====================================================
+        function gerarIdCosmosDB(tag) {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            const tagFinal = tag ? tag : 'SEM-TAG';
+            return `OS_${tagFinal}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+        }
+
+        // Utilitário para raspar o array de checkboxes de mecânicos
+        function getMecanicosArray(viewId) {
+            const checks = document.querySelectorAll(`#${viewId} .mec-checkbox-group input[type="checkbox"]:checked`);
+            return Array.from(checks).map(cb => cb.value);
+        }
+        
+        function setMecanicosArray(viewId, arrMecanicos) {
+            if(!arrMecanicos) return;
+            document.querySelectorAll(`#${viewId} .mec-checkbox-group input[type="checkbox"]`).forEach(cb => {
+                cb.checked = arrMecanicos.includes(cb.value);
+            });
+        }
+
+        function salvarAutomaticamente() {
+            const prefix = tipoOSAtual === 'normal' ? '' : 'r_';
+            const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
+            const temTag = document.getElementById(`${prefix}os_tag`).value;
+            const temKm = document.getElementById(`${prefix}os_km`).value;
+
+            if (!currentOSId && !temTag && !temKm) return; 
+
+            if (!currentOSId) {
+                currentOSId = gerarIdCosmosDB(temTag);
+                document.getElementById(`${prefix}label_os_id`).textContent = currentOSId;
+            }
+
+            const dados = {
+                tipoRegistro: tipoOSAtual,
+                status: osDatabase[currentOSId]?.status || 'Em Andamento',
+                dataAbertura: osDatabase[currentOSId]?.dataAbertura || new Date().toLocaleString('pt-BR'),
+                mecanicos: getMecanicosArray(viewId),
+                fotos: osDatabase[currentOSId]?.fotos || [],
+                assinaturas: {
+                    engenheiro: document.getElementById('canvasAssinaturaEngenheiro').toDataURL(),
+                    controlador: document.getElementById('canvasAssinaturaControlador').toDataURL(),
+                    tecnico_rapido: document.getElementById('r_canvasAssinatura').toDataURL()
+                },
+                cabecalho: {}, problemas: {}, servicos: [], pecas: []
+            };
+
+            if (tipoOSAtual === 'normal') {
+                dados.cabecalho = {
+                    os_numero: document.getElementById('os_numero').value,
+                    os_tipo: document.getElementById('os_tipo').value,
+                    os_tag: document.getElementById('os_tag').value,
+                    equipamento: document.getElementById('equipamento').value,
+                    os_local: document.getElementById('os_local').value,
+                    os_km: document.getElementById('os_km').value,
+                    data_parada: document.getElementById('data_parada').value,
+                    hora_parada: document.getElementById('hora_parada').value
+                };
+                
+                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`prob_${p}`).checked; });
+                dados.problemas.obs = document.getElementById('os_obs_problema').value;
+
+                document.querySelectorAll('#tabelaServicosBody tr').forEach(tr => {
+                    const inputs = tr.querySelectorAll('input');
+                    if(inputs.length > 0) dados.servicos.push({ desc: inputs[0].value, inicio: inputs[1].value, fim: inputs[2].value, total: inputs[3].value });
+                });
+                document.querySelectorAll('#tabelaPecasBody tr').forEach(tr => {
+                    const inputs = tr.querySelectorAll('input, select');
+                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0].value, qtd: inputs[1].value, unid: inputs[2].value });
+                });
+            } else {
+                dados.cabecalho = {
+                    r_os_tag: document.getElementById('r_os_tag').value,
+                    r_equipamento: document.getElementById('r_equipamento').value,
+                    r_os_km: document.getElementById('r_os_km').value,
+                    r_data: document.getElementById('r_data').value,
+                    r_hora_inicio: document.getElementById('r_hora_inicio').value,
+                    r_hora_fim: document.getElementById('r_hora_fim').value
+                };
+                
+                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`r_prob_${p}`).checked; });
+                dados.servicos_rapido = document.getElementById('r_servicos_executados').value;
+                
+                document.querySelectorAll('#r_tabelaPecasBody tr').forEach(tr => {
+                    const inputs = tr.querySelectorAll('input, select');
+                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0].value, qtd: inputs[1].value, unid: inputs[2].value });
+                });
+            }
+
+            osDatabase[currentOSId] = dados;
+            localStorage.setItem('conterplan_db_v3', JSON.stringify(osDatabase));
+        }
+
+        function carregarFormulario(idOS) {
+            currentOSId = idOS;
+            const draft = osDatabase[idOS];
+            if (!draft) return;
+
+            tipoOSAtual = draft.tipoRegistro || 'normal';
+            limparFormularioOS(tipoOSAtual);
+            
+            const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
+            setMecanicosArray(viewId, draft.mecanicos);
+            renderizarMiniaturasFotos(tipoOSAtual);
+
+            if (tipoOSAtual === 'normal') {
+                document.getElementById('label_os_id').textContent = idOS;
+                document.getElementById('os_numero').value = draft.cabecalho.os_numero || '';
+                document.getElementById('os_tipo').value = draft.cabecalho.os_tipo || '';
+                document.getElementById('os_tag').value = draft.cabecalho.os_tag || '';
+                document.getElementById('equipamento').value = draft.cabecalho.equipamento || '';
+                document.getElementById('os_local').value = draft.cabecalho.os_local || '';
+                document.getElementById('os_km').value = draft.cabecalho.os_km || '';
+                document.getElementById('data_parada').value = draft.cabecalho.data_parada || '';
+                document.getElementById('hora_parada').value = draft.cabecalho.hora_parada || '';
+                
+                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`prob_${p}`).checked = draft.problemas[p] || false; });
+                document.getElementById('os_obs_problema').value = draft.problemas.obs || '';
+
+                const tbodyServ = document.getElementById('tabelaServicosBody');
+                if (draft.servicos && draft.servicos.length > 0) { draft.servicos.forEach(s => adicionarLinhaServico('tabelaServicosBody', s.desc, s.inicio, s.fim, s.total));
+                } else { adicionarLinhaServico('tabelaServicosBody'); }
+
+                const tbodyPecas = document.getElementById('tabelaPecasBody');
+                if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('tabelaPecasBody', p.desc, p.qtd, p.unid));
+                } else { adicionarLinhaPeca('tabelaPecasBody'); }
+
+                restaurarImagemCanvas('canvasAssinaturaEngenheiro', draft.assinaturas?.engenheiro);
+                restaurarImagemCanvas('canvasAssinaturaControlador', draft.assinaturas?.controlador);
+                showView('view-form');
+            } else {
+                document.getElementById('r_label_os_id').textContent = idOS;
+                document.getElementById('r_os_tag').value = draft.cabecalho.r_os_tag || '';
+                document.getElementById('r_equipamento').value = draft.cabecalho.r_equipamento || '';
+                document.getElementById('r_os_km').value = draft.cabecalho.r_os_km || '';
+                document.getElementById('r_data').value = draft.cabecalho.r_data || '';
+                document.getElementById('r_hora_inicio').value = draft.cabecalho.r_hora_inicio || '';
+                document.getElementById('r_hora_fim').value = draft.cabecalho.r_hora_fim || '';
+                
+                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`r_prob_${p}`).checked = draft.problemas[p] || false; });
+                document.getElementById('r_servicos_executados').value = draft.servicos_rapido || '';
+                
+                const r_tbodyPecas = document.getElementById('r_tabelaPecasBody');
+                if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('r_tabelaPecasBody', p.desc, p.qtd, p.unid));
+                } else { adicionarLinhaPeca('r_tabelaPecasBody'); }
+
+                restaurarImagemCanvas('r_canvasAssinatura', draft.assinaturas?.tecnico_rapido);
+                showView('view-rapido');
+            }
+        }
+
+        function limparFormularioOS(tipo) {
+            const prefix = tipo === 'normal' ? '' : 'r_';
+            const viewId = tipo === 'normal' ? 'view-form' : 'view-rapido';
+            
+            document.querySelectorAll(`#${viewId} input[type="text"], #${viewId} input[type="time"], #${viewId} input[type="number"], #${viewId} input[type="date"], #${viewId} select, #${viewId} textarea`).forEach(el => el.value = '');
+            document.querySelectorAll(`#${viewId} input[type="checkbox"]`).forEach(el => el.checked = false);
+            
+            if (tipo === 'normal') {
+                document.getElementById('tabelaServicosBody').innerHTML = '';
+                document.getElementById('tabelaPecasBody').innerHTML = '';
+                document.getElementById('containerMiniaturas').innerHTML = '';
+                ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador'].forEach(id => {
+                    const cvs = document.getElementById(id); cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
+                });
+            } else {
+                document.getElementById('r_tabelaPecasBody').innerHTML = '';
+                document.getElementById('r_containerMiniaturas').innerHTML = '';
+                const cvs = document.getElementById('r_canvasAssinatura'); cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
+            }
+        }
+
+        function salvarComoFinalizada() {
+            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de finalizar."); return; }
+            osDatabase[currentOSId].status = 'Finalizada';
+            localStorage.setItem('conterplan_db_v3', JSON.stringify(osDatabase));
+            alert(`Registro salvo e concluído com sucesso!`);
+            showView('view-home');
+        }
+
+        // ====================================================
+        // EVENTOS GERAIS E MULTIMÍDIA (CANVAS/FOTOS)
+        // ====================================================
+        function gerarOpcoesTAG() {
+            const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
+            document.getElementById('os_tag').innerHTML = optBase; document.getElementById('r_os_tag').innerHTML = optBase;
+            Object.keys(relacaoFrota).forEach(tag => {
+                document.getElementById('os_tag').appendChild(new Option(tag, tag));
+                document.getElementById('r_os_tag').appendChild(new Option(tag, tag));
+            });
+        }
+
+        // Compressão inteligente de Imagens no Cliente (Evita estourar o LocalStorage com Base64 gigante)
+        function processarEComprimirImagem(file, callback) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800; // Redimensionamento de segurança
+                    const scaleSize = MAX_WIDTH / img.width;
+                    canvas.width = MAX_WIDTH;
+                    canvas.height = img.height * scaleSize;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    callback(canvas.toDataURL('image/jpeg', 0.7)); // Compressão JPG de 70%
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function manipularUploadDeFotos(event, tipoView) {
+            const files = Array.from(event.target.files).slice(0, 5);
+            if(!currentOSId) salvarAutomaticamente(); 
+            if(!osDatabase[currentOSId].fotos) osDatabase[currentOSId].fotos = [];
+            
+            files.forEach(file => {
+                processarEComprimirImagem(file, (base64Comprimido) => {
+                    osDatabase[currentOSId].fotos.push(base64Comprimido);
+                    salvarAutomaticamente();
+                    renderizarMiniaturasFotos(tipoView);
+                });
+            });
+        }
+
+        function renderizarMiniaturasFotos(tipoView) {
+            const containerId = tipoView === 'normal' ? 'containerMiniaturas' : 'r_containerMiniaturas';
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if(!currentOSId || !osDatabase[currentOSId]?.fotos) return;
+            
+            osDatabase[currentOSId].fotos.forEach((fotoBase64) => {
+                const img = document.createElement('img');
+                img.src = fotoBase64;
+                img.className = "w-16 h-16 object-cover rounded border-2 border-gray-300";
+                container.appendChild(img);
+            });
+        }
+
+        function configurarCanvas(idCanvas) {
+            const canvas = document.getElementById(idCanvas);
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let desenhando = false;
+            ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#000000';
+            const obterPosicao = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+            };
+            const iniciar = (e) => { e.preventDefault(); desenhando = true; const pos = obterPosicao(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
+            const desenhar = (e) => { if (!desenhando) return; e.preventDefault(); const pos = obterPosicao(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
+            const parar = () => { if (desenhando) { desenhando = false; ctx.closePath(); salvarAutomaticamente(); } };
+
+            canvas.addEventListener('mousedown', iniciar); canvas.addEventListener('mousemove', desenhar); window.addEventListener('mouseup', parar);
+            canvas.addEventListener('touchstart', iniciar, { passive: false }); canvas.addEventListener('touchmove', desenhar, { passive: false }); window.addEventListener('touchend', parar);
+        }
+
+        function limparCanvasEspecifico(idCanvas) {
+            const canvas = document.getElementById(idCanvas);
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            salvarAutomaticamente();
+        }
+
+        function restaurarImagemCanvas(idCanvas, dataUrl) {
+            if (!dataUrl || dataUrl.length < 50) return;
+            const canvas = document.getElementById(idCanvas);
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onload = () => ctx.drawImage(img, 0, 0);
+            img.src = dataUrl;
+        }
+
+        function configurarEventosUI() {
+            document.getElementById('os_tag').addEventListener('change', function() { document.getElementById('equipamento').value = relacaoFrota[this.value] || ''; salvarAutomaticamente(); });
+            document.getElementById('r_os_tag').addEventListener('change', function() { document.getElementById('r_equipamento').value = relacaoFrota[this.value] || ''; salvarAutomaticamente(); });
+            document.getElementById('os_km').addEventListener('input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
+            document.getElementById('r_os_km').addEventListener('input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
+            
+            // File Inputs para Fotos
+            document.getElementById('inputFotos').addEventListener('change', (e) => manipularUploadDeFotos(e, 'normal'));
+            document.getElementById('r_inputFotos').addEventListener('change', (e) => manipularUploadDeFotos(e, 'rapido'));
+
+            document.body.addEventListener('blur', function(e) {
+                if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp')) { e.target.value = e.target.value.toUpperCase(); salvarAutomaticamente(); }
+            }, true);
+
+            document.body.addEventListener('change', (e) => {
+                if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file') salvarAutomaticamente();
+            });
+            
+            document.getElementById('tabelaLubrificacaoBody').addEventListener('change', salvarLubrificacao);
+            document.getElementById('tabelaLubrificacaoBody').addEventListener('input', function(e) { if(e.target.matches('.lub-resp')) { e.target.value = e.target.value.toUpperCase(); salvarLubrificacao(); } });
+
+            // Delegação Tabela Serviços (Cálculo de Tempo)
+            document.getElementById('tabelaServicosBody').addEventListener('change', function(e) {
+                if (e.target.type === 'time') {
+                    const tr = e.target.closest('tr');
+                    const [in1, in2] = tr.querySelectorAll('input[type="time"]');
+                    const totalInput = tr.querySelector('input[readonly]');
+                    if (in1.value && in2.value) {
+                        const [h1, m1] = in1.value.split(':').map(Number);
+                        const [h2, m2] = in2.value.split(':').map(Number);
+                        let min1 = (h1 * 60) + m1, min2 = (h2 * 60) + m2;
+                        if (min2 < min1) min2 += 24 * 60; 
+                        totalInput.value = ((min2 - min1) / 60).toFixed(2);
+                    } else { totalInput.value = '0.0'; }
+                    salvarAutomaticamente();
+                }
+            });
+
+            // Botões Adicionar Tabela
+            document.getElementById('btnAddServico').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaServico('tabelaServicosBody'); salvarAutomaticamente(); });
+            document.getElementById('btnAddPeca').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaPeca('tabelaPecasBody'); salvarAutomaticamente(); });
+            document.getElementById('r_btnAddPeca').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaPeca('r_tabelaPecasBody'); salvarAutomaticamente(); });
+        }
+
+        function adicionarLinhaServico(idTbody, desc = '', inicio = '', fim = '', total = '0.0') {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
+            tr.innerHTML = `
+                <td class="p-2"><input type="text" value="${desc}" class="w-full border rounded px-2 py-1"></td>
+                <td class="p-2 text-center"><input type="time" value="${inicio}" class="w-fit border rounded px-2 py-1 text-center mx-auto block"></td>
+                <td class="p-2 text-center"><input type="time" value="${fim}" class="w-fit border rounded px-2 py-1 text-center mx-auto block"></td>
+                <td class="p-2 text-center"><input type="text" readonly value="${total}" class="w-20 border-none bg-gray-100 rounded px-2 py-1 text-center font-bold text-gray-700 mx-auto block"></td>
+            `;
+            document.getElementById(idTbody).appendChild(tr);
+        }
+
+        function adicionarLinhaPeca(idTbody, desc = '', qtd = '', unid = 'UN') {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
+            tr.innerHTML = `
+                <td class="p-2"><input type="text" value="${desc}" class="w-full border rounded px-2 py-1"></td>
+                <td class="p-2 text-center"><input type="number" min="1" value="${qtd}" class="w-20 border rounded px-2 py-1 text-center mx-auto block"></td>
+                <td class="p-2 text-center">
+                    <select class="w-fit border rounded px-2 py-1 bg-white mx-auto block">
+                        <option value="UN" ${unid === 'UN' ? 'selected' : ''}>UN</option><option value="KG" ${unid === 'KG' ? 'selected' : ''}>KG</option><option value="L" ${unid === 'L' ? 'selected' : ''}>L</option><option value="MT" ${unid === 'MT' ? 'selected' : ''}>MT</option>
+                    </select>
+                </td>
+            `;
+            document.getElementById(idTbody).appendChild(tr);
+        }
+    </script>
+</body>
+</html>
