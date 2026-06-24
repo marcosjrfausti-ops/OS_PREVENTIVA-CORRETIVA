@@ -523,8 +523,8 @@
     <script>
         let currentOSId = null; 
         let tipoOSAtual = 'normal'; 
-        let osDatabase = JSON.parse(localStorage.getItem('conterplan_db_v3')) || {};
-        let lubDatabase = JSON.parse(localStorage.getItem('conterplan_lub_v1')) || [];
+        let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
+        let lubDatabase = JSON.parse(localStorage.getItem('PRECOR_LUB_DB')) || [];
 
         const relacaoFrota = {
            "CON-001": "CAMINHÃO BASCULANTE", "CON-002": "CAMINHÃO BASCULANTE", "CON-003": "CAMINHÃO PIPA",
@@ -656,6 +656,10 @@
             const tr = document.createElement('tr');
             tr.className = "border-b border-gray-100 hover:bg-gray-50";
 
+            // NOVO: Gerar ou recuperar ID individual da linha
+            const itemId = dado.id || gerarIdCosmosDB('LUB');
+            tr.dataset.id = itemId;
+
             let tagOptions = '<option value="" disabled selected>TAG...</option>';
             Object.keys(relacaoFrota).forEach(tag => { tagOptions += `<option value="${tag}" ${dado.tag === tag ? 'selected' : ''}>${tag}</option>`; });
 
@@ -690,6 +694,8 @@
             const data = [];
             document.querySelectorAll('#tabelaLubrificacaoBody tr').forEach(tr => {
                 data.push({
+                    id: tr.dataset.id,
+                    sistema_origem: "PRECOR",
                     data: tr.querySelector('.lub-data').value,
                     tag: tr.querySelector('.lub-tag').value,
                     resp: tr.querySelector('.lub-resp').value,
@@ -697,17 +703,25 @@
                 });
             });
             lubDatabase = data;
-            localStorage.setItem('conterplan_lub_v1', JSON.stringify(lubDatabase));
+            localStorage.setItem('PRECOR_LUB_DB', JSON.stringify(lubDatabase));
         }
 
         // ====================================================
         // LÓGICA DE DADOS (JSON / LOCALSTORAGE)
         // ====================================================
-        function gerarIdCosmosDB(tag) {
+        function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
+            const timestamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            
+            if (tipo === 'LUB') {
+                // Adiciona um sufixo aleatório para evitar colisões em salvamentos rápidos em lote
+                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                return `PRECOR_LUB_${timestamp}_${random}`;
+            }
+            
             const tagFinal = tag ? tag : 'SEM-TAG';
-            return `OS_${tagFinal}_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            return `PRECOR_OS_${tagFinal}_${timestamp}`;
         }
 
         // Utilitário para raspar o array de checkboxes de mecânicos
@@ -732,11 +746,12 @@
             if (!currentOSId && !temTag && !temKm) return; 
 
             if (!currentOSId) {
-                currentOSId = gerarIdCosmosDB(temTag);
+                currentOSId = gerarIdCosmosDB('OS', temTag);
                 document.getElementById(`${prefix}label_os_id`).textContent = currentOSId;
             }
 
             const dados = {
+                sistema_origem: "PRECOR",
                 tipoRegistro: tipoOSAtual,
                 status: osDatabase[currentOSId]?.status || 'Em Andamento',
                 dataAbertura: osDatabase[currentOSId]?.dataAbertura || new Date().toLocaleString('pt-BR'),
@@ -793,7 +808,7 @@
             }
 
             osDatabase[currentOSId] = dados;
-            localStorage.setItem('conterplan_db_v3', JSON.stringify(osDatabase));
+            localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
         }
 
         function carregarFormulario(idOS) {
@@ -878,7 +893,7 @@
         function salvarComoFinalizada() {
             if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de finalizar."); return; }
             osDatabase[currentOSId].status = 'Finalizada';
-            localStorage.setItem('conterplan_db_v3', JSON.stringify(osDatabase));
+            localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
             alert(`Registro salvo e concluído com sucesso!`);
             showView('view-home');
         }
