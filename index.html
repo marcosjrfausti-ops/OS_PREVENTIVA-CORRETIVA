@@ -677,6 +677,10 @@
         let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
         let lubDatabase = JSON.parse(localStorage.getItem('PRECOR_LUB_DB')) || [];
 
+        // CORREÇÃO: constante que faltava e causava "ReferenceError: blankCanvasState is not defined"
+        // sempre que salvarAutomaticamente() rodava em uma tela onde nem todos os canvases de assinatura existem.
+        const blankCanvasState = '';
+
         const relacaoFrota = {
            "CON-001": "CAMINHÃO BASCULANTE", "CON-002": "CAMINHÃO BASCULANTE", "CON-003": "CAMINHÃO PIPA",
            "CON-004": "CAMINHÃO PIPA", "CON-006": "CAVALO MECÂNICO", "CON-007": "CAMINHÃO CARROCERIA SECA",
@@ -1252,7 +1256,19 @@
 
         function manipularUploadDeFotos(event, tipoView) {
             const files = Array.from(event.target.files).slice(0, 5);
-            if(!currentOSId) salvarAutomaticamente(); 
+
+            // CORREÇÃO: garante que exista um registro antes de tentar gravar fotos nele.
+            // Antes, se o usuário enviasse uma foto sem TAG/KM preenchidos, salvarAutomaticamente()
+            // retornava sem criar o registro e a linha seguinte quebrava com
+            // "Cannot read properties of undefined (reading 'fotos')".
+            if(!currentOSId) {
+                salvarAutomaticamente();
+                if(!currentOSId) {
+                    alert("Preencha ao menos a TAG do equipamento antes de adicionar fotos.");
+                    event.target.value = '';
+                    return;
+                }
+            }
             if(!osDatabase[currentOSId].fotos) osDatabase[currentOSId].fotos = [];
             
             files.forEach(file => {
