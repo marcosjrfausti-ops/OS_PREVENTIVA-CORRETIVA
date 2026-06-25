@@ -132,15 +132,15 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label><input type="text" id="os_numero" class="w-full border rounded-lg px-3 py-2"></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Nº OS</label><input type="text" id="os_numero" class="w-full border rounded-lg px-3 py-2"></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TIPO DE O.S.</label>
                         <select id="os_tipo" class="w-full border rounded-lg px-3 py-2 bg-white">
                             <option value="" disabled selected>Selecione...</option><option value="PREVENTIVA">PREVENTIVA</option><option value="CORRETIVA">CORRETIVA</option><option value="INSPEÇÃO">INSPEÇÃO</option><option value="OUTROS">OUTROS</option>
                         </select>
                     </div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG do Equipamento</label><select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG</label><select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Local de Execução</label>
+                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">LOCAL DE EXECUÇÃO</label>
                         <select id="os_local" class="w-full border rounded-lg px-3 py-2 bg-white">
                             <option value="" disabled selected>Selecione...</option><option value="Oficina Central">Oficina Central</option><option value="Rio Doce">Rio Doce</option><option value="Barao de Cocais">Barão de Cocais</option>
                         </select>
@@ -525,6 +525,49 @@
             </section>
         </main>
     </section>
+
+    <!-- ========================================== -->
+    <!-- FIREBASE INIT (MÓDULO OFFLINE)             -->
+    <!-- ========================================== -->
+    <script type="module">
+      // 1. Importações do SDK do Firebase v10+ (Utilizando ES Modules estaveis via CDN)
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+      import { 
+        getFirestore, 
+        doc, 
+        setDoc, 
+        enableIndexedDbPersistence 
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+      // 2. Credenciais Reais do Projeto (os-coretiva-preventiva)
+      const firebaseConfig = {
+        apiKey: "AIzaSyBLTPfj097saA-VrtxqWCLWDdS5acjgbEs",
+        authDomain: "os-coretiva-preventiva.firebaseapp.com",
+        projectId: "os-coretiva-preventiva",
+        storageBucket: "os-coretiva-preventiva.firebasestorage.app",
+        messagingSenderId: "1074947472672",
+        appId: "1:1074947472672:web:c797327b7c398fa94b2b45",
+        measurementId: "G-H01XP1X013"
+      };
+
+      // 3. Inicialização do Firebase e Firestore
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // 4. Ativação da Persistência Offline Automática
+      enableIndexedDbPersistence(db).catch((err) => {
+        if (err.code == 'failed-precondition') {
+          console.warn("Persistência offline falhou: Múltiplas abas abertas.");
+        } else if (err.code == 'unimplemented') {
+          console.warn("O navegador atual não suporta persistência offline.");
+        }
+      });
+
+      // Exponha o banco 'db' e as funções do Firestore globalmente para que o app.js consiga utilizá-los
+      window.db = db;
+      window.firestoreDoc = doc;
+      window.firestoreSetDoc = setDoc;
+    </script>
 
     <!-- ========================================== -->
     <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
