@@ -132,22 +132,62 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Nº OS</label><input type="text" id="os_numero" class="w-full border rounded-lg px-3 py-2"></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TIPO DE O.S.</label>
-                        <select id="os_tipo" class="w-full border rounded-lg px-3 py-2 bg-white">
-                            <option value="" disabled selected>Selecione...</option><option value="PREVENTIVA">PREVENTIVA</option><option value="CORRETIVA">CORRETIVA</option><option value="INSPEÇÃO">INSPEÇÃO</option><option value="OUTROS">OUTROS</option>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label>
+                        <input type="text" id="os_numero" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-conterLaranja">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">TIPO DE O.S.</label>
+                        <select id="os_tipo" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="PREVENTIVA">PREVENTIVA</option>
+                            <option value="CORRETIVA">CORRETIVA</option>
+                            <option value="INSPEÇÃO">INSPEÇÃO</option>
+                            <option value="OUTROS">OUTROS</option>
                         </select>
                     </div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG</label><select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">LOCAL DE EXECUÇÃO</label>
-                        <select id="os_local" class="w-full border rounded-lg px-3 py-2 bg-white">
-                            <option value="" disabled selected>Selecione...</option><option value="Oficina Central">Oficina Central</option><option value="Rio Doce">Rio Doce</option><option value="Barao de Cocais">Barão de Cocais</option>
+                    
+                    <!-- REINSERIDO E CORRIGIDO: Campos TAG e Equipamento -->
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">TAG do Equipamento</label>
+                        <select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja"></select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label>
+                        <input type="text" id="equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">LOCAL DE EXECUÇÃO</label>
+                        <select id="os_local" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="Oficina Central">Oficina Central</option>
+                            <option value="Rio Doce">Rio Doce</option>
+                            <option value="Barao de Cocais">Barão de Cocais</option>
                         </select>
                     </div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">KM / Horímetro</label><input type="text" id="os_km" class="w-full border rounded-lg px-3 py-2"></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">DATA DA PARADA</label><input type="date" id="data_parada" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
-                    <div class="space-y-1"><label class="text-sm font-medium text-gray-600">HORA DA PARADA</label><input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">KM / Horímetro</label>
+                        <input type="text" id="os_km" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-conterLaranja">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">Status do Equipamento</label>
+                        <select id="os_status_equip" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="operacional">Operacional</option>
+                            <option value="parado_manutencao">Parado para Manutenção</option>
+                            <option value="parado_aguardando">Parado Aguardando Peças</option>
+                            <option value="baixa_estoque">Baixa / Sucata</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">DATA DA PARADA</label>
+                        <input type="date" id="data_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">HORA DA PARADA</label>
+                        <input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                    </div>
                 </div>
             </section>
 
@@ -156,59 +196,49 @@
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">Outro</span>
-</label>
+                        <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">Outro</span>
+                    </label>
                 </div>
             </section>
 
@@ -345,59 +375,49 @@
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
-</label>
-
-<label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-    <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
-    <span class="text-sm font-medium text-gray-700">Outro</span>
-</label>
+                        <input type="checkbox" value="AUX_MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">GUSTAVO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">HUGO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_3" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">JOÃO PEDRO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_MECANICO_4" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">RENATO (AUX.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="AUX_GERAIS_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">GABRIEL (AUX. GERAIS)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ELETROMECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">DOUGLAS (ELETROMEC.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ELETROMECANICO_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">EZEQUIEL (ELETROMEC.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="ENCARREGADO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">JOSÉ ANDRÉ (ENCARREGADO)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="LUBRIFICADOR_2" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">Outro</span>
+                    </label>
                 </div>
             </section>
 
@@ -605,9 +625,10 @@
            "CON-077": "RETROESCAVADEIRA", "CON-078": "RETROESCAVADEIRA", "CON-079": "ESCAVADEIRA HIDRAÚLICA"
         };
 
+        // GARANTIA DE CARREGAMENTO: O DOMContentLoaded assegura que o HTML foi 100% lido antes do JS rodar
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            gerarOpcoesTAG();
+            gerarOpcoesTAG(); // Injeta dinamicamente as opções assim que a tela está pronta
             configurarEventosUI();
             
             // Inicializa os Canvas Touch-Friendly
@@ -760,7 +781,7 @@
             localStorage.setItem('PRECOR_LUB_DB', JSON.stringify(lubDatabase));
         }
 
-        // NOVO: Função para iterar o lote e salvar como registros autônomos (Flat Data)
+        // Função para iterar o lote e salvar como registros autônomos (Flat Data)
         function finalizarLoteLubrificacao() {
             const linhas = document.querySelectorAll('#tabelaLubrificacaoBody tr');
             let registrosSalvos = 0;
@@ -819,7 +840,7 @@
         }
 
         // ====================================================
-        // LÓGICA DE DADOS (JSON / LOCALSTORAGE)
+        // LÓGICA DE DADOS (JSON / LOCALSTORAGE / FIRESTORE)
         // ====================================================
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
@@ -890,6 +911,7 @@
                     equipamento: document.getElementById('equipamento').value,
                     os_local: document.getElementById('os_local').value,
                     os_km: document.getElementById('os_km').value,
+                    status_equipamento: document.getElementById('os_status_equip').value,
                     data_parada: document.getElementById('data_parada').value,
                     hora_parada: document.getElementById('hora_parada').value
                 };
@@ -925,7 +947,16 @@
             }
 
             osDatabase[currentOSId] = dados;
+            
+            // Salva localmente (Backup)
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+
+            // Envia em tempo real para o Firestore na Nuvem
+            if (window.db && window.firestoreDoc && window.firestoreSetDoc) {
+                window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), dados)
+                .then(() => console.log("Sincronizado com o Firestore com sucesso!"))
+                .catch((err) => console.error("Erro ao enviar para o Firestore (Modo Offline Ativo):", err));
+            }
         }
 
         function carregarFormulario(idOS) {
@@ -948,6 +979,7 @@
                 document.getElementById('equipamento').value = draft.cabecalho.equipamento || '';
                 document.getElementById('os_local').value = draft.cabecalho.os_local || '';
                 document.getElementById('os_km').value = draft.cabecalho.os_km || '';
+                document.getElementById('os_status_equip').value = draft.cabecalho.status_equipamento || '';
                 document.getElementById('data_parada').value = draft.cabecalho.data_parada || '';
                 document.getElementById('hora_parada').value = draft.cabecalho.hora_parada || '';
                 
@@ -1018,12 +1050,35 @@
         // ====================================================
         // EVENTOS GERAIS E MULTIMÍDIA (CANVAS/FOTOS)
         // ====================================================
+        
         function gerarOpcoesTAG() {
+            // 1. Busca os elementos no DOM apenas uma vez
+            const osTagSelect = document.getElementById('os_tag');
+            const rOsTagSelect = document.getElementById('r_os_tag');
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
-            document.getElementById('os_tag').innerHTML = optBase; document.getElementById('r_os_tag').innerHTML = optBase;
+            
+            // 2. Segurança no DOM: Verifica se o elemento da OS Completa existe
+            if (osTagSelect) {
+                osTagSelect.innerHTML = optBase;
+            } else {
+                console.error("Elemento 'os_tag' não encontrado no DOM!");
+            }
+
+            // 3. Segurança no DOM: Verifica se o elemento da OS Rápida existe
+            if (rOsTagSelect) {
+                rOsTagSelect.innerHTML = optBase;
+            } else {
+                console.error("Elemento 'r_os_tag' não encontrado no DOM!");
+            }
+
+            // 4. Injeta as opções baseadas no objeto de Frota
             Object.keys(relacaoFrota).forEach(tag => {
-                document.getElementById('os_tag').appendChild(new Option(tag, tag));
-                document.getElementById('r_os_tag').appendChild(new Option(tag, tag));
+                if (osTagSelect) {
+                    osTagSelect.appendChild(new Option(tag, tag));
+                }
+                if (rOsTagSelect) {
+                    rOsTagSelect.appendChild(new Option(tag, tag));
+                }
             });
         }
 
