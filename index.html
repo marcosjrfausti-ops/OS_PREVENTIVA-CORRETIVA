@@ -498,14 +498,15 @@
                 </div>
                 
                 <div class="overflow-x-auto rounded-lg border border-gray-200">
-                    <table class="w-full text-left border-collapse min-w-[700px]">
+                    <table class="w-full text-left border-collapse min-w-[850px]">
                         <thead>
                             <tr class="bg-gray-50 text-gray-600 text-sm border-b">
                                 <th class="p-3 font-medium text-center w-10">Item</th>
-                                <th class="p-3 font-medium">Data</th>
-                                <th class="p-3 font-medium">TAG</th>
-                                <th class="p-3 font-medium">Lubrificador</th>
-                                <th class="p-3 font-medium">Cidade</th>
+                                <th class="p-3 font-medium w-32">Data</th>
+                                <th class="p-3 font-medium w-40">TAG</th>
+                                <th class="p-3 font-medium w-48">Lubrificador</th>
+                                <th class="p-3 font-medium w-40">Cidade</th>
+                                <th class="p-3 font-medium">OBS</th>
                                 <th class="p-3 font-medium text-center w-10">Excluir</th>
                             </tr>
                         </thead>
@@ -513,6 +514,14 @@
                         </tbody>
                     </table>
                 </div>
+            </section>
+
+            <!-- NOVO: Botão de Ação para o Lote de Lubrificação -->
+            <section class="flex flex-col gap-4 pt-2">
+                <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="save" class="w-7 h-7"></i>
+                    SALVAR LUBRIFICAÇÕES
+                </button>
             </section>
         </main>
     </section>
@@ -656,7 +665,7 @@
             const tr = document.createElement('tr');
             tr.className = "border-b border-gray-100 hover:bg-gray-50";
 
-            // NOVO: Gerar ou recuperar ID individual da linha
+            // Gerar ou recuperar ID individual da linha para o rascunho
             const itemId = dado.id || gerarIdCosmosDB('LUB');
             tr.dataset.id = itemId;
 
@@ -679,6 +688,7 @@
                         <option value="Barão de Cocais" ${dado.cidade === 'Barão de Cocais' ? 'selected' : ''}>Barão de Cocais</option>
                     </select>
                 </td>
+                <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-obs uppercase text-sm" value="${dado.obs || ''}" placeholder="Opcional"></td>
                 <td class="p-2 text-center"><button type="button" class="text-red-500 font-bold hover:text-red-700" onclick="this.closest('tr').remove(); atualizarIndicesLubrificacao(); salvarLubrificacao();">X</button></td>
             `;
             tbody.appendChild(tr);
@@ -699,11 +709,70 @@
                     data: tr.querySelector('.lub-data').value,
                     tag: tr.querySelector('.lub-tag').value,
                     resp: tr.querySelector('.lub-resp').value,
-                    cidade: tr.querySelector('.lub-cidade').value
+                    cidade: tr.querySelector('.lub-cidade').value,
+                    obs: tr.querySelector('.lub-obs').value
                 });
             });
             lubDatabase = data;
             localStorage.setItem('PRECOR_LUB_DB', JSON.stringify(lubDatabase));
+        }
+
+        // NOVO: Função para iterar o lote e salvar como registros autônomos (Flat Data)
+        function finalizarLoteLubrificacao() {
+            const linhas = document.querySelectorAll('#tabelaLubrificacaoBody tr');
+            let registrosSalvos = 0;
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+
+            linhas.forEach((tr, index) => {
+                const tag = tr.querySelector('.lub-tag').value;
+                const dataStr = tr.querySelector('.lub-data').value;
+                const resp = tr.querySelector('.lub-resp').value;
+                const cidade = tr.querySelector('.lub-cidade').value;
+                const obs = tr.querySelector('.lub-obs').value;
+
+                // Não salva linhas em branco onde a TAG ou o Nome não foram preenchidos
+                if (!tag && !resp) return;
+
+                const tagLimpa = tag ? tag : 'SEM-TAG';
+                
+                // Adiciona index * 1000 milissegundos na hora atual para garantir final (ex: ...173001, ...173002)
+                const dataItem = new Date(now.getTime() + (index * 1000));
+                const dataHoraFlat = `${dataItem.getFullYear()}${pad(dataItem.getMonth()+1)}${pad(dataItem.getDate())}_${pad(dataItem.getHours())}${pad(dataItem.getMinutes())}${pad(dataItem.getSeconds())}`;
+                const chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
+
+                // Cria o Objeto isolado (Plano)
+                const payload = {
+                    sistema_origem: "PRECOR",
+                    tipoRegistro: "LUBRIFICACAO",
+                    id: chaveUnica,
+                    data_apontamento: dataStr,
+                    tag: tagLimpa,
+                    lubrificador: resp,
+                    cidade: cidade,
+                    obs: obs,
+                    status: "Finalizada"
+                };
+
+                // Salva individualmente no Storage base do navegador
+                localStorage.setItem(chaveUnica, JSON.stringify(payload));
+                registrosSalvos++;
+            });
+
+            if (registrosSalvos > 0) {
+                alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo.`);
+                
+                // Reseta a tabela para o próximo uso
+                document.getElementById('tabelaLubrificacaoBody').innerHTML = '';
+                adicionarLinhaLubrificacao();
+                
+                // Limpa o rascunho temporário do lote
+                lubDatabase = [];
+                localStorage.removeItem('PRECOR_LUB_DB');
+                showView('view-home');
+            } else {
+                alert("Preencha ao menos uma TAG e um Lubrificador para salvar.");
+            }
         }
 
         // ====================================================
@@ -712,16 +781,18 @@
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
-            const timestamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            // Formato de Data e Hora: AAAAMMDD_HHMMSS
+            const dataHora = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             
             if (tipo === 'LUB') {
                 // Adiciona um sufixo aleatório para evitar colisões em salvamentos rápidos em lote
                 const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                return `PRECOR_LUB_${timestamp}_${random}`;
+                return `PRECOR_LUB_${dataHora}_${random}`;
             }
             
             const tagFinal = tag ? tag : 'SEM-TAG';
-            return `PRECOR_OS_${tagFinal}_${timestamp}`;
+            // Gera PRECOR_OS_... ou PRECOR_RAP_... dependendo do tipo passado
+            return `PRECOR_${tipo}_${tagFinal}_${dataHora}`;
         }
 
         // Utilitário para raspar o array de checkboxes de mecânicos
@@ -746,10 +817,13 @@
             if (!currentOSId && !temTag && !temKm) return; 
 
             if (!currentOSId) {
-                currentOSId = gerarIdCosmosDB('OS', temTag);
+                // Define o tipo de Prefixo (OS para normal, RAP para rápido)
+                const tipoPrefixo = tipoOSAtual === 'normal' ? 'OS' : 'RAP';
+                currentOSId = gerarIdCosmosDB(tipoPrefixo, temTag);
                 document.getElementById(`${prefix}label_os_id`).textContent = currentOSId;
             }
 
+            // Metadado de origem garantido em todos os JSONs antes do envio
             const dados = {
                 sistema_origem: "PRECOR",
                 tipoRegistro: tipoOSAtual,
@@ -1005,7 +1079,7 @@
             document.getElementById('r_inputFotos').addEventListener('change', (e) => manipularUploadDeFotos(e, 'rapido'));
 
             document.body.addEventListener('blur', function(e) {
-                if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp')) { e.target.value = e.target.value.toUpperCase(); salvarAutomaticamente(); }
+                if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp') && !e.target.classList.contains('lub-obs')) { e.target.value = e.target.value.toUpperCase(); salvarAutomaticamente(); }
             }, true);
 
             document.body.addEventListener('change', (e) => {
@@ -1013,7 +1087,12 @@
             });
             
             document.getElementById('tabelaLubrificacaoBody').addEventListener('change', salvarLubrificacao);
-            document.getElementById('tabelaLubrificacaoBody').addEventListener('input', function(e) { if(e.target.matches('.lub-resp')) { e.target.value = e.target.value.toUpperCase(); salvarLubrificacao(); } });
+            document.getElementById('tabelaLubrificacaoBody').addEventListener('input', function(e) { 
+                if(e.target.matches('.lub-resp') || e.target.matches('.lub-obs')) { 
+                    e.target.value = e.target.value.toUpperCase(); 
+                    salvarLubrificacao(); 
+                } 
+            });
 
             // Delegação Tabela Serviços (Cálculo de Tempo)
             document.getElementById('tabelaServicosBody').addEventListener('change', function(e) {
