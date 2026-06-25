@@ -54,34 +54,46 @@
         </header>
 
         <main class="flex-1 flex flex-col items-center justify-center p-6 gap-4">
+            
+            <!-- Bloco 1: Ciclo de Vida da OS -->
             <button onclick="iniciarNovaOS('normal')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
                 <i data-lucide="plus-circle" class="w-6 h-6"></i>
                 + NOVA OS
             </button>
-            <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+            <button onclick="abrirGaleria('atualizar')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                ATUALIZAR
+            </button>
+            <button onclick="abrirGaleria('finalizar')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="check-square" class="w-6 h-6"></i>
+                FINALIZAR
+            </button>
+
+            <hr class="w-full max-w-sm border-gray-300 my-2">
+
+            <!-- Bloco 2: Serviços Rápidos -->
+            <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterLaranja text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
             </button>
-            <button onclick="abrirAlterar()" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
-                <i data-lucide="edit" class="w-6 h-6"></i>
-                ALTERAR REGISTRO
-            </button>
-            <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+            <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterLaranja text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="droplet" class="w-6 h-6"></i>
                 LUBRIFICAÇÃO
             </button>
-            
+
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
-            <button onclick="abrirGaleria('finalizar')" class="w-full max-w-sm bg-white border-2 border-conterAzul text-conterAzul font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-blue-50 transition-colors">
-                <i data-lucide="check-square" class="w-6 h-6"></i>
-                FINALIZAR / EXPORTAR
+            <!-- Bloco 3: Auditoria/Correção -->
+            <button onclick="abrirGaleria('alterar')" class="w-full max-w-sm bg-gray-100 border-2 border-gray-600 text-gray-700 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors">
+                <i data-lucide="edit" class="w-6 h-6"></i>
+                ALTERAR REGISTRO
             </button>
+            
         </main>
     </section>
 
     <!-- ========================================== -->
-    <!-- VIEW 2: GALERIA                            -->
+    <!-- VIEW 2: GALERIA (Unificada para Todas Ações)-->
     <!-- ========================================== -->
     <section id="view-gallery" class="hidden min-h-screen flex-col pb-10">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
@@ -104,29 +116,6 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- VIEW EDIÇÃO: ALTERAR REGISTRO              -->
-    <!-- ========================================== -->
-    <section id="view-alterar" class="hidden min-h-screen flex-col pb-10">
-        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
-            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200">
-                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
-                    <span class="font-medium hidden sm:inline">Voltar</span>
-                </button>
-                <h1 class="text-lg font-semibold tracking-wide flex-1 text-center pr-8 sm:pr-24">
-                    Alterar Registros Salvos
-                </h1>
-            </div>
-        </header>
-
-        <main class="max-w-4xl mx-auto w-full mt-6 px-4">
-            <div id="alterar-list" class="space-y-4">
-                <!-- Cards de edição injetados via JS -->
-            </div>
-        </main>
-    </section>
-
-    <!-- ========================================== -->
     <!-- VIEW 3: FORMULÁRIO COMPLETO (NOVA OS)      -->
     <!-- ========================================== -->
     <section id="view-form" class="hidden min-h-screen flex-col pb-20">
@@ -136,7 +125,7 @@
                     <i data-lucide="arrow-left" class="w-6 h-6"></i>
                 </button>
                 <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
-                    REGISTRO O.S. (COMPLETA)
+                    REGISTRO O.S.
                 </h1>
                 <div class="w-6"></div>
             </div>
@@ -170,7 +159,6 @@
                         </select>
                     </div>
                     
-                    <!-- REINSERIDO E CORRIGIDO: Campos TAG e Equipamento -->
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">TAG do Equipamento</label>
                         <select id="os_tag" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja"></select>
@@ -210,6 +198,26 @@
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">HORA DA PARADA</label>
                         <input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                    </div>
+
+                    <!-- Novos Campos do Ciclo de Vida da OS -->
+                    <div id="container_prev_inicial" class="space-y-1 md:col-span-2">
+                        <label class="text-sm font-medium text-conterAzul">PREVISÃO DE LIBERAÇÃO INICIAL</label>
+                        <input type="date" id="data_prev_lib_inicial" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterAzul">
+                    </div>
+                    <div id="container_prev_atual" class="space-y-1 md:col-span-2 hidden">
+                        <label class="text-sm font-medium text-conterLaranja">PREVISÃO DE LIBERAÇÃO ATUAL</label>
+                        <input type="date" id="data_prev_lib_atual" class="w-full border border-conterLaranja rounded-lg px-3 py-2 bg-orange-50 focus:outline-none focus:ring-1 focus:ring-conterLaranja">
+                    </div>
+                    <div id="container_liberacao" class="hidden md:col-span-2 grid grid-cols-2 gap-4 border p-4 rounded-lg bg-green-50 border-green-200">
+                        <div class="space-y-1">
+                            <label class="text-sm font-medium text-green-700">DATA DA LIBERAÇÃO</label>
+                            <input type="date" id="data_liberacao" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-green-500">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-sm font-medium text-green-700">HORA DA LIBERAÇÃO</label>
+                            <input type="time" id="hora_liberacao" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-green-500">
+                        </div>
                     </div>
                 </div>
             </section>
@@ -277,7 +285,7 @@
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
                 </div>
                 <div class="mt-4 space-y-1">
-                    <label class="text-sm font-medium text-gray-600">Descrição do Problema</label>
+                    <label class="text-sm font-medium text-gray-600">Descrição do Problema / Histórico de Atualizações</label>
                     <textarea id="os_obs_problema" rows="3" class="w-full border rounded-lg px-3 py-2" placeholder="Detalhes..."></textarea>
                 </div>
             </section>
@@ -367,9 +375,9 @@
             </section>
 
             <section class="flex flex-col gap-4 pt-4">
-                <button type="button" onclick="salvarComoFinalizada()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
-                    <i data-lucide="check-circle" class="w-7 h-7"></i>
-                    CONCLUIR O.S.
+                <button type="button" id="btnAcaoForm" onclick="executarAcaoFormulario()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="save" class="w-7 h-7"></i>
+                    SALVAR NOVA O.S.
                 </button>
             </section>
         </main>
@@ -523,7 +531,7 @@
             </section>
 
             <section class="flex flex-col gap-4 pt-4">
-                <button type="button" onclick="salvarComoFinalizada()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                <button type="button" onclick="executarAcaoFormulario()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="check-circle" class="w-7 h-7"></i>
                     CONCLUIR SERVIÇO RÁPIDO
                 </button>
@@ -578,7 +586,7 @@
                 </div>
             </section>
 
-            <!-- NOVO: Botão de Ação para o Lote de Lubrificação -->
+            <!-- Botão de Ação para o Lote de Lubrificação -->
             <section class="flex flex-col gap-4 pt-2">
                 <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="save" class="w-7 h-7"></i>
@@ -665,6 +673,7 @@
     <script>
         let currentOSId = null; 
         let tipoOSAtual = 'normal'; 
+        let modoOperacaoAtual = 'nova'; // Controla a Máquina de Estados ('nova', 'atualizar', 'finalizar', 'alterar')
         let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
         let lubDatabase = JSON.parse(localStorage.getItem('PRECOR_LUB_DB')) || [];
 
@@ -706,10 +715,10 @@
         });
 
         // ====================================================
-        // NAVEGAÇÃO SPA E GERAÇÃO DE NÚMERO
+        // NAVEGAÇÃO SPA E MÁQUINA DE ESTADOS
         // ====================================================
         function showView(viewId) {
-            const views = ['view-home', 'view-gallery', 'view-alterar', 'view-form', 'view-rapido', 'view-lubrificacao'];
+            const views = ['view-home', 'view-gallery', 'view-form', 'view-rapido', 'view-lubrificacao'];
             views.forEach(id => {
                 const element = document.getElementById(id);
                 if (id === viewId) {
@@ -723,32 +732,54 @@
             window.scrollTo(0, 0);
         }
 
-        // NOVO: Função para gerar o número sequencial da OS
-        function gerarProximaOS() {
-            let ultimo = localStorage.getItem('ultimo_numero_os');
-            let proximo = ultimo ? parseInt(ultimo, 10) + 1 : 1;
-            
-            // Prevenção contra NaN (Not a Number)
-            if (isNaN(proximo)) proximo = 1;
-            
-            return 'OS-' + String(proximo).padStart(4, '0');
+        // Aplica as regras visuais da OS Normal dependendo do estado atual do ciclo da O.S.
+        function aplicarRegrasModo(modo) {
+            const cInicial = document.getElementById('container_prev_inicial');
+            const cAtual = document.getElementById('container_prev_atual');
+            const cLib = document.getElementById('container_liberacao');
+            const iInicial = document.getElementById('data_prev_lib_inicial');
+            const iAtual = document.getElementById('data_prev_lib_atual');
+            const btn = document.getElementById('btnAcaoForm');
+
+            // Limpa as restrições padrão
+            cInicial.classList.remove('hidden');
+            cAtual.classList.remove('hidden');
+            cLib.classList.remove('hidden');
+            iInicial.readOnly = false;
+            iAtual.readOnly = false;
+
+            if (modo === 'nova') {
+                cAtual.classList.add('hidden');
+                cLib.classList.add('hidden');
+                btn.innerHTML = '<i data-lucide="save" class="w-7 h-7"></i> SALVAR NOVA O.S.';
+            } else if (modo === 'atualizar') {
+                cLib.classList.add('hidden');
+                iInicial.readOnly = true;
+                btn.innerHTML = '<i data-lucide="refresh-cw" class="w-7 h-7"></i> SALVAR ATUALIZAÇÃO';
+            } else if (modo === 'finalizar') {
+                iInicial.readOnly = true;
+                iAtual.readOnly = true;
+                btn.innerHTML = '<i data-lucide="check-circle" class="w-7 h-7"></i> FINALIZAR E LIBERAR EQUIPAMENTO';
+            } else if (modo === 'alterar') {
+                btn.innerHTML = '<i data-lucide="edit" class="w-7 h-7"></i> SALVAR ALTERAÇÕES (ADMIN)';
+            }
+            lucide.createIcons();
         }
 
         function iniciarNovaOS(tipo) {
             currentOSId = null; 
             tipoOSAtual = tipo;
+            modoOperacaoAtual = 'nova';
             limparFormularioOS(tipo);
             
             if (tipo === 'normal') {
-                // Autopreenchimento Inteligente da Numeração
                 const osNumeroInput = document.getElementById('os_numero');
-                if (!osNumeroInput.value) {
-                    osNumeroInput.value = gerarProximaOS();
-                }
+                if (!osNumeroInput.value) { osNumeroInput.value = gerarProximaOS(); }
 
                 adicionarLinhaServico('tabelaServicosBody');
                 adicionarLinhaPeca('tabelaPecasBody');
                 document.getElementById('label_os_id').textContent = 'NOVO RASCUNHO';
+                aplicarRegrasModo(modoOperacaoAtual);
                 showView('view-form');
             } else {
                 adicionarLinhaPeca('r_tabelaPecasBody');
@@ -757,32 +788,52 @@
             }
         }
 
+        function gerarProximaOS() {
+            let ultimo = localStorage.getItem('ultimo_numero_os');
+            let proximo = ultimo ? parseInt(ultimo, 10) + 1 : 1;
+            if (isNaN(proximo)) proximo = 1;
+            return 'OS-' + String(proximo).padStart(4, '0');
+        }
+
         function abrirGaleria(acao) {
+            modoOperacaoAtual = acao; // Guarda a intenção para a máquina de estados
             const list = document.getElementById('gallery-list');
             list.innerHTML = ''; 
-            const isAtualizar = (acao === 'atualizar');
-            document.getElementById('gallery-title').textContent = isAtualizar ? 'Em Andamento' : 'Prontas para Finalizar';
+            
+            if (acao === 'atualizar') document.getElementById('gallery-title').textContent = 'Em Andamento';
+            else if (acao === 'finalizar') document.getElementById('gallery-title').textContent = 'Prontas para Finalizar';
+            else document.getElementById('gallery-title').textContent = 'Alterar Registros (Admin)';
 
             const chaves = Object.keys(osDatabase);
             let temOS = false;
 
             chaves.reverse().forEach(id => {
                 const os = osDatabase[id];
-                if ((isAtualizar && os.status === 'Em Andamento') || (!isAtualizar && os.status === 'Em Andamento')) { 
+                let exibir = false;
+
+                // Regras de Visualização da Lista
+                if (acao === 'atualizar' || acao === 'finalizar') {
+                    if (os.status !== 'LIBERADO') exibir = true;
+                } else if (acao === 'alterar') {
+                    exibir = true; // Exibe tudo para auditoria
+                }
+
+                if (exibir) {
                     temOS = true;
                     const card = document.createElement('div');
                     card.className = 'bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center transition-all hover:border-conterAzul cursor-pointer';
                     card.onclick = () => carregarFormulario(id);
                     
-                    const tagDisplay = os.cabecalho.os_tag || os.cabecalho.r_os_tag || 'SEM TAG';
+                    const tagDisplay = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || 'SEM TAG';
                     const tipoDisplay = os.tipoRegistro === 'rapido' ? 'RÁPIDO' : 'NORMAL';
+                    const statusIcon = os.status === 'LIBERADO' ? 'text-green-500' : 'text-gray-500';
 
                     card.innerHTML = `
                         <div>
-                            <p class="font-bold text-conterAzul text-lg">${tagDisplay}</p>
-                            <p class="text-xs font-mono text-conterLaranja font-bold mt-1">[${tipoDisplay}] <span class="text-gray-500 font-normal">${id}</span></p>
-                            <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                <i data-lucide="calendar" class="w-3 h-3"></i> ${os.dataAbertura}
+                            <p class="font-bold text-gray-800 text-lg">${tagDisplay}</p>
+                            <p class="text-xs font-mono text-conterAzul font-bold mt-1">[${tipoDisplay}] <span class="text-gray-400 font-normal">${id}</span></p>
+                            <p class="text-xs text-gray-500 mt-2 flex items-center gap-1 font-semibold">
+                                <i data-lucide="activity" class="w-3 h-3 ${statusIcon}"></i> ${os.status || 'Em Andamento'}
                             </p>
                         </div>
                         <div class="bg-gray-100 text-conterAzul px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 flex items-center gap-1">
@@ -793,7 +844,7 @@
                 }
             });
 
-            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. pendente encontrada.</p></div>`; }
+            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. compatível encontrada na memória local.</p></div>`; }
             lucide.createIcons();
             showView('view-gallery');
         }
@@ -880,17 +931,13 @@
                 const cidade = tr.querySelector('.lub-cidade').value;
                 const obs = tr.querySelector('.lub-obs').value;
 
-                // Não salva linhas em branco onde a TAG ou o Nome não foram preenchidos
                 if (!tag && !resp) return;
 
                 const tagLimpa = tag ? tag : 'SEM-TAG';
-                
-                // Adiciona index * 1000 milissegundos na hora atual para garantir final (ex: ...173001, ...173002)
                 const dataItem = new Date(now.getTime() + (index * 1000));
                 const dataHoraFlat = `${dataItem.getFullYear()}${pad(dataItem.getMonth()+1)}${pad(dataItem.getDate())}_${pad(dataItem.getHours())}${pad(dataItem.getMinutes())}${pad(dataItem.getSeconds())}`;
                 const chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
 
-                // Cria o Objeto isolado (Plano)
                 const payload = {
                     sistema_origem: "PRECOR",
                     tipoRegistro: "LUBRIFICACAO",
@@ -900,22 +947,17 @@
                     lubrificador: resp,
                     cidade: cidade,
                     obs: obs,
-                    status: "Finalizada"
+                    status: "LIBERADO"
                 };
 
-                // Salva individualmente no Storage base do navegador
                 localStorage.setItem(chaveUnica, JSON.stringify(payload));
                 registrosSalvos++;
             });
 
             if (registrosSalvos > 0) {
                 alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo.`);
-                
-                // Reseta a tabela para o próximo uso
                 document.getElementById('tabelaLubrificacaoBody').innerHTML = '';
                 adicionarLinhaLubrificacao();
-                
-                // Limpa o rascunho temporário do lote
                 lubDatabase = [];
                 localStorage.removeItem('PRECOR_LUB_DB');
                 showView('view-home');
@@ -930,21 +972,16 @@
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
-            // Formato de Data e Hora: AAAAMMDD_HHMMSS
             const dataHora = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             
             if (tipo === 'LUB') {
-                // Adiciona um sufixo aleatório para evitar colisões em salvamentos rápidos em lote
                 const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
                 return `PRECOR_LUB_${dataHora}_${random}`;
             }
-            
             const tagFinal = tag ? tag : 'SEM-TAG';
-            // Gera PRECOR_OS_... ou PRECOR_RAP_... dependendo do tipo passado
             return `PRECOR_${tipo}_${tagFinal}_${dataHora}`;
         }
 
-        // Utilitário para raspar o array de checkboxes de mecânicos
         function getMecanicosArray(viewId) {
             const checks = document.querySelectorAll(`#${viewId} .mec-checkbox-group input[type="checkbox"]:checked`);
             return Array.from(checks).map(cb => cb.value);
@@ -965,7 +1002,6 @@
 
             if (!currentOSId && !temTag && !temKm) return; 
 
-            // Detecção de Edição de Registro Existente
             const isEdicao = !!currentOSId && !!osDatabase[currentOSId];
 
             if (!currentOSId) {
@@ -979,13 +1015,14 @@
                 tipoRegistro: tipoOSAtual,
                 status: osDatabase[currentOSId]?.status || 'Em Andamento',
                 dataAbertura: osDatabase[currentOSId]?.dataAbertura || new Date().toLocaleString('pt-BR'),
+                historico_atualizacoes: osDatabase[currentOSId]?.historico_atualizacoes || [],
                 mecanicos: getMecanicosArray(viewId),
                 fotos: osDatabase[currentOSId]?.fotos || [],
                 assinaturas: {
-                    engenheiro: document.getElementById('canvasAssinaturaEngenheiro').toDataURL(),
-                    controlador: document.getElementById('canvasAssinaturaControlador').toDataURL(),
-                    mecanico: document.getElementById('canvasAssinaturaMecanico').toDataURL(),
-                    tecnico_rapido: document.getElementById('r_canvasAssinatura').toDataURL()
+                    engenheiro: document.getElementById('canvasAssinaturaEngenheiro')?.toDataURL() || blankCanvasState,
+                    controlador: document.getElementById('canvasAssinaturaControlador')?.toDataURL() || blankCanvasState,
+                    mecanico: document.getElementById('canvasAssinaturaMecanico')?.toDataURL() || blankCanvasState,
+                    tecnico_rapido: document.getElementById('r_canvasAssinatura')?.toDataURL() || blankCanvasState
                 },
                 cabecalho: {}, problemas: {}, servicos: [], pecas: []
             };
@@ -1000,7 +1037,11 @@
                     os_km: document.getElementById('os_km').value,
                     status_equipamento: document.getElementById('os_status_equip').value,
                     data_parada: document.getElementById('data_parada').value,
-                    hora_parada: document.getElementById('hora_parada').value
+                    hora_parada: document.getElementById('hora_parada').value,
+                    data_prev_lib_inicial: document.getElementById('data_prev_lib_inicial').value,
+                    data_prev_lib_atual: document.getElementById('data_prev_lib_atual').value,
+                    data_liberacao: document.getElementById('data_liberacao').value,
+                    hora_liberacao: document.getElementById('hora_liberacao').value
                 };
                 
                 ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`prob_${p}`).checked; });
@@ -1033,22 +1074,53 @@
                 });
             }
 
-            // Timestamp de Edição Inserido caso não seja o primeiro save do registro
             if (isEdicao) {
                 dados.historico_edicao = new Date().toISOString();
             }
 
             osDatabase[currentOSId] = dados;
-            
-            // Salva localmente (Backup)
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+        }
 
-            // Envia em tempo real para o Firestore com { merge: true }
-            if (window.db && window.firestoreDoc && window.firestoreSetDoc) {
-                window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), dados, { merge: true })
-                .then(() => console.log("Sincronizado com o Firestore (Edição/Merge) com sucesso!"))
-                .catch((err) => console.error("Erro ao enviar para o Firestore (Modo Offline Ativo):", err));
+        // Executado no clique dos botões principais de fechamento das Views de Formulário
+        function executarAcaoFormulario() {
+            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de executar a ação."); return; }
+            
+            const os = osDatabase[currentOSId];
+
+            if (modoOperacaoAtual === 'atualizar') {
+                if (!os.historico_atualizacoes) os.historico_atualizacoes = [];
+                os.historico_atualizacoes.push({
+                    data_prev_lib_atual: document.getElementById('data_prev_lib_atual')?.value || '',
+                    obs: document.getElementById('os_obs_problema')?.value || '',
+                    timestamp: new Date().toISOString()
+                });
+                os.status = 'Em Andamento';
+            } else if (modoOperacaoAtual === 'finalizar') {
+                os.status = 'LIBERADO';
+            } else if (modoOperacaoAtual === 'nova' || modoOperacaoAtual === 'rapido') {
+                os.status = (modoOperacaoAtual === 'rapido') ? 'LIBERADO' : 'Em Andamento';
             }
+
+            // Atualização do Histórico do Número da OS
+            if (os.tipoRegistro === 'normal' && modoOperacaoAtual === 'nova') {
+                const numeroSalvo = os.cabecalho?.os_numero;
+                if (numeroSalvo) {
+                    const apenasNumeros = numeroSalvo.replace(/\D/g, '');
+                    if (apenasNumeros) localStorage.setItem('ultimo_numero_os', parseInt(apenasNumeros, 10));
+                }
+            }
+
+            localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+            
+            if (window.db && window.firestoreSetDoc) {
+                 window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), osDatabase[currentOSId], { merge: true })
+                 .then(() => console.log("Sincronizado via ação de fecho no Firestore."))
+                 .catch((e) => console.log("Salvo offline para sincronismo futuro."));
+            }
+
+            alert(`Operação concluída com sucesso!`);
+            showView('view-home');
         }
 
         function carregarFormulario(idOS) {
@@ -1075,6 +1147,11 @@
                 document.getElementById('data_parada').value = draft.cabecalho.data_parada || '';
                 document.getElementById('hora_parada').value = draft.cabecalho.hora_parada || '';
                 
+                document.getElementById('data_prev_lib_inicial').value = draft.cabecalho.data_prev_lib_inicial || '';
+                document.getElementById('data_prev_lib_atual').value = draft.cabecalho.data_prev_lib_atual || '';
+                document.getElementById('data_liberacao').value = draft.cabecalho.data_liberacao || '';
+                document.getElementById('hora_liberacao').value = draft.cabecalho.hora_liberacao || '';
+                
                 ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`prob_${p}`).checked = draft.problemas[p] || false; });
                 document.getElementById('os_obs_problema').value = draft.problemas.obs || '';
 
@@ -1089,6 +1166,8 @@
                 restaurarImagemCanvas('canvasAssinaturaEngenheiro', draft.assinaturas?.engenheiro);
                 restaurarImagemCanvas('canvasAssinaturaControlador', draft.assinaturas?.controlador);
                 restaurarImagemCanvas('canvasAssinaturaMecanico', draft.assinaturas?.mecanico);
+                
+                aplicarRegrasModo(modoOperacaoAtual);
                 showView('view-form');
             } else {
                 document.getElementById('r_label_os_id').textContent = idOS;
@@ -1123,40 +1202,15 @@
                 document.getElementById('tabelaPecasBody').innerHTML = '';
                 document.getElementById('containerMiniaturas').innerHTML = '';
                 ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador', 'canvasAssinaturaMecanico'].forEach(id => {
-                    const cvs = document.getElementById(id); cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
+                    const cvs = document.getElementById(id); 
+                    if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
                 });
             } else {
                 document.getElementById('r_tabelaPecasBody').innerHTML = '';
                 document.getElementById('r_containerMiniaturas').innerHTML = '';
-                const cvs = document.getElementById('r_canvasAssinatura'); cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
+                const cvs = document.getElementById('r_canvasAssinatura'); 
+                if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
             }
-        }
-
-        function salvarComoFinalizada() {
-            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de finalizar."); return; }
-            
-            // NOVO: Atualização do Histórico do Número da OS
-            if (osDatabase[currentOSId].tipoRegistro === 'normal') {
-                const numeroSalvo = osDatabase[currentOSId].cabecalho?.os_numero;
-                if (numeroSalvo) {
-                    // Extrai apenas a parte numérica (remove 'OS-' ou letras) para garantir um contador confiável
-                    const apenasNumeros = numeroSalvo.replace(/\D/g, '');
-                    if (apenasNumeros) {
-                        localStorage.setItem('ultimo_numero_os', parseInt(apenasNumeros, 10));
-                    }
-                }
-            }
-
-            osDatabase[currentOSId].status = 'Finalizada';
-            localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
-            
-            // Garante o push do status "Finalizada" na nuvem com merge
-            if (window.db && window.firestoreSetDoc) {
-                 window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), { status: 'Finalizada', historico_edicao: new Date().toISOString() }, { merge: true });
-            }
-
-            alert(`Registro atualizado e concluído com sucesso!`);
-            showView('view-home');
         }
 
         // ====================================================
@@ -1164,50 +1218,32 @@
         // ====================================================
         
         function gerarOpcoesTAG() {
-            // 1. Busca os elementos no DOM apenas uma vez
             const osTagSelect = document.getElementById('os_tag');
             const rOsTagSelect = document.getElementById('r_os_tag');
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
             
-            // 2. Segurança no DOM: Verifica se o elemento da OS Completa existe
-            if (osTagSelect) {
-                osTagSelect.innerHTML = optBase;
-            } else {
-                console.error("Elemento 'os_tag' não encontrado no DOM!");
-            }
+            if (osTagSelect) osTagSelect.innerHTML = optBase;
+            if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
 
-            // 3. Segurança no DOM: Verifica se o elemento da OS Rápida existe
-            if (rOsTagSelect) {
-                rOsTagSelect.innerHTML = optBase;
-            } else {
-                console.error("Elemento 'r_os_tag' não encontrado no DOM!");
-            }
-
-            // 4. Injeta as opções baseadas no objeto de Frota
             Object.keys(relacaoFrota).forEach(tag => {
-                if (osTagSelect) {
-                    osTagSelect.appendChild(new Option(tag, tag));
-                }
-                if (rOsTagSelect) {
-                    rOsTagSelect.appendChild(new Option(tag, tag));
-                }
+                if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
+                if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
             });
         }
 
-        // Compressão inteligente de Imagens no Cliente (Evita estourar o LocalStorage com Base64 gigante)
         function processarEComprimirImagem(file, callback) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800; // Redimensionamento de segurança
+                    const MAX_WIDTH = 800;
                     const scaleSize = MAX_WIDTH / img.width;
                     canvas.width = MAX_WIDTH;
                     canvas.height = img.height * scaleSize;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    callback(canvas.toDataURL('image/jpeg', 0.7)); // Compressão JPG de 70%
+                    callback(canvas.toDataURL('image/jpeg', 0.7)); 
                 };
                 img.src = e.target.result;
             };
@@ -1242,7 +1278,6 @@
             });
         }
 
-        // Variáveis de controlo do Modal de Assinatura
         let activeCanvasId = null;
         let ctxModal = null;
         let desenhandoModal = false;
@@ -1256,7 +1291,6 @@
                 const rect = canvasModal.getBoundingClientRect();
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                // Ajuste preciso 1:1 baseado no ecrã real
                 return { x: clientX - rect.left, y: clientY - rect.top };
             };
 
@@ -1281,7 +1315,6 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             
-            // Força a igualdade entre a resolução em pixeis e o CSS do Canvas Modal
             const rect = canvasModal.parentElement.getBoundingClientRect();
             canvasModal.width = rect.width;
             canvasModal.height = rect.height;
@@ -1312,7 +1345,6 @@
             const ctxDestino = canvasDestino.getContext('2d');
             const canvasModal = document.getElementById('canvasModal');
             
-            // Limpa o antigo e copia redimensionando perfeitamente a proporção do modal para a folha
             ctxDestino.clearRect(0, 0, canvasDestino.width, canvasDestino.height);
             ctxDestino.drawImage(canvasModal, 0, 0, canvasDestino.width, canvasDestino.height);
             
