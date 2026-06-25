@@ -62,9 +62,9 @@
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
             </button>
-            <button onclick="abrirGaleria('atualizar')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
-                <i data-lucide="refresh-cw" class="w-6 h-6"></i>
-                ATUALIZAR
+            <button onclick="abrirAlterar()" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
+                <i data-lucide="edit" class="w-6 h-6"></i>
+                ALTERAR REGISTRO
             </button>
             <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
                 <i data-lucide="droplet" class="w-6 h-6"></i>
@@ -99,6 +99,29 @@
         <main class="max-w-4xl mx-auto w-full mt-6 px-4">
             <div id="gallery-list" class="space-y-4">
                 <!-- Cards injetados via JS -->
+            </div>
+        </main>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW EDIÇÃO: ALTERAR REGISTRO              -->
+    <!-- ========================================== -->
+    <section id="view-alterar" class="hidden min-h-screen flex-col pb-10">
+        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    <span class="font-medium hidden sm:inline">Voltar</span>
+                </button>
+                <h1 class="text-lg font-semibold tracking-wide flex-1 text-center pr-8 sm:pr-24">
+                    Alterar Registros Salvos
+                </h1>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto w-full mt-6 px-4">
+            <div id="alterar-list" class="space-y-4">
+                <!-- Cards de edição injetados via JS -->
             </div>
         </main>
     </section>
@@ -177,7 +200,7 @@
                             <option value="operacional">Operacional</option>
                             <option value="parado_manutencao">Parado para Manutenção</option>
                             <option value="parado_aguardando">Parado Aguardando Peças</option>
-                            <option value="baixa_estoque">Baixa / Sucata</option>
+                            <option value="baixa_estoque">LIBERADO</option>
                         </select>
                     </div>
                     <div class="space-y-1">
@@ -309,20 +332,36 @@
 
                 <hr class="border-gray-200 mb-8">
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="flex flex-col items-center">
                         <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Eng. Mecânica / Responsável</p>
-                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
-                            <canvas id="canvasAssinaturaEngenheiro" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative cursor-pointer group" onclick="abrirModalAssinatura('canvasAssinaturaEngenheiro')">
+                            <div class="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/10 transition-opacity">
+                                <span class="text-sm font-bold text-gray-700 bg-white/80 px-3 py-1 rounded-full shadow-sm">Tocar para Assinar</span>
+                            </div>
+                            <canvas id="canvasAssinaturaEngenheiro" width="300" height="150" class="w-full h-[150px] bg-white pointer-events-none"></canvas>
                         </div>
                         <button type="button" onclick="limparCanvasEspecifico('canvasAssinaturaEngenheiro')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar</button>
                     </div>
                     <div class="flex flex-col items-center">
                         <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Controlador de Manutenção</p>
-                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
-                            <canvas id="canvasAssinaturaControlador" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative cursor-pointer group" onclick="abrirModalAssinatura('canvasAssinaturaControlador')">
+                            <div class="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/10 transition-opacity">
+                                <span class="text-sm font-bold text-gray-700 bg-white/80 px-3 py-1 rounded-full shadow-sm">Tocar para Assinar</span>
+                            </div>
+                            <canvas id="canvasAssinaturaControlador" width="300" height="150" class="w-full h-[150px] bg-white pointer-events-none"></canvas>
                         </div>
                         <button type="button" onclick="limparCanvasEspecifico('canvasAssinaturaControlador')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar</button>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Responsável Mecânico</p>
+                        <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative cursor-pointer group" onclick="abrirModalAssinatura('canvasAssinaturaMecanico')">
+                            <div class="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/10 transition-opacity">
+                                <span class="text-sm font-bold text-gray-700 bg-white/80 px-3 py-1 rounded-full shadow-sm">Tocar para Assinar</span>
+                            </div>
+                            <canvas id="canvasAssinaturaMecanico" width="300" height="150" class="w-full h-[150px] bg-white pointer-events-none"></canvas>
+                        </div>
+                        <button type="button" onclick="limparCanvasEspecifico('canvasAssinaturaMecanico')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar</button>
                     </div>
                 </div>
             </section>
@@ -473,8 +512,11 @@
                 
                 <div class="flex flex-col items-center">
                     <p class="text-[10pt] font-bold uppercase text-gray-700 mb-2">Assinatura do Técnico Responsável</p>
-                    <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
-                        <canvas id="r_canvasAssinatura" width="300" height="150" class="w-full h-[150px] cursor-crosshair bg-white"></canvas>
+                    <div class="w-full max-w-[300px] border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative cursor-pointer group" onclick="abrirModalAssinatura('r_canvasAssinatura')">
+                        <div class="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/10 transition-opacity">
+                            <span class="text-sm font-bold text-gray-700 bg-white/80 px-3 py-1 rounded-full shadow-sm">Tocar para Assinar</span>
+                        </div>
+                        <canvas id="r_canvasAssinatura" width="300" height="150" class="w-full h-[150px] bg-white pointer-events-none"></canvas>
                     </div>
                     <button type="button" onclick="limparCanvasEspecifico('r_canvasAssinatura')" class="mt-2 text-sm text-red-500 font-medium flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Limpar Assinatura</button>
                 </div>
@@ -547,6 +589,30 @@
     </section>
 
     <!-- ========================================== -->
+    <!-- MODAL DE ASSINATURA TELA CHEIA             -->
+    <!-- ========================================== -->
+    <div id="modalAssinatura" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-conterAzul">Assine na área abaixo</h2>
+            <button type="button" onclick="fecharModalAssinatura()" class="text-gray-500 hover:text-gray-800 p-2">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
+            <!-- Canvas expande para ocupar o ecrã inteiro -->
+            <canvas id="canvasModal" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
+        </div>
+        <div class="mt-4 flex gap-4 pb-4">
+            <button type="button" onclick="limparCanvasModal()" class="flex-1 py-4 bg-red-100 text-red-600 font-bold rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                <i data-lucide="trash-2" class="w-5 h-5"></i> Limpar
+            </button>
+            <button type="button" onclick="confirmarAssinatura()" class="flex-[2] py-4 bg-conterAzul text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                <i data-lucide="check" class="w-5 h-5"></i> Confirmar Assinatura
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
     <!-- FIREBASE INIT (MÓDULO OFFLINE)             -->
     <!-- ========================================== -->
     <script type="module">
@@ -556,6 +622,8 @@
         getFirestore, 
         doc, 
         setDoc, 
+        collection,
+        getDocs,
         enableIndexedDbPersistence 
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
@@ -587,6 +655,8 @@
       window.db = db;
       window.firestoreDoc = doc;
       window.firestoreSetDoc = setDoc;
+      window.firestoreCollection = collection;
+      window.firestoreGetDocs = getDocs;
     </script>
 
     <!-- ========================================== -->
@@ -631,17 +701,15 @@
             gerarOpcoesTAG(); // Injeta dinamicamente as opções assim que a tela está pronta
             configurarEventosUI();
             
-            // Inicializa os Canvas Touch-Friendly
-            configurarCanvas('canvasAssinaturaEngenheiro');
-            configurarCanvas('canvasAssinaturaControlador');
-            configurarCanvas('r_canvasAssinatura');
+            // Inicializa a lógica central de Assinatura no Modal
+            inicializarEventosModalAssinatura();
         });
 
         // ====================================================
-        // NAVEGAÇÃO SPA
+        // NAVEGAÇÃO SPA E GERAÇÃO DE NÚMERO
         // ====================================================
         function showView(viewId) {
-            const views = ['view-home', 'view-gallery', 'view-form', 'view-rapido', 'view-lubrificacao'];
+            const views = ['view-home', 'view-gallery', 'view-alterar', 'view-form', 'view-rapido', 'view-lubrificacao'];
             views.forEach(id => {
                 const element = document.getElementById(id);
                 if (id === viewId) {
@@ -655,12 +723,29 @@
             window.scrollTo(0, 0);
         }
 
+        // NOVO: Função para gerar o número sequencial da OS
+        function gerarProximaOS() {
+            let ultimo = localStorage.getItem('ultimo_numero_os');
+            let proximo = ultimo ? parseInt(ultimo, 10) + 1 : 1;
+            
+            // Prevenção contra NaN (Not a Number)
+            if (isNaN(proximo)) proximo = 1;
+            
+            return 'OS-' + String(proximo).padStart(4, '0');
+        }
+
         function iniciarNovaOS(tipo) {
             currentOSId = null; 
             tipoOSAtual = tipo;
             limparFormularioOS(tipo);
             
             if (tipo === 'normal') {
+                // Autopreenchimento Inteligente da Numeração
+                const osNumeroInput = document.getElementById('os_numero');
+                if (!osNumeroInput.value) {
+                    osNumeroInput.value = gerarProximaOS();
+                }
+
                 adicionarLinhaServico('tabelaServicosBody');
                 adicionarLinhaPeca('tabelaPecasBody');
                 document.getElementById('label_os_id').textContent = 'NOVO RASCUNHO';
@@ -880,14 +965,15 @@
 
             if (!currentOSId && !temTag && !temKm) return; 
 
+            // Detecção de Edição de Registro Existente
+            const isEdicao = !!currentOSId && !!osDatabase[currentOSId];
+
             if (!currentOSId) {
-                // Define o tipo de Prefixo (OS para normal, RAP para rápido)
                 const tipoPrefixo = tipoOSAtual === 'normal' ? 'OS' : 'RAP';
                 currentOSId = gerarIdCosmosDB(tipoPrefixo, temTag);
                 document.getElementById(`${prefix}label_os_id`).textContent = currentOSId;
             }
 
-            // Metadado de origem garantido em todos os JSONs antes do envio
             const dados = {
                 sistema_origem: "PRECOR",
                 tipoRegistro: tipoOSAtual,
@@ -898,6 +984,7 @@
                 assinaturas: {
                     engenheiro: document.getElementById('canvasAssinaturaEngenheiro').toDataURL(),
                     controlador: document.getElementById('canvasAssinaturaControlador').toDataURL(),
+                    mecanico: document.getElementById('canvasAssinaturaMecanico').toDataURL(),
                     tecnico_rapido: document.getElementById('r_canvasAssinatura').toDataURL()
                 },
                 cabecalho: {}, problemas: {}, servicos: [], pecas: []
@@ -946,15 +1033,20 @@
                 });
             }
 
+            // Timestamp de Edição Inserido caso não seja o primeiro save do registro
+            if (isEdicao) {
+                dados.historico_edicao = new Date().toISOString();
+            }
+
             osDatabase[currentOSId] = dados;
             
             // Salva localmente (Backup)
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
 
-            // Envia em tempo real para o Firestore na Nuvem
+            // Envia em tempo real para o Firestore com { merge: true }
             if (window.db && window.firestoreDoc && window.firestoreSetDoc) {
-                window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), dados)
-                .then(() => console.log("Sincronizado com o Firestore com sucesso!"))
+                window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), dados, { merge: true })
+                .then(() => console.log("Sincronizado com o Firestore (Edição/Merge) com sucesso!"))
                 .catch((err) => console.error("Erro ao enviar para o Firestore (Modo Offline Ativo):", err));
             }
         }
@@ -996,6 +1088,7 @@
 
                 restaurarImagemCanvas('canvasAssinaturaEngenheiro', draft.assinaturas?.engenheiro);
                 restaurarImagemCanvas('canvasAssinaturaControlador', draft.assinaturas?.controlador);
+                restaurarImagemCanvas('canvasAssinaturaMecanico', draft.assinaturas?.mecanico);
                 showView('view-form');
             } else {
                 document.getElementById('r_label_os_id').textContent = idOS;
@@ -1029,7 +1122,7 @@
                 document.getElementById('tabelaServicosBody').innerHTML = '';
                 document.getElementById('tabelaPecasBody').innerHTML = '';
                 document.getElementById('containerMiniaturas').innerHTML = '';
-                ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador'].forEach(id => {
+                ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador', 'canvasAssinaturaMecanico'].forEach(id => {
                     const cvs = document.getElementById(id); cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
                 });
             } else {
@@ -1041,9 +1134,28 @@
 
         function salvarComoFinalizada() {
             if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de finalizar."); return; }
+            
+            // NOVO: Atualização do Histórico do Número da OS
+            if (osDatabase[currentOSId].tipoRegistro === 'normal') {
+                const numeroSalvo = osDatabase[currentOSId].cabecalho?.os_numero;
+                if (numeroSalvo) {
+                    // Extrai apenas a parte numérica (remove 'OS-' ou letras) para garantir um contador confiável
+                    const apenasNumeros = numeroSalvo.replace(/\D/g, '');
+                    if (apenasNumeros) {
+                        localStorage.setItem('ultimo_numero_os', parseInt(apenasNumeros, 10));
+                    }
+                }
+            }
+
             osDatabase[currentOSId].status = 'Finalizada';
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
-            alert(`Registro salvo e concluído com sucesso!`);
+            
+            // Garante o push do status "Finalizada" na nuvem com merge
+            if (window.db && window.firestoreSetDoc) {
+                 window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), { status: 'Finalizada', historico_edicao: new Date().toISOString() }, { merge: true });
+            }
+
+            alert(`Registro atualizado e concluído com sucesso!`);
             showView('view-home');
         }
 
@@ -1130,25 +1242,82 @@
             });
         }
 
-        function configurarCanvas(idCanvas) {
-            const canvas = document.getElementById(idCanvas);
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let desenhando = false;
-            ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#000000';
+        // Variáveis de controlo do Modal de Assinatura
+        let activeCanvasId = null;
+        let ctxModal = null;
+        let desenhandoModal = false;
+
+        function inicializarEventosModalAssinatura() {
+            const canvasModal = document.getElementById('canvasModal');
+            if(!canvasModal) return;
+            ctxModal = canvasModal.getContext('2d');
+
             const obterPosicao = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+                const rect = canvasModal.getBoundingClientRect();
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+                // Ajuste preciso 1:1 baseado no ecrã real
+                return { x: clientX - rect.left, y: clientY - rect.top };
             };
-            const iniciar = (e) => { e.preventDefault(); desenhando = true; const pos = obterPosicao(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
-            const desenhar = (e) => { if (!desenhando) return; e.preventDefault(); const pos = obterPosicao(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
-            const parar = () => { if (desenhando) { desenhando = false; ctx.closePath(); salvarAutomaticamente(); } };
 
-            canvas.addEventListener('mousedown', iniciar); canvas.addEventListener('mousemove', desenhar); window.addEventListener('mouseup', parar);
-            canvas.addEventListener('touchstart', iniciar, { passive: false }); canvas.addEventListener('touchmove', desenhar, { passive: false }); window.addEventListener('touchend', parar);
+            const iniciar = (e) => { e.preventDefault(); desenhandoModal = true; const pos = obterPosicao(e); ctxModal.beginPath(); ctxModal.moveTo(pos.x, pos.y); };
+            const desenhar = (e) => { if (!desenhandoModal) return; e.preventDefault(); const pos = obterPosicao(e); ctxModal.lineTo(pos.x, pos.y); ctxModal.stroke(); };
+            const parar = () => { if (desenhandoModal) { desenhandoModal = false; ctxModal.closePath(); } };
+
+            canvasModal.addEventListener('mousedown', iniciar);
+            canvasModal.addEventListener('mousemove', desenhar);
+            window.addEventListener('mouseup', parar);
+            
+            canvasModal.addEventListener('touchstart', iniciar, { passive: false });
+            canvasModal.addEventListener('touchmove', desenhar, { passive: false });
+            window.addEventListener('touchend', parar);
+        }
+
+        function abrirModalAssinatura(idCanvasDestino) {
+            activeCanvasId = idCanvasDestino;
+            const modal = document.getElementById('modalAssinatura');
+            const canvasModal = document.getElementById('canvasModal');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Força a igualdade entre a resolução em pixeis e o CSS do Canvas Modal
+            const rect = canvasModal.parentElement.getBoundingClientRect();
+            canvasModal.width = rect.width;
+            canvasModal.height = rect.height;
+            
+            ctxModal.lineWidth = 3;
+            ctxModal.lineCap = 'round';
+            ctxModal.lineJoin = 'round';
+            ctxModal.strokeStyle = '#000000';
+            ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
+        }
+
+        function fecharModalAssinatura() {
+            const modal = document.getElementById('modalAssinatura');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            activeCanvasId = null;
+        }
+
+        function limparCanvasModal() {
+            if(!ctxModal) return;
+            const canvasModal = document.getElementById('canvasModal');
+            ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
+        }
+
+        function confirmarAssinatura() {
+            if (!activeCanvasId) return;
+            const canvasDestino = document.getElementById(activeCanvasId);
+            const ctxDestino = canvasDestino.getContext('2d');
+            const canvasModal = document.getElementById('canvasModal');
+            
+            // Limpa o antigo e copia redimensionando perfeitamente a proporção do modal para a folha
+            ctxDestino.clearRect(0, 0, canvasDestino.width, canvasDestino.height);
+            ctxDestino.drawImage(canvasModal, 0, 0, canvasDestino.width, canvasDestino.height);
+            
+            salvarAutomaticamente();
+            fecharModalAssinatura();
         }
 
         function limparCanvasEspecifico(idCanvas) {
