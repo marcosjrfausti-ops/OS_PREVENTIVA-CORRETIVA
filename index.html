@@ -21,6 +21,7 @@
                     colors: {
                         conterLaranja: '#FE8C00',
                         conterAzul: '#0065FF',
+                        conterAmarelo: '#B88612',
                         fundo: '#F3F4F6'
                     },
                     fontFamily: {
@@ -72,11 +73,11 @@
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
             <!-- Bloco 2: Serviços Rápidos -->
-            <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterLaranja text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
+            <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAmarelo text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
             </button>
-            <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterLaranja text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
+            <button onclick="abrirLubrificacao()" class="w-full max-w-sm bg-conterAmarelo text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="droplet" class="w-6 h-6"></i>
                 LUBRIFICAÇÃO
             </button>
@@ -155,7 +156,6 @@
                             <option value="PREVENTIVA">PREVENTIVA</option>
                             <option value="CORRETIVA">CORRETIVA</option>
                             <option value="INSPEÇÃO">INSPEÇÃO</option>
-                            <option value="OUTROS">OUTROS</option>
                         </select>
                     </div>
                     
@@ -172,9 +172,11 @@
                         <label class="text-sm font-medium text-gray-600">LOCAL DE EXECUÇÃO</label>
                         <select id="os_local" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
                             <option value="" disabled selected>Selecione...</option>
-                            <option value="Oficina Central">Oficina Central</option>
-                            <option value="Rio Doce">Rio Doce</option>
-                            <option value="Barao de Cocais">Barão de Cocais</option>
+                            <option value="antonio_pereira">ANTÔNIO PEREIRA</option>
+                            <option value="barao_de_cocais">BARÃO DE COCAIS</option>
+                            <option value="oficina_central_matriz">OFICINA CENTRAL MATRIZ</option>
+                            <option value="rio_doce">RIO DOCE</option>
+                            <option value="sao_goncalo_do_rio_abaixo">SÃO GONÇALO DO RIO ABAIXO</option>
                         </select>
                     </div>
                     <div class="space-y-1">
@@ -185,11 +187,22 @@
                         <label class="text-sm font-medium text-gray-600">Status do Equipamento</label>
                         <select id="os_status_equip" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
                             <option value="" disabled selected>Selecione...</option>
-                            <option value="operacional">Operacional</option>
-                            <option value="parado_manutencao">Parado para Manutenção</option>
-                            <option value="parado_aguardando">Parado Aguardando Peças</option>
-                            <option value="baixa_estoque">LIBERADO</option>
-                        </select>
+                        <option value="ag_mao_de_obra">AG. MÃO DE OBRA</option>
+                        <option value="ag_envio_oficina_ext_terc">AG. ENVIO OFICINA EXT. / TERC.</option>
+                        <option value="ag_terceiro">AG. TERCEIRO</option>
+                        <option value="diagnostico">DIAGNÓSTICO</option>
+                        <option value="desmontagem">DESMONTAGEM</option>
+                        <option value="em_execucao">EM EXECUÇÃO</option>
+                        <option value="pedido_em_aprovacao">PEDIDO EM APROVAÇÃO</option>
+                        <option value="ag_pecas_servicos">AG. PEÇAS / SERVIÇOS</option>
+                        <option value="montagem">MONTAGEM</option>
+                        <option value="liberado_com_restricao">LIBERADO COM RESTRIÇÃO</option>
+                        <option value="liberado">LIBERADO</option>
+                        <option value="aguardando_transporte">AGUARDANDO TRANSPORTE</option>
+                        <option value="teste">TESTE</option>
+                        <option value="desmobilizado">DESMOBILIZADO</option>
+                        <option value="aguardando_garantia">AGUARDANDO GARANTIA</option>
+                    </select>
                     </div>
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">DATA DA PARADA</label>
@@ -411,6 +424,12 @@
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG do Equipamento</label><select id="r_os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="r_equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">KM / Horímetro</label><input type="text" id="r_os_km" class="w-full border rounded-lg px-3 py-2"></div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">Status do Equipamento</label>
+                        <select id="r_os_status_equip" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="liberado">LIBERADO</option>
+                        </select>
+                    </div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">Data do Serviço</label><input type="date" id="r_data" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-conterLaranja">HORA DE INÍCIO</label><input type="time" id="r_hora_inicio" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-conterLaranja">HORA DE TÉRMINO</label><input type="time" id="r_hora_fim" class="w-full border rounded-lg px-3 py-2 bg-white"></div>
@@ -531,7 +550,7 @@
             </section>
 
             <section class="flex flex-col gap-4 pt-4">
-                <button type="button" onclick="executarAcaoFormulario()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                <button type="button" onclick="executarAcaoFormulario()" class="w-full py-5 bg-conterAmarelo text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="check-circle" class="w-7 h-7"></i>
                     CONCLUIR SERVIÇO RÁPIDO
                 </button>
@@ -543,7 +562,7 @@
     <!-- VIEW 5: LUBRIFICAÇÃO                       -->
     <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
-        <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
+        <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
                 <button onclick="showView('view-home')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
                     <i data-lucide="arrow-left" class="w-6 h-6"></i>
@@ -601,7 +620,7 @@
     <!-- ========================================== -->
     <div id="modalAssinatura" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold text-conterAzul">Assine na área abaixo</h2>
+            <h2 class="text-lg font-bold text-conterAmarelo">Assine na área abaixo</h2>
             <button type="button" onclick="fecharModalAssinatura()" class="text-gray-500 hover:text-gray-800 p-2">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
@@ -676,10 +695,6 @@
         let modoOperacaoAtual = 'nova'; // Controla a Máquina de Estados ('nova', 'atualizar', 'finalizar', 'alterar')
         let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
         let lubDatabase = JSON.parse(localStorage.getItem('PRECOR_LUB_DB')) || [];
-
-        // CORREÇÃO: constante que faltava e causava "ReferenceError: blankCanvasState is not defined"
-        // sempre que salvarAutomaticamente() rodava em uma tela onde nem todos os canvases de assinatura existem.
-        const blankCanvasState = '';
 
         const relacaoFrota = {
            "CON-001": "CAMINHÃO BASCULANTE", "CON-002": "CAMINHÃO BASCULANTE", "CON-003": "CAMINHÃO PIPA",
@@ -1023,10 +1038,10 @@
                 mecanicos: getMecanicosArray(viewId),
                 fotos: osDatabase[currentOSId]?.fotos || [],
                 assinaturas: {
-                    engenheiro: document.getElementById('canvasAssinaturaEngenheiro')?.toDataURL() || blankCanvasState,
-                    controlador: document.getElementById('canvasAssinaturaControlador')?.toDataURL() || blankCanvasState,
-                    mecanico: document.getElementById('canvasAssinaturaMecanico')?.toDataURL() || blankCanvasState,
-                    tecnico_rapido: document.getElementById('r_canvasAssinatura')?.toDataURL() || blankCanvasState
+                    engenheiro: document.getElementById('canvasAssinaturaEngenheiro')?.toDataURL() || "",
+                    controlador: document.getElementById('canvasAssinaturaControlador')?.toDataURL() || "",
+                    mecanico: document.getElementById('canvasAssinaturaMecanico')?.toDataURL() || "",
+                    tecnico_rapido: document.getElementById('r_canvasAssinatura')?.toDataURL() || ""
                 },
                 cabecalho: {}, problemas: {}, servicos: [], pecas: []
             };
@@ -1064,6 +1079,7 @@
                     r_os_tag: document.getElementById('r_os_tag').value,
                     r_equipamento: document.getElementById('r_equipamento').value,
                     r_os_km: document.getElementById('r_os_km').value,
+                    r_status_equipamento: document.getElementById('r_os_status_equip').value,
                     r_data: document.getElementById('r_data').value,
                     r_hora_inicio: document.getElementById('r_hora_inicio').value,
                     r_hora_fim: document.getElementById('r_hora_fim').value
@@ -1178,6 +1194,7 @@
                 document.getElementById('r_os_tag').value = draft.cabecalho.r_os_tag || '';
                 document.getElementById('r_equipamento').value = draft.cabecalho.r_equipamento || '';
                 document.getElementById('r_os_km').value = draft.cabecalho.r_os_km || '';
+                document.getElementById('r_os_status_equip').value = draft.cabecalho.r_status_equipamento || '';
                 document.getElementById('r_data').value = draft.cabecalho.r_data || '';
                 document.getElementById('r_hora_inicio').value = draft.cabecalho.r_hora_inicio || '';
                 document.getElementById('r_hora_fim').value = draft.cabecalho.r_hora_fim || '';
@@ -1256,19 +1273,7 @@
 
         function manipularUploadDeFotos(event, tipoView) {
             const files = Array.from(event.target.files).slice(0, 5);
-
-            // CORREÇÃO: garante que exista um registro antes de tentar gravar fotos nele.
-            // Antes, se o usuário enviasse uma foto sem TAG/KM preenchidos, salvarAutomaticamente()
-            // retornava sem criar o registro e a linha seguinte quebrava com
-            // "Cannot read properties of undefined (reading 'fotos')".
-            if(!currentOSId) {
-                salvarAutomaticamente();
-                if(!currentOSId) {
-                    alert("Preencha ao menos a TAG do equipamento antes de adicionar fotos.");
-                    event.target.value = '';
-                    return;
-                }
-            }
+            if(!currentOSId) salvarAutomaticamente(); 
             if(!osDatabase[currentOSId].fotos) osDatabase[currentOSId].fotos = [];
             
             files.forEach(file => {
