@@ -427,6 +427,10 @@
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">Status do Equipamento</label>
                         <select id="r_os_status_equip" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="operacional">Operacional</option>
+                            <option value="parado_manutencao">Parado para Manutenção</option>
+                            <option value="parado_aguardando">Parado Aguardando Peças</option>
                             <option value="liberado">LIBERADO</option>
                         </select>
                     </div>
@@ -731,6 +735,9 @@
             
             // Inicializa a lógica central de Assinatura no Modal
             inicializarEventosModalAssinatura();
+
+            // Sincroniza dados com o Firestore ao iniciar
+            sincronizarDadosComNuvem();
         });
 
         // ====================================================
@@ -814,14 +821,23 @@
             return 'OS-' + String(proximo).padStart(4, '0');
         }
 
-        function abrirGaleria(acao) {
-            modoOperacaoAtual = acao; // Guarda a intenção para a máquina de estados
+        async function abrirGaleria(acao) {
+            modoOperacaoAtual = acao; 
             const list = document.getElementById('gallery-list');
-            list.innerHTML = ''; 
+            
+            // Feedback visual enquanto busca na internet
+            list.innerHTML = '<div class="text-center text-conterAzul font-bold py-10 flex flex-col items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-8 h-8 animate-spin"></i><p>Sincronizando com a nuvem...</p></div>'; 
+            lucide.createIcons();
+            showView('view-gallery');
             
             if (acao === 'atualizar') document.getElementById('gallery-title').textContent = 'Em Andamento';
             else if (acao === 'finalizar') document.getElementById('gallery-title').textContent = 'Prontas para Finalizar';
             else document.getElementById('gallery-title').textContent = 'Alterar Registros (Admin)';
+
+            // PUXA OS DADOS REAIS DO FIREBASE
+            await sincronizarDadosComNuvem();
+            
+            list.innerHTML = ''; // Limpa o "carregando"
 
             const chaves = Object.keys(osDatabase);
             let temOS = false;
@@ -830,11 +846,10 @@
                 const os = osDatabase[id];
                 let exibir = false;
 
-                // Regras de Visualização da Lista
                 if (acao === 'atualizar' || acao === 'finalizar') {
                     if (os.status !== 'LIBERADO') exibir = true;
                 } else if (acao === 'alterar') {
-                    exibir = true; // Exibe tudo para auditoria
+                    exibir = true; 
                 }
 
                 if (exibir) {
@@ -863,9 +878,8 @@
                 }
             });
 
-            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. compatível encontrada na memória local.</p></div>`; }
+            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. encontrada na base de dados.</p></div>`; }
             lucide.createIcons();
-            showView('view-gallery');
         }
 
         // ====================================================
@@ -988,6 +1002,23 @@
         // ====================================================
         // LÓGICA DE DADOS (JSON / LOCALSTORAGE / FIRESTORE)
         // ====================================================
+        
+        async function sincronizarDadosComNuvem() {
+            if (!window.db || !window.firestoreGetDocs || !window.firestoreCollection) return;
+            try {
+                const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
+                let bancoNuvem = {};
+                querySnapshot.forEach((doc) => {
+                    bancoNuvem[doc.id] = doc.data();
+                });
+                osDatabase = bancoNuvem; // Sobrescreve a memória com a verdade da nuvem
+                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase)); // Atualiza o cache local
+                console.log("Dados sincronizados com o Firestore com sucesso!");
+            } catch (error) {
+                console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
+            }
+        }
+
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
