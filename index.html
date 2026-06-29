@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ordem de Serviço - Conterplan</title>
     
-    <!-- Fonte Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuração Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -32,10 +29,8 @@
         }
     </script>
     
-    <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Estilos Adicionais Base -->
     <style>
         input[type="text"], textarea { text-transform: uppercase; }
         input, select, textarea { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
@@ -44,9 +39,6 @@
 </head>
 <body class="bg-fundo text-gray-800 font-sans antialiased">
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: HOME                               -->
-    <!-- ========================================== -->
     <section id="view-home" class="flex min-h-screen flex-col">
         <header class="bg-conterLaranja text-white py-6 shadow-md flex items-center justify-center">
             <h1 class="text-xl font-bold tracking-wide uppercase text-center px-4">
@@ -56,7 +48,6 @@
 
         <main class="flex-1 flex flex-col items-center justify-center p-6 gap-4">
             
-            <!-- Bloco 1: Ciclo de Vida da OS -->
             <button onclick="iniciarNovaOS('normal')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
                 <i data-lucide="plus-circle" class="w-6 h-6"></i>
                 + NOVA OS
@@ -72,7 +63,6 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
-            <!-- Bloco 2: Serviços Rápidos -->
             <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAmarelo text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
@@ -84,7 +74,6 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
-            <!-- Bloco 3: Auditoria/Correção -->
             <button onclick="abrirGaleria('alterar')" class="w-full max-w-sm bg-gray-100 border-2 border-gray-600 text-gray-700 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors">
                 <i data-lucide="edit" class="w-6 h-6"></i>
                 ALTERAR REGISTRO
@@ -93,9 +82,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: GALERIA (Unificada para Todas Ações)-->
-    <!-- ========================================== -->
     <section id="view-gallery" class="hidden min-h-screen flex-col pb-10">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -129,14 +115,10 @@
             </div>
 
             <div id="gallery-list" class="space-y-4">
-                <!-- Cards injetados via JS -->
-            </div>
+                </div>
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: FORMULÁRIO COMPLETO (NOVA OS)      -->
-    <!-- ========================================== -->
     <section id="view-form" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -152,7 +134,6 @@
 
         <main class="max-w-4xl mx-auto w-full mt-6 px-4 space-y-6">
             
-            <!-- 1. Cabeçalho -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2">
@@ -231,7 +212,6 @@
                         <input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
                     </div>
 
-                    <!-- Novos Campos do Ciclo de Vida da OS -->
                     <div id="container_prev_inicial" class="space-y-1 md:col-span-2">
                         <label class="text-sm font-medium text-conterAzul">PREVISÃO DE LIBERAÇÃO INICIAL</label>
                         <input type="date" id="data_prev_lib_inicial" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterAzul">
@@ -253,7 +233,6 @@
                 </div>
             </section>
 
-            <!-- 2. Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -302,17 +281,21 @@
                         <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">PAULO HENRIQUE (MECÂN.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
                         <span class="text-sm font-medium text-gray-700">Outro</span>
                     </label>
                 </div>
             </section>
 
-            <!-- 3. Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_motor" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">MOTOR</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_estrutura" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ESTRUTURA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_caixa" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">CAIXA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_freio" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">FREIO</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
@@ -325,7 +308,6 @@
                 </div>
             </section>
 
-            <!-- 4. Serviços Executados (Tabela Completa) -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviços Executados</h2>
@@ -343,7 +325,6 @@
                 </div>
             </section>
 
-            <!-- 5. Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -357,7 +338,6 @@
                 </div>
             </section>
 
-            <!-- 6. Mídias e Assinatura -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Anexos e Assinaturas</h2>
 
@@ -418,9 +398,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 4: SERVIÇO RÁPIDO (ENRIQUECIDO)       -->
-    <!-- ========================================== -->
     <section id="view-rapido" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -443,7 +420,6 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- NOVO: Nº da OS no Serviço Rápido -->
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label>
                         <input type="text" id="r_os_numero" class="w-full border rounded-lg px-3 py-2">
@@ -467,7 +443,6 @@
                 </div>
             </section>
 
-            <!-- NOVO: Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -516,18 +491,21 @@
                         <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
+                        <span class="text-sm font-medium text-gray-700">PAULO HENRIQUE (MECÂN.)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
                         <span class="text-sm font-medium text-gray-700">Outro</span>
                     </label>
                 </div>
             </section>
 
-            <!-- NOVO: Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_motor" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">MOTOR</span></label>
-                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_caixa" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ESTRUTURA</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_estrutura" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ESTRUTURA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_caixa" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">CAIXA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_freio" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">FREIO</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
@@ -536,13 +514,11 @@
                 </div>
             </section>
 
-            <!-- Serviços Executados Simplificado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviço Executado</h2>
                 <textarea id="r_servicos_executados" rows="6" class="w-full border rounded-lg px-3 py-2" placeholder="Descreva os serviços realizados..."></textarea>
             </section>
 
-            <!-- NOVO: Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -556,7 +532,6 @@
                 </div>
             </section>
 
-            <!-- NOVO: Mídias e Assinatura Técnica -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Evidências e Assinatura</h2>
 
@@ -594,9 +569,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 5: LUBRIFICAÇÃO                       -->
-    <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -640,7 +612,6 @@
                 </div>
             </section>
 
-            <!-- Botão de Ação para o Lote de Lubrificação -->
             <section class="flex flex-col gap-4 pt-2">
                 <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="save" class="w-7 h-7"></i>
@@ -650,9 +621,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- MODAL DE ASSINATURA TELA CHEIA             -->
-    <!-- ========================================== -->
     <div id="modalAssinatura" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-conterAmarelo">Assine na área abaixo</h2>
@@ -661,7 +629,6 @@
             </button>
         </div>
         <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
-            <!-- Canvas expande para ocupar o ecrã inteiro -->
             <canvas id="canvasModal" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
         </div>
         <div class="mt-4 flex gap-4 pb-4">
@@ -674,9 +641,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- FIREBASE INIT (MÓDULO OFFLINE)             -->
-    <!-- ========================================== -->
     <script type="module">
       // 1. Importações do SDK do Firebase v10+ (Utilizando ES Modules estaveis via CDN)
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -721,9 +685,6 @@
       window.firestoreGetDocs = getDocs;
     </script>
 
-    <!-- ========================================== -->
-    <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
-    <!-- ========================================== -->
     <script>
         let currentOSId = null; 
         let tipoOSAtual = 'normal'; 
@@ -1165,7 +1126,7 @@
                     hora_liberacao: document.getElementById('hora_liberacao').value
                 };
                 
-                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`prob_${p}`).checked; });
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`prob_${p}`).checked; });
                 dados.problemas.obs = document.getElementById('os_obs_problema').value;
 
                 document.querySelectorAll('#tabelaServicosBody tr').forEach(tr => {
@@ -1188,7 +1149,7 @@
                     r_hora_fim: document.getElementById('r_hora_fim').value
                 };
                 
-                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`r_prob_${p}`).checked; });
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`r_prob_${p}`).checked; });
                 dados.servicos_rapido = document.getElementById('r_servicos_executados').value;
                 
                 document.querySelectorAll('#r_tabelaPecasBody tr').forEach(tr => {
@@ -1281,7 +1242,7 @@
                 document.getElementById('data_liberacao').value = draft.cabecalho.data_liberacao || '';
                 document.getElementById('hora_liberacao').value = draft.cabecalho.hora_liberacao || '';
                 
-                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`prob_${p}`).checked = draft.problemas[p] || false; });
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`prob_${p}`).checked = draft.problemas[p] || false; });
                 document.getElementById('os_obs_problema').value = draft.problemas.obs || '';
 
                 const tbodyServ = document.getElementById('tabelaServicosBody');
@@ -1309,7 +1270,7 @@
                 document.getElementById('r_hora_inicio').value = draft.cabecalho.r_hora_inicio || '';
                 document.getElementById('r_hora_fim').value = draft.cabecalho.r_hora_fim || '';
                 
-                ['motor', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`r_prob_${p}`).checked = draft.problemas[p] || false; });
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`r_prob_${p}`).checked = draft.problemas[p] || false; });
                 document.getElementById('r_servicos_executados').value = draft.servicos_rapido || '';
                 
                 const r_tbodyPecas = document.getElementById('r_tabelaPecasBody');
