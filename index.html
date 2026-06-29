@@ -110,6 +110,24 @@
         </header>
 
         <main class="max-w-4xl mx-auto w-full mt-6 px-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col sm:flex-row gap-3">
+                <div class="flex-1 space-y-1">
+                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Data</label>
+                    <input type="date" id="filtro_data_galeria" onchange="renderizarGaleria()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-conterAzul">
+                </div>
+                <div class="flex-1 space-y-1">
+                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por TAG</label>
+                    <select id="filtro_tag_galeria" onchange="renderizarGaleria()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAzul">
+                        <option value="">Todas as TAGs</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="button" onclick="limparFiltrosGaleria()" class="w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center justify-center gap-1">
+                        <i data-lucide="x-circle" class="w-4 h-4"></i> Limpar
+                    </button>
+                </div>
+            </div>
+
             <div id="gallery-list" class="space-y-4">
                 <!-- Cards injetados via JS -->
             </div>
@@ -274,7 +292,7 @@
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="checkbox" value="ENCARREGADO_2" class="w-5 h-5 accent-conterLaranja rounded">
                         <span class="text-sm font-medium text-gray-700">ANTÔNIO SILVA (ENCAR.)</span>
-                    </label>           
+                    </label>  
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="checkbox" value="LUBRIFICADOR_1" class="w-5 h-5 accent-conterLaranja rounded">
                         <span class="text-sm font-medium text-gray-700">LUIZ FILIPE (LUBRIF.)</span>
@@ -842,7 +860,6 @@
             modoOperacaoAtual = acao; 
             const list = document.getElementById('gallery-list');
             
-            // Feedback visual enquanto busca na internet
             list.innerHTML = '<div class="text-center text-conterAzul font-bold py-10 flex flex-col items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-8 h-8 animate-spin"></i><p>Sincronizando com a nuvem...</p></div>'; 
             lucide.createIcons();
             showView('view-gallery');
@@ -854,7 +871,22 @@
             // PUXA OS DADOS REAIS DO FIREBASE
             await sincronizarDadosComNuvem();
             
-            list.innerHTML = ''; // Limpa o "carregando"
+            // Desenha a tela aplicando os filtros atuais
+            renderizarGaleria(); 
+        }
+
+        function limparFiltrosGaleria() {
+            document.getElementById('filtro_data_galeria').value = '';
+            document.getElementById('filtro_tag_galeria').value = '';
+            renderizarGaleria();
+        }
+
+        function renderizarGaleria() {
+            const list = document.getElementById('gallery-list');
+            list.innerHTML = ''; 
+
+            const dataFiltro = document.getElementById('filtro_data_galeria').value;
+            const tagFiltro = document.getElementById('filtro_tag_galeria').value;
 
             const chaves = Object.keys(osDatabase);
             let temOS = false;
@@ -863,10 +895,20 @@
                 const os = osDatabase[id];
                 let exibir = false;
 
-                if (acao === 'atualizar' || acao === 'finalizar') {
+                // Regra Principal de Exibição
+                if (modoOperacaoAtual === 'atualizar' || modoOperacaoAtual === 'finalizar') {
                     if (os.status !== 'LIBERADO') exibir = true;
-                } else if (acao === 'alterar') {
+                } else if (modoOperacaoAtual === 'alterar') {
                     exibir = true; 
+                }
+
+                // Filtros de Data e TAG
+                if (exibir) {
+                    const tagOS = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || '';
+                    const dataOS = os.cabecalho?.data_parada || os.cabecalho?.r_data || ''; // Busca a data correta baseada no tipo de OS
+
+                    if (tagFiltro && tagOS !== tagFiltro) exibir = false;
+                    if (dataFiltro && dataOS !== dataFiltro) exibir = false;
                 }
 
                 if (exibir) {
@@ -877,7 +919,6 @@
                     
                     const tagDisplay = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || 'SEM TAG';
                     const tipoDisplay = os.tipoRegistro === 'rapido' ? 'RÁPIDO' : 'NORMAL';
-                    // REFACTOR: Status vermelho na listagem da galeria
                     const statusDisplay = os.cabecalho?.status_equipamento || os.cabecalho?.r_status_equipamento || os.status || 'EM ANDAMENTO';
 
                     card.innerHTML = `
@@ -896,7 +937,7 @@
                 }
             });
 
-            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. encontrada na base de dados.</p></div>`; }
+            if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. encontrada com estes critérios.</p></div>`; }
             lucide.createIcons();
         }
 
@@ -1277,14 +1318,17 @@
         function gerarOpcoesTAG() {
             const osTagSelect = document.getElementById('os_tag');
             const rOsTagSelect = document.getElementById('r_os_tag');
+            const filtroTagSelect = document.getElementById('filtro_tag_galeria');
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
             
             if (osTagSelect) osTagSelect.innerHTML = optBase;
             if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
+            if (filtroTagSelect) filtroTagSelect.innerHTML = '<option value="">Todas as TAGs</option>';
 
             Object.keys(relacaoFrota).forEach(tag => {
                 if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
                 if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
+                if (filtroTagSelect) filtroTagSelect.appendChild(new Option(tag, tag));
             });
         }
 
@@ -1439,7 +1483,7 @@
             }, true);
 
             document.body.addEventListener('change', (e) => {
-                if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file') salvarAutomaticamente();
+                if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file' && e.target.id !== 'filtro_data_galeria' && e.target.id !== 'filtro_tag_galeria') salvarAutomaticamente();
             });
             
             document.getElementById('tabelaLubrificacaoBody').addEventListener('change', salvarLubrificacao);
