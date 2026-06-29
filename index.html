@@ -823,11 +823,29 @@
             lucide.createIcons();
         }
 
-        // REFACTOR: Obter o número da OS gerando o Auto-incremento e guardando na hora
-        function obterProximoNumeroOS() {
-            let ultimo = localStorage.getItem('ultimo_numero_os');
-            let proximo = ultimo ? parseInt(ultimo, 10) + 1 : 1;
-            localStorage.setItem('ultimo_numero_os', proximo); // Salva na hora
+        // REFACTOR: Obter o número da OS de forma inteligente baseado no maior registro salvo
+        function obterProximoNumeroOS(atualizarCache = false) {
+            let maxNum = 0;
+            
+            // 1. Varre a base de dados em busca do maior número já registrado
+            Object.values(osDatabase).forEach(os => {
+                let numStr = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero || "";
+                let match = numStr.match(/\d+/);
+                if (match) {
+                    let num = parseInt(match[0], 10);
+                    if (num > maxNum) maxNum = num;
+                }
+            });
+            
+            // 2. Compara com o cache local (útil para não repetir números na Lubrificação)
+            let ultimoLocal = parseInt(localStorage.getItem('ultimo_numero_os') || "0", 10);
+            let proximo = Math.max(maxNum, ultimoLocal) + 1;
+            
+            // 3. Só trava o número no cache se for uma criação em lote (ex: Lubrificação)
+            if (atualizarCache) {
+                localStorage.setItem('ultimo_numero_os', proximo);
+            }
+            
             return 'OS-' + String(proximo).padStart(4, '0');
         }
 
@@ -839,7 +857,7 @@
             
             if (tipo === 'normal') {
                 const osNumeroInput = document.getElementById('os_numero');
-                if (!osNumeroInput.value) { osNumeroInput.value = obterProximoNumeroOS(); }
+                if (!osNumeroInput.value) { osNumeroInput.value = obterProximoNumeroOS(false); }
 
                 adicionarLinhaServico('tabelaServicosBody');
                 adicionarLinhaPeca('tabelaPecasBody');
@@ -848,7 +866,7 @@
                 showView('view-form');
             } else {
                 const rOsNumeroInput = document.getElementById('r_os_numero');
-                if (!rOsNumeroInput.value) { rOsNumeroInput.value = obterProximoNumeroOS(); }
+                if (!rOsNumeroInput.value) { rOsNumeroInput.value = obterProximoNumeroOS(false); }
 
                 adicionarLinhaPeca('r_tabelaPecasBody');
                 document.getElementById('r_label_os_id').textContent = 'NOVO RASCUNHO (RÁPIDO)';
@@ -967,7 +985,7 @@
             const dataHoje = new Date().toISOString().split('T')[0];
 
             tr.innerHTML = `
-                <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-os-numero text-sm text-center font-bold text-gray-600" value="${dado.os_numero || obterProximoNumeroOS()}"></td>
+                <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-os-numero text-sm text-center font-bold text-gray-600" value="${dado.os_numero || obterProximoNumeroOS(true)}"></td>
                 <td class="p-2"><input type="date" class="w-full border border-gray-300 rounded px-2 py-1 lub-data text-sm" value="${dado.data || dataHoje}"></td>
                 <td class="p-2"><select class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm bg-white">${tagOptions}</select></td>
                 <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-resp uppercase text-sm" value="${dado.resp || ''}" placeholder="Nome"></td>
@@ -1205,6 +1223,21 @@
                 os.status = 'LIBERADO';
             } else if (modoOperacaoAtual === 'nova' || modoOperacaoAtual === 'rapido') {
                 os.status = (modoOperacaoAtual === 'rapido') ? 'LIBERADO' : 'Em Andamento';
+            }
+
+            // Atualização do Histórico do Número da OS no salvamento
+            if (modoOperacaoAtual === 'nova' || modoOperacaoAtual === 'rapido') {
+                const numeroSalvo = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero;
+                if (numeroSalvo) {
+                    const match = numeroSalvo.match(/\d+/);
+                    if (match) {
+                        const numDigitado = parseInt(match[0], 10);
+                        const ultimoLocal = parseInt(localStorage.getItem('ultimo_numero_os') || "0", 10);
+                        if (numDigitado > ultimoLocal) {
+                            localStorage.setItem('ultimo_numero_os', numDigitado);
+                        }
+                    }
+                }
             }
 
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
