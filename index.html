@@ -1176,21 +1176,38 @@
         // ====================================================
         
         async function sincronizarDadosComNuvem() {
-            if (!window.db || !window.firestoreGetDocs || !window.firestoreCollection) return;
-            try {
-                const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
-                let bancoNuvem = {};
-                querySnapshot.forEach((doc) => {
-                    bancoNuvem[doc.id] = doc.data();
-                });
-                osDatabase = bancoNuvem; // Sobrescreve a memória com a verdade da nuvem
-                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
-                // Atualiza o cache local
-                console.log("Dados sincronizados com o Firestore com sucesso!");
-            } catch (error) {
-                console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
+    if (!window.db || !window.firestoreGetDocs || !window.firestoreCollection) return;
+    try {
+        const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
+        let bancoNuvem = {};
+        let maxNumNuvem = 0; // Variável para rastrear a OS mais alta na nuvem
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            bancoNuvem[doc.id] = data;
+
+            // Extrai o número da OS de cada registro que vem da nuvem
+            let numStr = data.cabecalho?.os_numero || data.cabecalho?.r_os_numero || data.os_numero || "";
+            let match = String(numStr).match(/\d+/);
+            if (match) {
+                let num = parseInt(match[0], 10);
+                if (num > maxNumNuvem) maxNumNuvem = num; // Atualiza o maior número encontrado
             }
+        });
+
+        osDatabase = bancoNuvem; // Sobrescreve a memória com a verdade da nuvem
+        localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+        
+        // NOVO: Força o cache local a esquecer os testes antigos e respeitar a numeração real do banco!
+        if (maxNumNuvem > 0) {
+            localStorage.setItem('ultimo_numero_os', maxNumNuvem);
         }
+
+        console.log("Dados sincronizados com o Firestore com sucesso! Última OS sincronizada:", maxNumNuvem);
+    } catch (error) {
+        console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
+    }
+}
 
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
