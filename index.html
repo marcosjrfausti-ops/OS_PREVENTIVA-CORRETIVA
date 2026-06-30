@@ -627,6 +627,9 @@
     <!-- ========================================== -->
     <!-- VIEW 5: LUBRIFICAÇÃO                -->
     <!-- ========================================== -->
+    <!-- ========================================== -->
+    <!-- VIEW 5: LUBRIFICAÇÃO                -->
+    <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -651,11 +654,29 @@
                         <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Equipamento
                     </button>
                 </div>
-                <datalist id="lista-tags"></datalist>
-                <datalist id="lista-lubrificadores">
-                    <option value="CAIQUE AUGUSTO">
-                    <option value="GABRIEL GUILHERME">
-                </datalist>
+
+                <!-- NOVO: Filtros da Tabela de Lubrificação -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4 flex flex-col sm:flex-row gap-3">
+                    <div class="flex-1 space-y-1">
+                        <label class="text-xs font-medium text-gray-500 uppercase">Filtrar Tabela por TAG</label>
+                        <select id="filtro_tag_lub" onchange="filtrarTabelaLubrificacao()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAmarelo">
+                            <option value="">Todas as TAGs</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 space-y-1">
+                        <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Lubrificador</label>
+                        <select id="filtro_resp_lub" onchange="filtrarTabelaLubrificacao()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAmarelo">
+                            <option value="">Todos</option>
+                            <option value="CAIQUE AUGUSTO">CAIQUE AUGUSTO</option>
+                            <option value="GABRIEL GUILHERME">GABRIEL GUILHERME</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button type="button" onclick="limparFiltrosLubrificacao()" class="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i> Limpar Filtro
+                        </button>
+                    </div>
+                </div>
 
                 <div class="overflow-x-auto rounded-lg border border-gray-200">
                     <table class="w-full text-left border-collapse min-w-[950px]">
@@ -1057,19 +1078,29 @@
             const tbody = document.getElementById('tabelaLubrificacaoBody');
             if(!tbody) return;
             const tr = document.createElement('tr');
-            tr.className = "border-b border-gray-100 hover:bg-gray-50";
+            // Adicionada a classe 'linha-lubrificacao' para o Javascript achar e filtrar
+            tr.className = "border-b border-gray-100 hover:bg-gray-50 linha-lubrificacao";
             const itemId = dado.id || gerarIdCosmosDB('LUB', dado.tag);
             tr.dataset.id = itemId;
 
             const dataHoje = new Date().toISOString().split('T')[0];
             const horaAgora = new Date().toTimeString().substring(0, 5);
 
+            let tagOptions = '<option value="" disabled selected>TAG...</option>';
+            Object.keys(relacaoFrota).forEach(tag => { tagOptions += `<option value="${tag}" ${dado.tag === tag ? 'selected' : ''}>${tag}</option>`; });
+
             tr.innerHTML = `
                 <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-os-numero text-sm text-center font-bold text-gray-600" value="${dado.os_numero || obterProximoNumeroOS(true)}"></td>
                 <td class="p-2"><input type="date" class="w-full border border-gray-300 rounded px-2 py-1 lub-data text-sm" value="${dado.data || dataHoje}"></td>
                 <td class="p-2"><input type="time" class="w-full border border-gray-300 rounded px-2 py-1 lub-hora text-sm" value="${dado.hora || horaAgora}"></td>
-                <td class="p-2"><input type="text" list="lista-tags" class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm uppercase bg-white" value="${dado.tag || ''}" placeholder="Buscar TAG..."></td>
-                <td class="p-2"><input type="text" list="lista-lubrificadores" class="w-full border border-gray-300 rounded px-2 py-1 lub-resp uppercase text-sm" value="${dado.resp || ''}" placeholder="Buscar Nome..."></td>
+                <td class="p-2"><select class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm bg-white" onchange="salvarLubrificacao(); filtrarTabelaLubrificacao();">${tagOptions}</select></td>
+                <td class="p-2">
+                    <select class="w-full border border-gray-300 rounded px-2 py-1 lub-resp text-sm bg-white" onchange="salvarLubrificacao(); filtrarTabelaLubrificacao();">
+                        <option value="" disabled ${!dado.resp ? 'selected' : ''}>Selecione...</option>
+                        <option value="CAIQUE AUGUSTO" ${dado.resp === 'CAIQUE AUGUSTO' ? 'selected' : ''}>CAIQUE AUGUSTO</option>
+                        <option value="GABRIEL GUILHERME" ${dado.resp === 'GABRIEL GUILHERME' ? 'selected' : ''}>GABRIEL GUILHERME</option>
+                    </select>
+                </td>
                 <td class="p-2">
                     <select class="w-full border border-gray-300 rounded px-2 py-1 lub-cidade text-sm bg-white">
                         <option value="" disabled ${!dado.cidade ? 'selected' : ''}>Selecione...</option>
@@ -1084,10 +1115,11 @@
                         <option value="GOIABEIRAS" ${dado.cidade === 'GOIABEIRAS' ? 'selected' : ''}>GOIABEIRAS</option>
                     </select>
                 </td>
-                <td class="p-2 text-center"><button type="button" class="text-red-500 font-bold hover:text-red-700" onclick="this.closest('tr').remove(); salvarLubrificacao();">X</button></td>
+                <td class="p-2 text-center"><button type="button" class="text-red-500 font-bold hover:text-red-700" onclick="this.closest('tr').remove(); salvarLubrificacao(); filtrarTabelaLubrificacao();">X</button></td>
             `;
             tbody.appendChild(tr);
             salvarLubrificacao();
+            filtrarTabelaLubrificacao(); // Re-aplica filtro caso seja adicionado enquanto filtrado
         }
 
         function salvarLubrificacao() {
@@ -1509,20 +1541,49 @@
             const osTagSelect = document.getElementById('os_tag');
             const rOsTagSelect = document.getElementById('r_os_tag');
             const filtroTagSelect = document.getElementById('filtro_tag_galeria');
-            const listaTagsDatalist = document.getElementById('lista-tags');
+            const filtroTagLub = document.getElementById('filtro_tag_lub'); // Novo filtro
 
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
             if (osTagSelect) osTagSelect.innerHTML = optBase;
             if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
             if (filtroTagSelect) filtroTagSelect.innerHTML = '<option value="">Todas as TAGs</option>';
-            if (listaTagsDatalist) listaTagsDatalist.innerHTML = '';
+            if (filtroTagLub) filtroTagLub.innerHTML = '<option value="">Todas as TAGs</option>'; // Limpa e prepara
 
             Object.keys(relacaoFrota).forEach(tag => {
                 if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
                 if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
                 if (filtroTagSelect) filtroTagSelect.appendChild(new Option(tag, tag));
-                if (listaTagsDatalist) listaTagsDatalist.appendChild(new Option(tag, tag));
+                if (filtroTagLub) filtroTagLub.appendChild(new Option(tag, tag)); // Adiciona ao filtro
             });
+        }
+
+        function filtrarTabelaLubrificacao() {
+            const filtroTag = document.getElementById('filtro_tag_lub')?.value.toUpperCase() || "";
+            const filtroResp = document.getElementById('filtro_resp_lub')?.value.toUpperCase() || "";
+            const linhas = document.querySelectorAll('#tabelaLubrificacaoBody tr.linha-lubrificacao');
+
+            linhas.forEach(tr => {
+                const tagEl = tr.querySelector('.lub-tag');
+                const respEl = tr.querySelector('.lub-resp');
+                const tagVal = tagEl ? tagEl.value.toUpperCase() : "";
+                const respVal = respEl ? respEl.value.toUpperCase() : "";
+
+                let mostrar = true;
+                if (filtroTag && tagVal !== filtroTag) mostrar = false;
+                if (filtroResp && respVal !== filtroResp) mostrar = false;
+
+                // Esconde a linha da tabela se não bater com a pesquisa
+                tr.style.display = mostrar ? '' : 'none';
+            });
+        }
+
+        function limparFiltrosLubrificacao() {
+            const tagEl = document.getElementById('filtro_tag_lub');
+            const respEl = document.getElementById('filtro_resp_lub');
+            if(tagEl) tagEl.value = "";
+            if(respEl) respEl.value = "";
+            filtrarTabelaLubrificacao(); // Chama a função para exibir tudo novamente
+            lucide.createIcons();
         }
 
         function processarEComprimirImagem(file, callback) {
