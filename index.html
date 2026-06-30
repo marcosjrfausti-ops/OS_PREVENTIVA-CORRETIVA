@@ -115,6 +115,7 @@
                     <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Data</label>
                     <input type="date" id="filtro_data_galeria" onchange="renderizarGaleria()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-conterAzul">
                 </div>
+                
                 <div class="flex-1 space-y-1">
                     <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por TAG</label>
                     <select id="filtro_tag_galeria" onchange="renderizarGaleria()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAzul">
@@ -195,7 +196,7 @@
                             <option value="oficina_central_matriz">OFICINA CENTRAL MATRIZ</option>
                             <option value="rio_doce">RIO DOCE</option>
                             <option value="sao_goncalo_do_rio_abaixo">SÃO GONÇALO DO RIO ABAIXO</option>
-                            <option value="fazenda">FAZENDA</option
+                            <option value="fazenda">FAZENDA</option>
                             <option value="goiabeiras">GOIABEIRAS</option>
                         </select>
                     </div>
@@ -624,7 +625,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- VIEW 5: LUBRIFICAÇÃO                       -->
+    <!-- VIEW 5: LUBRIFICAÇÃO                -->
     <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
@@ -755,7 +756,6 @@
         getDocs,
         enableIndexedDbPersistence 
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
       // 2. Credenciais Reais do Projeto (os-coretiva-preventiva)
       const firebaseConfig = {
         apiKey: "AIzaSyBLTPfj097saA-VrtxqWCLWDdS5acjgbEs",
@@ -766,11 +766,9 @@
         appId: "1:1074947472672:web:c797327b7c398fa94b2b45",
         measurementId: "G-H01XP1X013"
       };
-
       // 3. Inicialização do Firebase e Firestore
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-
       // 4. Ativação da Persistência Offline Automática
       enableIndexedDbPersistence(db).catch((err) => {
         if (err.code == 'failed-precondition') {
@@ -779,7 +777,6 @@
           console.warn("O navegador atual não suporta persistência offline.");
         }
       });
-
       // Exponha o banco 'db' e as funções do Firestore globalmente para que o app.js consiga utilizá-los
       window.db = db;
       window.firestoreDoc = doc;
@@ -792,7 +789,7 @@
     <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
     <!-- ========================================== -->
     <script>
-        let currentOSId = null; 
+        let currentOSId = null;
         let tipoOSAtual = 'normal'; 
         let modoOperacaoAtual = 'nova'; // Controla a Máquina de Estados ('nova', 'atualizar', 'finalizar', 'alterar')
         let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
@@ -830,7 +827,6 @@
             lucide.createIcons();
             gerarOpcoesTAG(); // Injeta dinamicamente as opções assim que a tela está pronta
             configurarEventosUI();
-            
             // Inicializa a lógica central de Assinatura no Modal
             inicializarEventosModalAssinatura();
             inicializarEventosModalAssinaturaGeral(); // Modal de Assinatura Universal
@@ -865,7 +861,6 @@
             const iInicial = document.getElementById('data_prev_lib_inicial');
             const iAtual = document.getElementById('data_prev_lib_atual');
             const btn = document.getElementById('btnAcaoForm');
-
             // Limpa as restrições padrão
             cInicial.classList.remove('hidden');
             cAtual.classList.remove('hidden');
@@ -894,17 +889,15 @@
         // REFACTOR: Obter o número da OS de forma inteligente baseado no maior registro salvo
         function obterProximoNumeroOS(atualizarCache = false) {
             let maxNum = 0;
-            
             // 1. Varre a base de dados em busca do maior número já registrado
             Object.values(osDatabase).forEach(os => {
-                let numStr = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero || "";
-                let match = numStr.match(/\d+/);
+                let numStr = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero || os.os_numero || "";
+                let match = String(numStr).match(/\d+/);
                 if (match) {
                     let num = parseInt(match[0], 10);
                     if (num > maxNum) maxNum = num;
                 }
             });
-            
             // 2. Compara com o cache local (útil para não repetir números na Lubrificação)
             let ultimoLocal = parseInt(localStorage.getItem('ultimo_numero_os') || "0", 10);
             let proximo = Math.max(maxNum, ultimoLocal) + 1;
@@ -918,7 +911,7 @@
         }
 
         function iniciarNovaOS(tipo) {
-            currentOSId = null; 
+            currentOSId = null;
             tipoOSAtual = tipo;
             modoOperacaoAtual = 'nova';
             limparFormularioOS(tipo);
@@ -940,7 +933,6 @@
                 if (rOsNumeroInput && !rOsNumeroInput.value) { rOsNumeroInput.value = obterProximoNumeroOS(false); }
 
                 adicionarLinhaPeca('r_tabelaPecasBody');
-                
                 const rLabelOs = document.getElementById('r_label_os_id');
                 if(rLabelOs) rLabelOs.textContent = 'NOVO RASCUNHO (RÁPIDO)';
                 
@@ -949,10 +941,10 @@
         }
 
         async function abrirGaleria(acao) {
-            modoOperacaoAtual = acao; 
+            modoOperacaoAtual = acao;
             const list = document.getElementById('gallery-list');
             
-            list.innerHTML = '<div class="text-center text-conterAzul font-bold py-10 flex flex-col items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-8 h-8 animate-spin"></i><p>Sincronizando com a nuvem...</p></div>'; 
+            list.innerHTML = '<div class="text-center text-conterAzul font-bold py-10 flex flex-col items-center justify-center gap-2"><i data-lucide="refresh-cw" class="w-8 h-8 animate-spin"></i><p>Sincronizando com a nuvem...</p></div>';
             lucide.createIcons();
             showView('view-gallery');
             
@@ -965,9 +957,8 @@
 
             // PUXA OS DADOS REAIS DO FIREBASE
             await sincronizarDadosComNuvem();
-            
             // Desenha a tela aplicando os filtros atuais
-            renderizarGaleria(); 
+            renderizarGaleria();
         }
 
         function limparFiltrosGaleria() {
@@ -991,7 +982,6 @@
 
             const chaves = Object.keys(osDatabase);
             let temOS = false;
-
             chaves.reverse().forEach(id => {
                 const os = osDatabase[id];
                 let exibir = false;
@@ -1041,7 +1031,6 @@
                     list.appendChild(card);
                 }
             });
-
             if (!temOS) { list.innerHTML = `<div class="text-center text-gray-500 py-10"><p>Nenhuma O.S. encontrada com estes critérios.</p></div>`; }
             lucide.createIcons();
         }
@@ -1063,16 +1052,14 @@
             if(!tbody) return;
             const tr = document.createElement('tr');
             tr.className = "border-b border-gray-100 hover:bg-gray-50";
-
             // Gerar ou recuperar ID individual da linha para o rascunho
-            const itemId = dado.id || gerarIdCosmosDB('LUB');
+            const itemId = dado.id || gerarIdCosmosDB('LUB', dado.tag);
             tr.dataset.id = itemId;
 
             let tagOptions = '<option value="" disabled selected>TAG...</option>';
             Object.keys(relacaoFrota).forEach(tag => { tagOptions += `<option value="${tag}" ${dado.tag === tag ? 'selected' : ''}>${tag}</option>`; });
 
             const dataHoje = new Date().toISOString().split('T')[0];
-
             tr.innerHTML = `
                 <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-os-numero text-sm text-center font-bold text-gray-600" value="${dado.os_numero || obterProximoNumeroOS(true)}"></td>
                 <td class="p-2"><input type="date" class="w-full border border-gray-300 rounded px-2 py-1 lub-data text-sm" value="${dado.data || dataHoje}"></td>
@@ -1121,7 +1108,6 @@
             let registrosSalvos = 0;
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
-
             linhas.forEach((tr, index) => {
                 const tagEl = tr.querySelector('.lub-tag');
                 const dataEl = tr.querySelector('.lub-data');
@@ -1141,7 +1127,7 @@
                 const dataItem = new Date(now.getTime() + (index * 1000));
                 const dataHoraFlat = `${dataItem.getFullYear()}${pad(dataItem.getMonth()+1)}${pad(dataItem.getDate())}_${pad(dataItem.getHours())}${pad(dataItem.getMinutes())}${pad(dataItem.getSeconds())}`;
                 const chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
-
+                
                 const payload = {
                     sistema_origem: "PRECOR",
                     tipoRegistro: "LUBRIFICACAO",
@@ -1159,17 +1145,25 @@
                     payload.assinatura = assinaturaGeralAtiva.base64;
                 }
 
-                localStorage.setItem(chaveUnica, JSON.stringify(payload));
+                osDatabase[chaveUnica] = payload;
+                
+                if (window.db && window.firestoreSetDoc) {
+                     window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", chaveUnica), payload, { merge: true })
+                     .catch((e) => console.log("Salvo offline para sincronismo futuro."));
+                }
+                
                 registrosSalvos++;
             });
-
             if (registrosSalvos > 0) {
-                alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo.`);
+                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+
+                alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo e sincronizados.`);
                 const tbody = document.getElementById('tabelaLubrificacaoBody');
                 if(tbody) tbody.innerHTML = '';
                 adicionarLinhaLubrificacao();
                 lubDatabase = [];
-                assinaturaGeralAtiva = { nome: null, base64: null }; // Reseta assinatura após salvar
+                assinaturaGeralAtiva = { nome: null, base64: null };
+                // Reseta assinatura após salvar
                 localStorage.removeItem('PRECOR_LUB_DB');
                 showView('view-home');
             } else {
@@ -1190,7 +1184,8 @@
                     bancoNuvem[doc.id] = doc.data();
                 });
                 osDatabase = bancoNuvem; // Sobrescreve a memória com a verdade da nuvem
-                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase)); // Atualiza o cache local
+                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+                // Atualiza o cache local
                 console.log("Dados sincronizados com o Firestore com sucesso!");
             } catch (error) {
                 console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
@@ -1202,10 +1197,6 @@
             const pad = (n) => String(n).padStart(2, '0');
             const dataHora = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             
-            if (tipo === 'LUB') {
-                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                return `PRECOR_LUB_${dataHora}_${random}`;
-            }
             const tagFinal = tag ? tag : 'SEM-TAG';
             return `PRECOR_${tipo}_${tagFinal}_${dataHora}`;
         }
@@ -1233,11 +1224,9 @@
             
             const temTag = tagEl.value;
             const temKm = kmEl.value;
-
             if (!currentOSId && !temTag && !temKm) return; 
 
             const isEdicao = !!currentOSId && !!osDatabase[currentOSId];
-
             if (!currentOSId) {
                 const tipoPrefixo = tipoOSAtual === 'normal' ? 'OS' : 'RAP';
                 currentOSId = gerarIdCosmosDB(tipoPrefixo, temTag);
@@ -1261,7 +1250,6 @@
                 },
                 cabecalho: {}, problemas: {}, servicos: [], pecas: []
             };
-
             if (tipoOSAtual === 'normal') {
                 dados.cabecalho = {
                     os_numero: document.getElementById('os_numero')?.value || '',
@@ -1278,12 +1266,10 @@
                     data_liberacao: document.getElementById('data_liberacao')?.value || '',
                     hora_liberacao: document.getElementById('hora_liberacao')?.value || ''
                 };
-                
                 ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`prob_${p}`);
                     if(chk) dados.problemas[p] = chk.checked; 
                 });
-                
                 const obsProb = document.getElementById('os_obs_problema');
                 if(obsProb) dados.problemas.obs = obsProb.value;
 
@@ -1307,12 +1293,10 @@
                     r_hora_inicio: document.getElementById('r_hora_inicio')?.value || '',
                     r_hora_fim: document.getElementById('r_hora_fim')?.value || ''
                 };
-                
                 ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`r_prob_${p}`);
-                    if(chk) dados.problemas[p] = chk.checked; 
+                    if(chk) chk.checked = draft.problemas[p] || false; 
                 });
-                
                 const rServs = document.getElementById('r_servicos_executados');
                 if(rServs) dados.servicos_rapido = rServs.value;
                 
@@ -1332,10 +1316,10 @@
 
         // Executado no clique dos botões principais de fechamento das Views de Formulário
         function executarAcaoFormulario() {
-            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de executar a ação."); return; }
+            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de executar a ação.");
+                return; }
             
             const os = osDatabase[currentOSId];
-
             if (modoOperacaoAtual === 'atualizar') {
                 if (!os.historico_atualizacoes) os.historico_atualizacoes = [];
                 os.historico_atualizacoes.push({
@@ -1354,7 +1338,7 @@
             if (modoOperacaoAtual === 'nova' || modoOperacaoAtual === 'rapido') {
                 const numeroSalvo = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero;
                 if (numeroSalvo) {
-                    const match = numeroSalvo.match(/\d+/);
+                    const match = String(numeroSalvo).match(/\d+/);
                     if (match) {
                         const numDigitado = parseInt(match[0], 10);
                         const ultimoLocal = parseInt(localStorage.getItem('ultimo_numero_os') || "0", 10);
@@ -1366,7 +1350,6 @@
             }
 
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
-            
             if (window.db && window.firestoreSetDoc) {
                  window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", currentOSId), osDatabase[currentOSId], { merge: true })
                  .then(() => console.log("Sincronizado via ação de fecho no Firestore."))
@@ -1404,7 +1387,6 @@
                 safeSet('os_status_equip', draft.cabecalho.status_equipamento);
                 safeSet('data_parada', draft.cabecalho.data_parada);
                 safeSet('hora_parada', draft.cabecalho.hora_parada);
-                
                 safeSet('data_prev_lib_inicial', draft.cabecalho.data_prev_lib_inicial);
                 safeSet('data_prev_lib_atual', draft.cabecalho.data_prev_lib_atual);
                 safeSet('data_liberacao', draft.cabecalho.data_liberacao);
@@ -1449,7 +1431,6 @@
                 safeSet('r_data', draft.cabecalho.r_data);
                 safeSet('r_hora_inicio', draft.cabecalho.r_hora_inicio);
                 safeSet('r_hora_fim', draft.cabecalho.r_hora_fim);
-                
                 ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`r_prob_${p}`);
                     if(chk) chk.checked = draft.problemas[p] || false; 
@@ -1470,7 +1451,6 @@
         function limparFormularioOS(tipo) {
             const prefix = tipo === 'normal' ? '' : 'r_';
             const viewId = tipo === 'normal' ? 'view-form' : 'view-rapido';
-            
             document.querySelectorAll(`#${viewId} input[type="text"], #${viewId} input[type="time"], #${viewId} input[type="number"], #${viewId} input[type="date"], #${viewId} select, #${viewId} textarea`).forEach(el => el.value = '');
             document.querySelectorAll(`#${viewId} input[type="checkbox"]`).forEach(el => el.checked = false);
             
@@ -1481,7 +1461,6 @@
                 if(tPeca) tPeca.innerHTML = '';
                 const cMini = document.getElementById('containerMiniaturas');
                 if(cMini) cMini.innerHTML = '';
-                
                 ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador', 'canvasAssinaturaMecanico'].forEach(id => {
                     const cvs = document.getElementById(id); 
                     if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
@@ -1491,7 +1470,7 @@
                 if(rtPeca) rtPeca.innerHTML = '';
                 const rcMini = document.getElementById('r_containerMiniaturas');
                 if(rcMini) rcMini.innerHTML = '';
-                const cvs = document.getElementById('r_canvasAssinatura'); 
+                const cvs = document.getElementById('r_canvasAssinatura');
                 if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
             }
         }
@@ -1505,11 +1484,9 @@
             const rOsTagSelect = document.getElementById('r_os_tag');
             const filtroTagSelect = document.getElementById('filtro_tag_galeria');
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
-            
             if (osTagSelect) osTagSelect.innerHTML = optBase;
             if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
             if (filtroTagSelect) filtroTagSelect.innerHTML = '<option value="">Todas as TAGs</option>';
-
             Object.keys(relacaoFrota).forEach(tag => {
                 if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
                 if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
@@ -1556,7 +1533,6 @@
             if(!container) return;
             container.innerHTML = '';
             if(!currentOSId || !osDatabase[currentOSId]?.fotos) return;
-            
             osDatabase[currentOSId].fotos.forEach((fotoBase64) => {
                 const img = document.createElement('img');
                 img.src = fotoBase64;
@@ -1572,7 +1548,6 @@
         
         let ctxModalGeral = null;
         let desenhandoModalGeral = false;
-
         function inicializarEventosModalAssinaturaGeral() {
             const canvasGeral = document.getElementById('canvasAssinaturaGeral');
             if(!canvasGeral) return;
@@ -1585,9 +1560,12 @@
                 return { x: clientX - rect.left, y: clientY - rect.top };
             };
 
-            const iniciar = (e) => { e.preventDefault(); desenhandoModalGeral = true; const pos = obterPosicao(e); ctxModalGeral.beginPath(); ctxModalGeral.moveTo(pos.x, pos.y); };
-            const desenhar = (e) => { if (!desenhandoModalGeral) return; e.preventDefault(); const pos = obterPosicao(e); ctxModalGeral.lineTo(pos.x, pos.y); ctxModalGeral.stroke(); };
-            const parar = () => { if (desenhandoModalGeral) { desenhandoModalGeral = false; ctxModalGeral.closePath(); } };
+            const iniciar = (e) => { e.preventDefault();
+                desenhandoModalGeral = true; const pos = obterPosicao(e); ctxModalGeral.beginPath(); ctxModalGeral.moveTo(pos.x, pos.y); };
+            const desenhar = (e) => { if (!desenhandoModalGeral) return;
+                e.preventDefault(); const pos = obterPosicao(e); ctxModalGeral.lineTo(pos.x, pos.y); ctxModalGeral.stroke(); };
+            const parar = () => { if (desenhandoModalGeral) { desenhandoModalGeral = false;
+                ctxModalGeral.closePath(); } };
 
             canvasGeral.addEventListener('mousedown', iniciar);
             canvasGeral.addEventListener('mousemove', desenhar);
@@ -1609,7 +1587,6 @@
             const rect = canvas.parentElement.getBoundingClientRect();
             canvas.width = rect.width;
             canvas.height = rect.height;
-            
             ctxModalGeral.lineWidth = 3;
             ctxModalGeral.lineCap = 'round';
             ctxModalGeral.lineJoin = 'round';
@@ -1664,9 +1641,12 @@
                 return { x: clientX - rect.left, y: clientY - rect.top };
             };
 
-            const iniciar = (e) => { e.preventDefault(); desenhandoModal = true; const pos = obterPosicao(e); ctxModal.beginPath(); ctxModal.moveTo(pos.x, pos.y); };
-            const desenhar = (e) => { if (!desenhandoModal) return; e.preventDefault(); const pos = obterPosicao(e); ctxModal.lineTo(pos.x, pos.y); ctxModal.stroke(); };
-            const parar = () => { if (desenhandoModal) { desenhandoModal = false; ctxModal.closePath(); } };
+            const iniciar = (e) => { e.preventDefault();
+                desenhandoModal = true; const pos = obterPosicao(e); ctxModal.beginPath(); ctxModal.moveTo(pos.x, pos.y); };
+            const desenhar = (e) => { if (!desenhandoModal) return;
+                e.preventDefault(); const pos = obterPosicao(e); ctxModal.lineTo(pos.x, pos.y); ctxModal.stroke(); };
+            const parar = () => { if (desenhandoModal) { desenhandoModal = false;
+                ctxModal.closePath(); } };
 
             canvasModal.addEventListener('mousedown', iniciar);
             canvasModal.addEventListener('mousemove', desenhar);
@@ -1765,24 +1745,19 @@
                 if(req) req.value = relacaoFrota[this.value] || ''; 
                 salvarAutomaticamente(); 
             });
-            
             addSafeListener('os_km', 'input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
             addSafeListener('r_os_km', 'input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
-            
             addSafeListener('inputFotos', 'change', (e) => manipularUploadDeFotos(e, 'normal'));
             addSafeListener('r_inputFotos', 'change', (e) => manipularUploadDeFotos(e, 'rapido'));
-
             document.body.addEventListener('blur', function(e) {
                 if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp') && !e.target.classList.contains('lub-obs')) { 
                     e.target.value = e.target.value.toUpperCase(); 
                     salvarAutomaticamente(); 
                 }
             }, true);
-
             document.body.addEventListener('change', (e) => {
                 if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file' && e.target.id !== 'filtro_data_galeria' && e.target.id !== 'filtro_tag_galeria') salvarAutomaticamente();
             });
-            
             addSafeListener('tabelaLubrificacaoBody', 'change', salvarLubrificacao);
             addSafeListener('tabelaLubrificacaoBody', 'input', function(e) { 
                 if(e.target.matches('.lub-resp') || e.target.matches('.lub-obs')) { 
@@ -1808,7 +1783,6 @@
                     salvarAutomaticamente();
                 }
             });
-
             addSafeListener('btnAddServico', 'click', (e) => { e.preventDefault(); adicionarLinhaServico('tabelaServicosBody'); salvarAutomaticamente(); });
             addSafeListener('btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('tabelaPecasBody'); salvarAutomaticamente(); });
             addSafeListener('r_btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('r_tabelaPecasBody'); salvarAutomaticamente(); });
