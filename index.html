@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ordem de Serviço - Conterplan</title>
     
-    <!-- Fonte Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuração Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -32,10 +29,8 @@
         }
     </script>
     
-    <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Estilos Adicionais Base -->
     <style>
         input[type="text"], textarea { text-transform: uppercase; }
         input, select, textarea { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
@@ -44,9 +39,6 @@
 </head>
 <body class="bg-fundo text-gray-800 font-sans antialiased">
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: HOME                               -->
-    <!-- ========================================== -->
     <section id="view-home" class="flex min-h-screen flex-col">
         <header class="bg-conterLaranja text-white py-6 shadow-md flex items-center justify-center">
             <h1 class="text-xl font-bold tracking-wide uppercase text-center px-4">
@@ -56,7 +48,6 @@
 
         <main class="flex-1 flex flex-col items-center justify-center p-6 gap-4">
             
-            <!-- Bloco 1: Ciclo de Vida da OS -->
             <button onclick="iniciarNovaOS('normal')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
                 <i data-lucide="plus-circle" class="w-6 h-6"></i>
                 + NOVA OS
@@ -72,7 +63,6 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
-            <!-- Bloco 2: Serviços Rápidos -->
             <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAmarelo text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
@@ -84,7 +74,6 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
-            <!-- Bloco 3: Auditoria/Correção -->
             <button onclick="abrirGaleria('alterar')" class="w-full max-w-sm bg-gray-100 border-2 border-gray-600 text-gray-700 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors">
                 <i data-lucide="edit" class="w-6 h-6"></i>
                 ALTERAR REGISTRO
@@ -93,9 +82,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: GALERIA (Unificada para Todas Ações)-->
-    <!-- ========================================== -->
     <section id="view-gallery" class="hidden min-h-screen flex-col pb-10">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -130,14 +116,10 @@
             </div>
 
             <div id="gallery-list" class="space-y-4">
-                <!-- Cards injetados via JS -->
-            </div>
+                </div>
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: FORMULÁRIO COMPLETO (NOVA OS)      -->
-    <!-- ========================================== -->
     <section id="view-form" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -153,7 +135,6 @@
 
         <main class="max-w-4xl mx-auto w-full mt-6 px-4 space-y-6">
             
-            <!-- 1. Cabeçalho -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2">
@@ -234,7 +215,6 @@
                         <input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
                     </div>
 
-                    <!-- Novos Campos do Ciclo de Vida da OS -->
                     <div id="container_prev_inicial" class="space-y-1 md:col-span-2">
                         <label class="text-sm font-medium text-conterAzul">PREVISÃO DE LIBERAÇÃO INICIAL</label>
                         <input type="date" id="data_prev_lib_inicial" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterAzul">
@@ -256,7 +236,6 @@
                 </div>
             </section>
 
-            <!-- 2. Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -315,7 +294,6 @@
                 </div>
             </section>
 
-            <!-- 3. Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -334,7 +312,6 @@
                 </div>
             </section>
 
-            <!-- 4. Serviços Executados (Tabela Completa) -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviços Executados</h2>
@@ -352,7 +329,6 @@
                 </div>
             </section>
 
-            <!-- 5. Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -366,7 +342,6 @@
                 </div>
             </section>
 
-            <!-- 6. Mídias e Assinatura -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Anexos e Assinaturas</h2>
 
@@ -427,9 +402,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 4: SERVIÇO RÁPIDO (ENRIQUECIDO)       -->
-    <!-- ========================================== -->
     <section id="view-rapido" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -452,7 +424,6 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- NOVO: Nº da OS no Serviço Rápido -->
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label>
                         <input type="text" id="r_os_numero" class="w-full border rounded-lg px-3 py-2">
@@ -491,7 +462,6 @@
                 </div>
             </section>
 
-            <!-- NOVO: Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -550,7 +520,6 @@
                 </div>
             </section>
 
-            <!-- NOVO: Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -566,13 +535,11 @@
                 </div>
             </section>
 
-            <!-- Serviços Executados Simplificado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviço Executado</h2>
                 <textarea id="r_servicos_executados" rows="6" class="w-full border rounded-lg px-3 py-2" placeholder="Descreva os serviços realizados..."></textarea>
             </section>
 
-            <!-- NOVO: Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -586,7 +553,6 @@
                 </div>
             </section>
 
-            <!-- NOVO: Mídias e Assinatura Técnica -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Evidências e Assinatura</h2>
 
@@ -624,12 +590,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 5: LUBRIFICAÇÃO                -->
-    <!-- ========================================== -->
-    <!-- ========================================== -->
-    <!-- VIEW 5: LUBRIFICAÇÃO                -->
-    <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -655,7 +615,6 @@
                     </button>
                 </div>
 
-                <!-- NOVO: Filtros da Tabela de Lubrificação -->
                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4 flex flex-col sm:flex-row gap-3">
                     <div class="flex-1 space-y-1">
                         <label class="text-xs font-medium text-gray-500 uppercase">Filtrar Tabela por TAG</label>
@@ -683,7 +642,7 @@
                         <thead>
                             <tr class="bg-gray-50 text-gray-600 text-sm border-b">
                                 <th class="p-3 font-medium text-center w-28">Nº OS</th>
-                                <th class="p-3 font-medium w-28">Data</th>
+                                <th class="p-3 font-medium w-32">Data</th>
                                 <th class="p-3 font-medium w-24">Hora</th>
                                 <th class="p-3 font-medium w-40">TAG</th>
                                 <th class="p-3 font-medium w-48">Lubrificador</th>
@@ -698,7 +657,6 @@
                 
             </section>
 
-            <!-- Botões de Ação para o Lote de Lubrificação -->
             <section class="flex flex-col sm:flex-row gap-4 pt-2">
                 <button type="button" onclick="abrirModalAssinaturaGeral()" class="w-full py-4 bg-gray-100 border-2 border-conterLaranja text-conterLaranja font-bold rounded-lg shadow-sm hover:bg-orange-50 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="pen-tool" class="w-6 h-6"></i>
@@ -712,9 +670,6 @@
         </main>
     </section>
 
-    <!-- ========================================== -->
-    <!-- MODAL DE ASSINATURA TELA CHEIA             -->
-    <!-- ========================================== -->
     <div id="modalAssinatura" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-conterAmarelo">Assine na área abaixo</h2>
@@ -723,7 +678,6 @@
             </button>
         </div>
         <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
-            <!-- Canvas expande para ocupar o ecrã inteiro -->
             <canvas id="canvasModal" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
         </div>
         <div class="mt-4 flex gap-4 pb-4">
@@ -736,9 +690,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- MODAL DE ASSINATURA GERAL (LUBRIFICAÇÃO)   -->
-    <!-- ========================================== -->
     <div id="modalAssinaturaGeral" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-conterAmarelo">Assinatura Geral de Lote</h2>
@@ -769,9 +720,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- FIREBASE INIT (MÓDULO OFFLINE)             -->
-    <!-- ========================================== -->
     <script type="module">
       // 1. Importações do SDK do Firebase v10+ (Utilizando ES Modules estaveis via CDN)
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -812,9 +760,6 @@
       window.firestoreGetDocs = getDocs;
     </script>
 
-    <!-- ========================================== -->
-    <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
-    <!-- ========================================== -->
     <script>
         let currentOSId = null;
         let tipoOSAtual = 'normal'; 
@@ -1026,8 +971,8 @@
 
                 // Filtros de Data e TAG
                 if (exibir) {
-                    const tagOS = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || '';
-                    const dataOS = os.cabecalho?.data_parada || os.cabecalho?.r_data || ''; // Busca a data correta baseada no tipo de OS
+                    const tagOS = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || os.tag || '';
+                    const dataOS = os.cabecalho?.data_parada || os.cabecalho?.r_data || os.data_apontamento || ''; 
 
                     if (tagFiltro && tagOS !== tagFiltro) exibir = false;
                     if (dataFiltro && dataOS !== dataFiltro) exibir = false;
@@ -1039,8 +984,12 @@
                     card.className = 'bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center transition-all hover:border-conterAzul cursor-pointer';
                     card.onclick = () => carregarFormulario(id);
                     
-                    const tagDisplay = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || 'SEM TAG';
-                    const tipoDisplay = os.tipoRegistro === 'rapido' ? 'RÁPIDO' : 'NORMAL';
+                    const tagDisplay = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || os.tag || 'SEM TAG';
+                    
+                    let tipoDisplay = 'NORMAL';
+                    if (os.tipoRegistro === 'rapido') tipoDisplay = 'RÁPIDO';
+                    if (os.tipoRegistro === 'LUBRIFICACAO') tipoDisplay = 'LUBRIFICAÇÃO';
+                    
                     const statusDisplay = os.cabecalho?.status_equipamento || os.cabecalho?.r_status_equipamento || os.status || 'EM ANDAMENTO';
 
                     card.innerHTML = `
@@ -1140,7 +1089,6 @@
             localStorage.setItem('PRECOR_LUB_DB', JSON.stringify(lubDatabase));
         }
 
-        // Função para iterar o lote e salvar como registros autônomos (Flat Data)
         function finalizarLoteLubrificacao() {
             const linhas = document.querySelectorAll('#tabelaLubrificacaoBody tr');
             let registrosSalvos = 0;
@@ -1161,12 +1109,16 @@
                 const cidade = cidadeEl ? cidadeEl.value : '';
                 const osNumero = osNumeroEl ? osNumeroEl.value : '';
 
-                if (!tag && !resp) return;
-
+                // Sem bloqueios de obrigatoriedade. Se vazio, vira SEM-TAG.
                 const tagLimpa = tag ? tag : 'SEM-TAG';
                 const dataItem = new Date(now.getTime() + (index * 1000));
                 const dataHoraFlat = `${dataItem.getFullYear()}${pad(dataItem.getMonth()+1)}${pad(dataItem.getDate())}_${pad(dataItem.getHours())}${pad(dataItem.getMinutes())}${pad(dataItem.getSeconds())}`;
-                const chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
+                
+                // Reaproveita o ID se já existir e for do formato correto (para edição pelo Alterar Registro)
+                let chaveUnica = tr.dataset.id;
+                if (!chaveUnica || chaveUnica === 'undefined' || !chaveUnica.includes('PRECOR_LUB_')) {
+                    chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
+                }
                 
                 const payload = {
                     sistema_origem: "PRECOR",
@@ -1181,7 +1133,6 @@
                     status: "LIBERADO"
                 };
 
-                // Aplica a Assinatura Geral se o nome do lubrificador da linha coincidir
                 if (assinaturaGeralAtiva.nome && resp === assinaturaGeralAtiva.nome) {
                     payload.assinatura = assinaturaGeralAtiva.base64;
                 }
@@ -1195,21 +1146,17 @@
                 
                 registrosSalvos++;
             });
-            if (registrosSalvos > 0) {
-                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
 
-                alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo e sincronizados.`);
-                const tbody = document.getElementById('tabelaLubrificacaoBody');
-                if(tbody) tbody.innerHTML = '';
-                adicionarLinhaLubrificacao();
-                lubDatabase = [];
-                assinaturaGeralAtiva = { nome: null, base64: null };
-                // Reseta assinatura após salvar
-                localStorage.removeItem('PRECOR_LUB_DB');
-                showView('view-home');
-            } else {
-                alert("Preencha ao menos uma TAG e um Lubrificador para salvar.");
-            }
+            // Mostra o sucesso independente de validações pesadas e reseta a tela
+            localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+            alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos.`);
+            const tbody = document.getElementById('tabelaLubrificacaoBody');
+            if(tbody) tbody.innerHTML = '';
+            adicionarLinhaLubrificacao();
+            lubDatabase = [];
+            assinaturaGeralAtiva = { nome: null, base64: null };
+            localStorage.removeItem('PRECOR_LUB_DB');
+            showView('view-home');
         }
 
         // ====================================================
@@ -1217,38 +1164,36 @@
         // ====================================================
         
         async function sincronizarDadosComNuvem() {
-    if (!window.db || !window.firestoreGetDocs || !window.firestoreCollection) return;
-    try {
-        const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
-        let bancoNuvem = {};
-        let maxNumNuvem = 0; // Variável para rastrear a OS mais alta na nuvem
+            if (!window.db || !window.firestoreGetDocs || !window.firestoreCollection) return;
+            try {
+                const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
+                let bancoNuvem = {};
+                let maxNumNuvem = 0; // Variável para rastrear a OS mais alta na nuvem
 
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            bancoNuvem[doc.id] = data;
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    bancoNuvem[doc.id] = data;
 
-            // Extrai o número da OS de cada registro que vem da nuvem
-            let numStr = data.cabecalho?.os_numero || data.cabecalho?.r_os_numero || data.os_numero || "";
-            let match = String(numStr).match(/\d+/);
-            if (match) {
-                let num = parseInt(match[0], 10);
-                if (num > maxNumNuvem) maxNumNuvem = num; // Atualiza o maior número encontrado
+                    let numStr = data.cabecalho?.os_numero || data.cabecalho?.r_os_numero || data.os_numero || "";
+                    let match = String(numStr).match(/\d+/);
+                    if (match) {
+                        let num = parseInt(match[0], 10);
+                        if (num > maxNumNuvem) maxNumNuvem = num;
+                    }
+                });
+
+                osDatabase = bancoNuvem;
+                localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
+                
+                if (maxNumNuvem > 0) {
+                    localStorage.setItem('ultimo_numero_os', maxNumNuvem);
+                }
+
+                console.log("Dados sincronizados com o Firestore com sucesso! Última OS sincronizada:", maxNumNuvem);
+            } catch (error) {
+                console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
             }
-        });
-
-        osDatabase = bancoNuvem; // Sobrescreve a memória com a verdade da nuvem
-        localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
-        
-        // NOVO: Força o cache local a esquecer os testes antigos e respeitar a numeração real do banco!
-        if (maxNumNuvem > 0) {
-            localStorage.setItem('ultimo_numero_os', maxNumNuvem);
         }
-
-        console.log("Dados sincronizados com o Firestore com sucesso! Última OS sincronizada:", maxNumNuvem);
-    } catch (error) {
-        console.error("Erro ao buscar dados na nuvem (usando cache local):", error);
-    }
-}
 
         function gerarIdCosmosDB(tipo, tag) {
             const now = new Date();
@@ -1276,13 +1221,8 @@
             const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
             
             const tagEl = document.getElementById(`${prefix}os_tag`);
-            const kmEl = document.getElementById(`${prefix}os_km`);
-            
-            if(!tagEl || !kmEl) return;
-            
-            const temTag = tagEl.value;
-            const temKm = kmEl.value;
-            if (!currentOSId && !temTag && !temKm) return; 
+            // Retirado o bloqueio obrigatório. Assumiremos SEM-TAG caso vazio.
+            const temTag = (tagEl && tagEl.value) ? tagEl.value : 'SEM-TAG';
 
             const isEdicao = !!currentOSId && !!osDatabase[currentOSId];
             if (!currentOSId) {
@@ -1353,7 +1293,7 @@
                 };
                 ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`r_prob_${p}`);
-                    if(chk) chk.checked = draft.problemas[p] || false; 
+                    if(chk) chk.checked = draft?.problemas?.[p] || false; 
                 });
                 const rServs = document.getElementById('r_servicos_executados');
                 if(rServs) dados.servicos_rapido = rServs.value;
@@ -1372,10 +1312,10 @@
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
         }
 
-        // Executado no clique dos botões principais de fechamento das Views de Formulário
         function executarAcaoFormulario() {
-            if(!currentOSId || !osDatabase[currentOSId]) { alert("Preencha algum dado antes de executar a ação.");
-                return; }
+            // Removida a barreira obrigatória. Força a geração de um rascunho se não tiver.
+            if (!currentOSId) { salvarAutomaticamente(); }
+            if (!osDatabase[currentOSId]) return;
             
             const os = osDatabase[currentOSId];
             if (modoOperacaoAtual === 'atualizar') {
@@ -1392,7 +1332,6 @@
                 os.status = (modoOperacaoAtual === 'rapido') ? 'LIBERADO' : 'Em Andamento';
             }
 
-            // Atualização do Histórico do Número da OS no salvamento
             if (modoOperacaoAtual === 'nova' || modoOperacaoAtual === 'rapido') {
                 const numeroSalvo = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero;
                 if (numeroSalvo) {
@@ -1424,8 +1363,25 @@
             if (!draft) return;
 
             tipoOSAtual = draft.tipoRegistro || 'normal';
+
+            // NOVO: Tratamento Exclusivo para LUBRIFICAÇÃO abrir corretamente (Corrigindo o Bug de "SEM TAG")
+            if (tipoOSAtual === 'LUBRIFICACAO') {
+                lubDatabase = [{
+                    id: idOS,
+                    os_numero: draft.os_numero || '',
+                    data: draft.data_apontamento || '',
+                    hora: draft.hora_apontamento || '',
+                    tag: draft.tag === 'SEM-TAG' ? '' : draft.tag,
+                    resp: draft.lubrificador || '',
+                    cidade: draft.cidade || ''
+                }];
+                localStorage.setItem('PRECOR_LUB_DB', JSON.stringify(lubDatabase));
+                abrirLubrificacao();
+                return;
+            }
+
+            // Tratamento Original Rápido e Normal
             limparFormularioOS(tipoOSAtual);
-            
             const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
             setMecanicosArray(viewId, draft.mecanicos);
             renderizarMiniaturasFotos(tipoOSAtual);
@@ -1541,19 +1497,19 @@
             const osTagSelect = document.getElementById('os_tag');
             const rOsTagSelect = document.getElementById('r_os_tag');
             const filtroTagSelect = document.getElementById('filtro_tag_galeria');
-            const filtroTagLub = document.getElementById('filtro_tag_lub'); // Novo filtro
+            const filtroTagLub = document.getElementById('filtro_tag_lub');
 
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
             if (osTagSelect) osTagSelect.innerHTML = optBase;
             if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
             if (filtroTagSelect) filtroTagSelect.innerHTML = '<option value="">Todas as TAGs</option>';
-            if (filtroTagLub) filtroTagLub.innerHTML = '<option value="">Todas as TAGs</option>'; // Limpa e prepara
+            if (filtroTagLub) filtroTagLub.innerHTML = '<option value="">Todas as TAGs</option>';
 
             Object.keys(relacaoFrota).forEach(tag => {
                 if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
                 if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
                 if (filtroTagSelect) filtroTagSelect.appendChild(new Option(tag, tag));
-                if (filtroTagLub) filtroTagLub.appendChild(new Option(tag, tag)); // Adiciona ao filtro
+                if (filtroTagLub) filtroTagLub.appendChild(new Option(tag, tag));
             });
         }
 
@@ -1572,7 +1528,6 @@
                 if (filtroTag && tagVal !== filtroTag) mostrar = false;
                 if (filtroResp && respVal !== filtroResp) mostrar = false;
 
-                // Esconde a linha da tabela se não bater com a pesquisa
                 tr.style.display = mostrar ? '' : 'none';
             });
         }
@@ -1582,7 +1537,7 @@
             const respEl = document.getElementById('filtro_resp_lub');
             if(tagEl) tagEl.value = "";
             if(respEl) respEl.value = "";
-            filtrarTabelaLubrificacao(); // Chama a função para exibir tudo novamente
+            filtrarTabelaLubrificacao();
             lucide.createIcons();
         }
 
@@ -1640,6 +1595,7 @@
         
         let ctxModalGeral = null;
         let desenhandoModalGeral = false;
+        
         function inicializarEventosModalAssinaturaGeral() {
             const canvasGeral = document.getElementById('canvasAssinaturaGeral');
             if(!canvasGeral) return;
@@ -1815,7 +1771,6 @@
             img.src = dataUrl;
         }
 
-        // FUNÇÃO AUXILIAR PARA ADICIONAR EVENTOS DE FORMA SEGURA
         function addSafeListener(id, event, handler) {
             const el = document.getElementById(id);
             if (el) {
@@ -1850,34 +1805,6 @@
             document.body.addEventListener('change', (e) => {
                 if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file' && e.target.id !== 'filtro_data_galeria' && e.target.id !== 'filtro_tag_galeria') salvarAutomaticamente();
             });
-            addSafeListener('tabelaLubrificacaoBody', 'change', salvarLubrificacao);
-            addSafeListener('tabelaLubrificacaoBody', 'input', function(e) { 
-                if(e.target.matches('.lub-resp') || e.target.matches('.lub-obs')) { 
-                    e.target.value = e.target.value.toUpperCase(); 
-                    salvarLubrificacao(); 
-                } 
-            });
-
-            addSafeListener('tabelaServicosBody', 'change', function(e) {
-                if (e.target.type === 'time') {
-                    const tr = e.target.closest('tr');
-                    const [in1, in2] = tr.querySelectorAll('input[type="time"]');
-                    const totalInput = tr.querySelector('input[readonly]');
-                    if (in1 && in2 && in1.value && in2.value) {
-                        const [h1, m1] = in1.value.split(':').map(Number);
-                        const [h2, m2] = in2.value.split(':').map(Number);
-                        let min1 = (h1 * 60) + m1, min2 = (h2 * 60) + m2;
-                        if (min2 < min1) min2 += 24 * 60; 
-                        if(totalInput) totalInput.value = ((min2 - min1) / 60).toFixed(2);
-                    } else { 
-                        if(totalInput) totalInput.value = '0.0'; 
-                    }
-                    salvarAutomaticamente();
-                }
-            });
-            addSafeListener('btnAddServico', 'click', (e) => { e.preventDefault(); adicionarLinhaServico('tabelaServicosBody'); salvarAutomaticamente(); });
-            addSafeListener('btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('tabelaPecasBody'); salvarAutomaticamente(); });
-            addSafeListener('r_btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('r_tabelaPecasBody'); salvarAutomaticamente(); });
         }
 
         function adicionarLinhaServico(idTbody, desc = '', inicio = '', fim = '', total = '0.0') {
@@ -1887,11 +1814,27 @@
             tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
             tr.innerHTML = `
                 <td class="p-2"><input type="text" value="${desc}" class="w-full border rounded px-2 py-1"></td>
-                <td class="p-2 text-center"><input type="time" value="${inicio}" class="w-fit border rounded px-2 py-1 text-center mx-auto block"></td>
-                <td class="p-2 text-center"><input type="time" value="${fim}" class="w-fit border rounded px-2 py-1 text-center mx-auto block"></td>
+                <td class="p-2 text-center"><input type="time" value="${inicio}" class="w-fit border rounded px-2 py-1 text-center mx-auto block" onchange="calcularHorasServico(this)"></td>
+                <td class="p-2 text-center"><input type="time" value="${fim}" class="w-fit border rounded px-2 py-1 text-center mx-auto block" onchange="calcularHorasServico(this)"></td>
                 <td class="p-2 text-center"><input type="text" readonly value="${total}" class="w-20 border-none bg-gray-100 rounded px-2 py-1 text-center font-bold text-gray-700 mx-auto block"></td>
             `;
             tbody.appendChild(tr);
+        }
+
+        function calcularHorasServico(el) {
+            const tr = el.closest('tr');
+            const [in1, in2] = tr.querySelectorAll('input[type="time"]');
+            const totalInput = tr.querySelector('input[readonly]');
+            if (in1 && in2 && in1.value && in2.value) {
+                const [h1, m1] = in1.value.split(':').map(Number);
+                const [h2, m2] = in2.value.split(':').map(Number);
+                let min1 = (h1 * 60) + m1, min2 = (h2 * 60) + m2;
+                if (min2 < min1) min2 += 24 * 60; 
+                if(totalInput) totalInput.value = ((min2 - min1) / 60).toFixed(2);
+            } else { 
+                if(totalInput) totalInput.value = '0.0'; 
+            }
+            salvarAutomaticamente();
         }
 
         function adicionarLinhaPeca(idTbody, desc = '', qtd = '', unid = 'UN') {
@@ -1900,10 +1843,10 @@
             const tr = document.createElement('tr');
             tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
             tr.innerHTML = `
-                <td class="p-2"><input type="text" value="${desc}" class="w-full border rounded px-2 py-1"></td>
-                <td class="p-2 text-center"><input type="number" min="1" value="${qtd}" class="w-20 border rounded px-2 py-1 text-center mx-auto block"></td>
+                <td class="p-2"><input type="text" value="${desc}" class="w-full border rounded px-2 py-1" onblur="salvarAutomaticamente()"></td>
+                <td class="p-2 text-center"><input type="number" min="1" value="${qtd}" class="w-20 border rounded px-2 py-1 text-center mx-auto block" oninput="salvarAutomaticamente()"></td>
                 <td class="p-2 text-center">
-                    <select class="w-fit border rounded px-2 py-1 bg-white mx-auto block">
+                    <select class="w-fit border rounded px-2 py-1 bg-white mx-auto block" onchange="salvarAutomaticamente()">
                         <option value="UN" ${unid === 'UN' ? 'selected' : ''}>UN</option><option value="KG" ${unid === 'KG' ? 'selected' : ''}>KG</option><option value="L" ${unid === 'L' ? 'selected' : ''}>L</option><option value="MT" ${unid === 'MT' ? 'selected' : ''}>MT</option>
                     </select>
                 </td>
