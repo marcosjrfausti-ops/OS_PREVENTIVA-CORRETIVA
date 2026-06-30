@@ -323,6 +323,7 @@
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_hidraulica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">HIDRÁULICA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_ar" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">AR</span></label>
                 </div>
                 <div class="mt-4 space-y-1">
                     <label class="text-sm font-medium text-gray-600">Descrição do Problema / Histórico de Atualizações</label>
@@ -551,6 +552,8 @@
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_eletrica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">ELÉTRICA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_hidraulica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">HIDRÁULICA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
+                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_ar" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">AR</span></label>
+
                 </div>
             </section>
 
@@ -1266,7 +1269,7 @@
                     hora_liberacao: document.getElementById('hora_liberacao')?.value || ''
                 };
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`prob_${p}`);
                     if(chk) dados.problemas[p] = chk.checked; 
                 });
@@ -1295,7 +1298,7 @@
                     r_hora_fim: document.getElementById('r_hora_fim')?.value || ''
                 };
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`r_prob_${p}`);
                     if(chk) dados.problemas[p] = chk.checked; 
                 });
@@ -1397,7 +1400,7 @@
                 safeSet('data_liberacao', draft.cabecalho.data_liberacao);
                 safeSet('hora_liberacao', draft.cabecalho.hora_liberacao);
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`prob_${p}`);
                     if(chk) chk.checked = draft.problemas[p] || false; 
                 });
@@ -1437,7 +1440,7 @@
                 safeSet('r_hora_inicio', draft.cabecalho.r_hora_inicio);
                 safeSet('r_hora_fim', draft.cabecalho.r_hora_fim);
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante', 'ar'].forEach(p => { 
                     const chk = document.getElementById(`r_prob_${p}`);
                     if(chk) chk.checked = draft.problemas[p] || false; 
                 });
