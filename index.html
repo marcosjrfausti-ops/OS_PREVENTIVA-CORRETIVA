@@ -651,13 +651,19 @@
                         <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Equipamento
                     </button>
                 </div>
-                
+                <datalist id="lista-tags"></datalist>
+                <datalist id="lista-lubrificadores">
+                    <option value="CAIQUE AUGUSTO">
+                    <option value="GABRIEL GUILHERME">
+                </datalist>
+
                 <div class="overflow-x-auto rounded-lg border border-gray-200">
-                    <table class="w-full text-left border-collapse min-w-[850px]">
+                    <table class="w-full text-left border-collapse min-w-[950px]">
                         <thead>
                             <tr class="bg-gray-50 text-gray-600 text-sm border-b">
                                 <th class="p-3 font-medium text-center w-24">Nº OS</th>
                                 <th class="p-3 font-medium w-32">Data</th>
+                                <th class="p-3 font-medium w-24">Hora</th>
                                 <th class="p-3 font-medium w-40">TAG</th>
                                 <th class="p-3 font-medium w-48">Lubrificador</th>
                                 <th class="p-3 font-medium w-40">Cidade</th>
@@ -668,6 +674,7 @@
                         </tbody>
                     </table>
                 </div>
+                
             </section>
 
             <!-- Botões de Ação para o Lote de Lubrificação -->
@@ -719,13 +726,12 @@
             </button>
         </div>
         
-        <div class="mb-4">
+       <div class="mb-4">
             <label class="text-sm font-medium text-gray-600">Selecione o Lubrificador que está assinando:</label>
             <select id="lubrificador_assinatura" class="w-full border rounded-lg px-3 py-3 mt-1 bg-white focus:outline-none focus:border-conterLaranja font-semibold text-conterAzul">
                 <option value="" disabled selected>Selecione seu nome...</option>
-                <option value="LUIZ FILIPE (LUBRIF.)">LUIZ FILIPE</option>
-                <option value="CAIQUE (LUBRIF.)">CAIQUE</option>
-                <option value="OUTRO">OUTRO</option>
+                <option value="CAIQUE AUGUSTO">CAIQUE AUGUSTO</option>
+                <option value="GABRIEL GUILHERME">GABRIEL GUILHERME</option>
             </select>
         </div>
 
@@ -1047,24 +1053,23 @@
             showView('view-lubrificacao');
         }
 
-        function adicionarLinhaLubrificacao(dado = {}) {
+       function adicionarLinhaLubrificacao(dado = {}) {
             const tbody = document.getElementById('tabelaLubrificacaoBody');
             if(!tbody) return;
             const tr = document.createElement('tr');
             tr.className = "border-b border-gray-100 hover:bg-gray-50";
-            // Gerar ou recuperar ID individual da linha para o rascunho
             const itemId = dado.id || gerarIdCosmosDB('LUB', dado.tag);
             tr.dataset.id = itemId;
 
-            let tagOptions = '<option value="" disabled selected>TAG...</option>';
-            Object.keys(relacaoFrota).forEach(tag => { tagOptions += `<option value="${tag}" ${dado.tag === tag ? 'selected' : ''}>${tag}</option>`; });
-
             const dataHoje = new Date().toISOString().split('T')[0];
+            const horaAgora = new Date().toTimeString().substring(0, 5);
+
             tr.innerHTML = `
                 <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-os-numero text-sm text-center font-bold text-gray-600" value="${dado.os_numero || obterProximoNumeroOS(true)}"></td>
                 <td class="p-2"><input type="date" class="w-full border border-gray-300 rounded px-2 py-1 lub-data text-sm" value="${dado.data || dataHoje}"></td>
-                <td class="p-2"><select class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm bg-white">${tagOptions}</select></td>
-                <td class="p-2"><input type="text" class="w-full border border-gray-300 rounded px-2 py-1 lub-resp uppercase text-sm" value="${dado.resp || ''}" placeholder="Nome"></td>
+                <td class="p-2"><input type="time" class="w-full border border-gray-300 rounded px-2 py-1 lub-hora text-sm" value="${dado.hora || horaAgora}"></td>
+                <td class="p-2"><input type="text" list="lista-tags" class="w-full border border-gray-300 rounded px-2 py-1 lub-tag text-sm uppercase bg-white" value="${dado.tag || ''}" placeholder="Buscar TAG..."></td>
+                <td class="p-2"><input type="text" list="lista-lubrificadores" class="w-full border border-gray-300 rounded px-2 py-1 lub-resp uppercase text-sm" value="${dado.resp || ''}" placeholder="Buscar Nome..."></td>
                 <td class="p-2">
                     <select class="w-full border border-gray-300 rounded px-2 py-1 lub-cidade text-sm bg-white">
                         <option value="" disabled ${!dado.cidade ? 'selected' : ''}>Selecione...</option>
@@ -1093,6 +1098,7 @@
                     sistema_origem: "PRECOR",
                     os_numero: tr.querySelector('.lub-os-numero')?.value || '',
                     data: tr.querySelector('.lub-data')?.value || '',
+                    hora: tr.querySelector('.lub-hora')?.value || '',
                     tag: tr.querySelector('.lub-tag')?.value || '',
                     resp: tr.querySelector('.lub-resp')?.value || '',
                     cidade: tr.querySelector('.lub-cidade')?.value || ''
@@ -1111,12 +1117,14 @@
             linhas.forEach((tr, index) => {
                 const tagEl = tr.querySelector('.lub-tag');
                 const dataEl = tr.querySelector('.lub-data');
+                const horaEl = tr.querySelector('.lub-hora');
                 const respEl = tr.querySelector('.lub-resp');
                 const cidadeEl = tr.querySelector('.lub-cidade');
                 const osNumeroEl = tr.querySelector('.lub-os-numero');
                 
                 const tag = tagEl ? tagEl.value : '';
                 const dataStr = dataEl ? dataEl.value : '';
+                const horaStr = horaEl ? horaEl.value : '';
                 const resp = respEl ? respEl.value : '';
                 const cidade = cidadeEl ? cidadeEl.value : '';
                 const osNumero = osNumeroEl ? osNumeroEl.value : '';
@@ -1133,7 +1141,8 @@
                     tipoRegistro: "LUBRIFICACAO",
                     id: chaveUnica,
                     os_numero: osNumero,
-                    data_apontamento: dataStr,
+                    data_apontamento: dataStr
+                    hora_apontamento: horaStr,
                     tag: tagLimpa,
                     lubrificador: resp,
                     cidade: cidade,
@@ -1500,14 +1509,19 @@
             const osTagSelect = document.getElementById('os_tag');
             const rOsTagSelect = document.getElementById('r_os_tag');
             const filtroTagSelect = document.getElementById('filtro_tag_galeria');
+            const listaTagsDatalist = document.getElementById('lista-tags');
+
             const optBase = '<option value="" disabled selected>Selecione a TAG...</option>';
             if (osTagSelect) osTagSelect.innerHTML = optBase;
             if (rOsTagSelect) rOsTagSelect.innerHTML = optBase;
             if (filtroTagSelect) filtroTagSelect.innerHTML = '<option value="">Todas as TAGs</option>';
+            if (listaTagsDatalist) listaTagsDatalist.innerHTML = '';
+
             Object.keys(relacaoFrota).forEach(tag => {
                 if (osTagSelect) osTagSelect.appendChild(new Option(tag, tag));
                 if (rOsTagSelect) rOsTagSelect.appendChild(new Option(tag, tag));
                 if (filtroTagSelect) filtroTagSelect.appendChild(new Option(tag, tag));
+                if (listaTagsDatalist) listaTagsDatalist.appendChild(new Option(tag, tag));
             });
         }
 
