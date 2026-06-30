@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ordem de Serviço - Conterplan</title>
     
+    <!-- Fonte Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Configuração Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -29,8 +32,10 @@
         }
     </script>
     
+    <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Estilos Adicionais Base -->
     <style>
         input[type="text"], textarea { text-transform: uppercase; }
         input, select, textarea { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
@@ -39,6 +44,9 @@
 </head>
 <body class="bg-fundo text-gray-800 font-sans antialiased">
 
+    <!-- ========================================== -->
+    <!-- VIEW 1: HOME                               -->
+    <!-- ========================================== -->
     <section id="view-home" class="flex min-h-screen flex-col">
         <header class="bg-conterLaranja text-white py-6 shadow-md flex items-center justify-center">
             <h1 class="text-xl font-bold tracking-wide uppercase text-center px-4">
@@ -48,6 +56,7 @@
 
         <main class="flex-1 flex flex-col items-center justify-center p-6 gap-4">
             
+            <!-- Bloco 1: Ciclo de Vida da OS -->
             <button onclick="iniciarNovaOS('normal')" class="w-full max-w-sm bg-conterAzul text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-blue-700 transition-colors">
                 <i data-lucide="plus-circle" class="w-6 h-6"></i>
                 + NOVA OS
@@ -63,6 +72,7 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
+            <!-- Bloco 2: Serviços Rápidos -->
             <button onclick="iniciarNovaOS('rapido')" class="w-full max-w-sm bg-conterAmarelo text-white font-bold py-4 rounded-xl shadow-lg text-lg flex items-center justify-center gap-3 hover:bg-orange-600 transition-colors">
                 <i data-lucide="zap" class="w-6 h-6"></i>
                 SERVIÇO RÁPIDO
@@ -74,6 +84,7 @@
 
             <hr class="w-full max-w-sm border-gray-300 my-2">
 
+            <!-- Bloco 3: Auditoria/Correção -->
             <button onclick="abrirGaleria('alterar')" class="w-full max-w-sm bg-gray-100 border-2 border-gray-600 text-gray-700 font-bold py-4 rounded-xl shadow-sm text-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors">
                 <i data-lucide="edit" class="w-6 h-6"></i>
                 ALTERAR REGISTRO
@@ -82,6 +93,9 @@
         </main>
     </section>
 
+    <!-- ========================================== -->
+    <!-- VIEW 2: GALERIA (Unificada para Todas Ações)-->
+    <!-- ========================================== -->
     <section id="view-gallery" class="hidden min-h-screen flex-col pb-10">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -115,10 +129,14 @@
             </div>
 
             <div id="gallery-list" class="space-y-4">
-                </div>
+                <!-- Cards injetados via JS -->
+            </div>
         </main>
     </section>
 
+    <!-- ========================================== -->
+    <!-- VIEW 3: FORMULÁRIO COMPLETO (NOVA OS)      -->
+    <!-- ========================================== -->
     <section id="view-form" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -134,6 +152,7 @@
 
         <main class="max-w-4xl mx-auto w-full mt-6 px-4 space-y-6">
             
+            <!-- 1. Cabeçalho -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2">
@@ -212,6 +231,7 @@
                         <input type="time" id="hora_parada" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
                     </div>
 
+                    <!-- Novos Campos do Ciclo de Vida da OS -->
                     <div id="container_prev_inicial" class="space-y-1 md:col-span-2">
                         <label class="text-sm font-medium text-conterAzul">PREVISÃO DE LIBERAÇÃO INICIAL</label>
                         <input type="date" id="data_prev_lib_inicial" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterAzul">
@@ -233,6 +253,7 @@
                 </div>
             </section>
 
+            <!-- 2. Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -291,6 +312,7 @@
                 </div>
             </section>
 
+            <!-- 3. Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -308,6 +330,7 @@
                 </div>
             </section>
 
+            <!-- 4. Serviços Executados (Tabela Completa) -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviços Executados</h2>
@@ -325,6 +348,7 @@
                 </div>
             </section>
 
+            <!-- 5. Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -338,6 +362,7 @@
                 </div>
             </section>
 
+            <!-- 6. Mídias e Assinatura -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Anexos e Assinaturas</h2>
 
@@ -398,6 +423,9 @@
         </main>
     </section>
 
+    <!-- ========================================== -->
+    <!-- VIEW 4: SERVIÇO RÁPIDO (ENRIQUECIDO)       -->
+    <!-- ========================================== -->
     <section id="view-rapido" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAzul text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -420,6 +448,7 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- NOVO: Nº da OS no Serviço Rápido -->
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">Nº da OS (ERP)</label>
                         <input type="text" id="r_os_numero" class="w-full border rounded-lg px-3 py-2">
@@ -427,6 +456,19 @@
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">TAG do Equipamento</label><select id="r_os_tag" class="w-full border rounded-lg px-3 py-2 bg-white"></select></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">EQUIPAMENTO</label><input type="text" id="r_equipamento" readonly class="w-full border rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"></div>
                     <div class="space-y-1"><label class="text-sm font-medium text-gray-600">KM / Horímetro</label><input type="text" id="r_os_km" class="w-full border rounded-lg px-3 py-2"></div>
+                    
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-600">LOCAL DE EXECUÇÃO / CIDADE</label>
+                        <select id="r_os_local" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="antonio_pereira">ANTÔNIO PEREIRA</option>
+                            <option value="barao_de_cocais">BARÃO DE COCAIS</option>
+                            <option value="oficina_central_matriz">OFICINA CENTRAL MATRIZ</option>
+                            <option value="rio_doce">RIO DOCE</option>
+                            <option value="sao_goncalo_do_rio_abaixo">SÃO GONÇALO DO RIO ABAIXO</option>
+                        </select>
+                    </div>
+
                     <div class="space-y-1">
                         <label class="text-sm font-medium text-gray-600">Status do Equipamento</label>
                         <select id="r_os_status_equip" class="w-full border rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-conterLaranja">
@@ -443,6 +485,7 @@
                 </div>
             </section>
 
+            <!-- NOVO: Mecânicos Executantes -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-conterLaranja"></i>Mecânicos Executantes</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mec-checkbox-group">
@@ -491,16 +534,13 @@
                         <span class="text-sm font-medium text-gray-700">CAIQUE (LUBRIF.)</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <input type="checkbox" value="MECANICO_1" class="w-5 h-5 accent-conterLaranja rounded">
-                        <span class="text-sm font-medium text-gray-700">PAULO HENRIQUE (MECÂN.)</span>
-                    </label>
-                    <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="checkbox" value="OUTRO" class="w-5 h-5 accent-conterLaranja rounded">
                         <span class="text-sm font-medium text-gray-700">Outro</span>
                     </label>
                 </div>
             </section>
 
+            <!-- NOVO: Problema Apresentado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-conterLaranja"></i>Problema Apresentado</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -514,11 +554,13 @@
                 </div>
             </section>
 
+            <!-- Serviços Executados Simplificado -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-4 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-conterLaranja"></i>Serviço Executado</h2>
                 <textarea id="r_servicos_executados" rows="6" class="w-full border rounded-lg px-3 py-2" placeholder="Descreva os serviços realizados..."></textarea>
             </section>
 
+            <!-- NOVO: Peças Aplicadas -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-conterAzul font-semibold flex items-center gap-2"><i data-lucide="settings" class="w-5 h-5 text-conterLaranja"></i>Peças Aplicadas</h2>
@@ -532,6 +574,7 @@
                 </div>
             </section>
 
+            <!-- NOVO: Mídias e Assinatura Técnica -->
             <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                 <h2 class="text-conterAzul font-semibold mb-6 flex items-center gap-2"><i data-lucide="camera" class="w-5 h-5 text-conterLaranja"></i>Evidências e Assinatura</h2>
 
@@ -569,6 +612,9 @@
         </main>
     </section>
 
+    <!-- ========================================== -->
+    <!-- VIEW 5: LUBRIFICAÇÃO                       -->
+    <!-- ========================================== -->
     <section id="view-lubrificacao" class="hidden min-h-screen flex-col pb-20">
         <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
             <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -612,15 +658,23 @@
                 </div>
             </section>
 
-            <section class="flex flex-col gap-4 pt-2">
-                <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-5 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
-                    <i data-lucide="save" class="w-7 h-7"></i>
+            <!-- Botões de Ação para o Lote de Lubrificação -->
+            <section class="flex flex-col sm:flex-row gap-4 pt-2">
+                <button type="button" onclick="abrirModalAssinaturaGeral()" class="w-full py-4 bg-gray-100 border-2 border-conterLaranja text-conterLaranja font-bold rounded-lg shadow-sm hover:bg-orange-50 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                    ASSINATURA GERAL
+                </button>
+                <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-4 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="save" class="w-6 h-6"></i>
                     SALVAR LUBRIFICAÇÕES
                 </button>
             </section>
         </main>
     </section>
 
+    <!-- ========================================== -->
+    <!-- MODAL DE ASSINATURA TELA CHEIA             -->
+    <!-- ========================================== -->
     <div id="modalAssinatura" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-conterAmarelo">Assine na área abaixo</h2>
@@ -629,6 +683,7 @@
             </button>
         </div>
         <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
+            <!-- Canvas expande para ocupar o ecrã inteiro -->
             <canvas id="canvasModal" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
         </div>
         <div class="mt-4 flex gap-4 pb-4">
@@ -641,6 +696,43 @@
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- MODAL DE ASSINATURA GERAL (LUBRIFICAÇÃO)   -->
+    <!-- ========================================== -->
+    <div id="modalAssinaturaGeral" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-conterAmarelo">Assinatura Geral de Lote</h2>
+            <button type="button" onclick="fecharModalAssinaturaGeral()" class="text-gray-500 hover:text-gray-800 p-2">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <div class="mb-4">
+            <label class="text-sm font-medium text-gray-600">Selecione o Lubrificador que está assinando:</label>
+            <select id="lubrificador_assinatura" class="w-full border rounded-lg px-3 py-3 mt-1 bg-white focus:outline-none focus:border-conterLaranja font-semibold text-conterAzul">
+                <option value="" disabled selected>Selecione seu nome...</option>
+                <option value="LUIZ FILIPE (LUBRIF.)">LUIZ FILIPE</option>
+                <option value="CAIQUE (LUBRIF.)">CAIQUE</option>
+                <option value="OUTRO">OUTRO</option>
+            </select>
+        </div>
+
+        <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
+            <canvas id="canvasAssinaturaGeral" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
+        </div>
+        <div class="mt-4 flex gap-4 pb-4">
+            <button type="button" onclick="limparCanvasAssinaturaGeral()" class="flex-1 py-4 bg-red-100 text-red-600 font-bold rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                <i data-lucide="trash-2" class="w-5 h-5"></i> Limpar
+            </button>
+            <button type="button" onclick="confirmarAssinaturaGeral()" class="flex-[2] py-4 bg-conterAzul text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg">
+                <i data-lucide="check" class="w-5 h-5"></i> Salvar Assinatura
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- FIREBASE INIT (MÓDULO OFFLINE)             -->
+    <!-- ========================================== -->
     <script type="module">
       // 1. Importações do SDK do Firebase v10+ (Utilizando ES Modules estaveis via CDN)
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -685,6 +777,9 @@
       window.firestoreGetDocs = getDocs;
     </script>
 
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT: Lógica Central SPA e Dados     -->
+    <!-- ========================================== -->
     <script>
         let currentOSId = null; 
         let tipoOSAtual = 'normal'; 
@@ -727,6 +822,7 @@
             
             // Inicializa a lógica central de Assinatura no Modal
             inicializarEventosModalAssinatura();
+            inicializarEventosModalAssinaturaGeral(); // Modal de Assinatura Universal
 
             // Sincroniza dados com o Firestore ao iniciar
             sincronizarDadosComNuvem();
@@ -818,19 +914,25 @@
             
             if (tipo === 'normal') {
                 const osNumeroInput = document.getElementById('os_numero');
-                if (!osNumeroInput.value) { osNumeroInput.value = obterProximoNumeroOS(false); }
+                if (osNumeroInput && !osNumeroInput.value) { osNumeroInput.value = obterProximoNumeroOS(false); }
 
                 adicionarLinhaServico('tabelaServicosBody');
                 adicionarLinhaPeca('tabelaPecasBody');
-                document.getElementById('label_os_id').textContent = 'NOVO RASCUNHO';
+                
+                const labelOs = document.getElementById('label_os_id');
+                if (labelOs) labelOs.textContent = 'NOVO RASCUNHO';
+                
                 aplicarRegrasModo(modoOperacaoAtual);
                 showView('view-form');
             } else {
                 const rOsNumeroInput = document.getElementById('r_os_numero');
-                if (!rOsNumeroInput.value) { rOsNumeroInput.value = obterProximoNumeroOS(false); }
+                if (rOsNumeroInput && !rOsNumeroInput.value) { rOsNumeroInput.value = obterProximoNumeroOS(false); }
 
                 adicionarLinhaPeca('r_tabelaPecasBody');
-                document.getElementById('r_label_os_id').textContent = 'NOVO RASCUNHO (RÁPIDO)';
+                
+                const rLabelOs = document.getElementById('r_label_os_id');
+                if(rLabelOs) rLabelOs.textContent = 'NOVO RASCUNHO (RÁPIDO)';
+                
                 showView('view-rapido');
             }
         }
@@ -843,9 +945,12 @@
             lucide.createIcons();
             showView('view-gallery');
             
-            if (acao === 'atualizar') document.getElementById('gallery-title').textContent = 'Em Andamento';
-            else if (acao === 'finalizar') document.getElementById('gallery-title').textContent = 'Prontas para Finalizar';
-            else document.getElementById('gallery-title').textContent = 'Alterar Registros (Admin)';
+            const titleEl = document.getElementById('gallery-title');
+            if (titleEl) {
+                if (acao === 'atualizar') titleEl.textContent = 'Em Andamento';
+                else if (acao === 'finalizar') titleEl.textContent = 'Prontas para Finalizar';
+                else titleEl.textContent = 'Alterar Registros (Admin)';
+            }
 
             // PUXA OS DADOS REAIS DO FIREBASE
             await sincronizarDadosComNuvem();
@@ -855,17 +960,23 @@
         }
 
         function limparFiltrosGaleria() {
-            document.getElementById('filtro_data_galeria').value = '';
-            document.getElementById('filtro_tag_galeria').value = '';
+            const dateFilter = document.getElementById('filtro_data_galeria');
+            const tagFilter = document.getElementById('filtro_tag_galeria');
+            if(dateFilter) dateFilter.value = '';
+            if(tagFilter) tagFilter.value = '';
             renderizarGaleria();
         }
 
         function renderizarGaleria() {
             const list = document.getElementById('gallery-list');
+            if(!list) return;
+            
             list.innerHTML = ''; 
 
-            const dataFiltro = document.getElementById('filtro_data_galeria').value;
-            const tagFiltro = document.getElementById('filtro_tag_galeria').value;
+            const dateFilterEl = document.getElementById('filtro_data_galeria');
+            const tagFilterEl = document.getElementById('filtro_tag_galeria');
+            const dataFiltro = dateFilterEl ? dateFilterEl.value : '';
+            const tagFiltro = tagFilterEl ? tagFilterEl.value : '';
 
             const chaves = Object.keys(osDatabase);
             let temOS = false;
@@ -874,11 +985,15 @@
                 const os = osDatabase[id];
                 let exibir = false;
 
-                // Regra Principal de Exibição
+                // Regra Principal de Exibição Inteligente
+                const statusOS = os.status?.toUpperCase() || '';
+                const statusEquip = os.cabecalho?.status_equipamento || os.cabecalho?.r_status_equipamento || '';
+                const estaLiberado = (statusOS === 'LIBERADO' || statusEquip === 'liberado');
+
                 if (modoOperacaoAtual === 'atualizar' || modoOperacaoAtual === 'finalizar') {
-                    if (os.status !== 'LIBERADO') exibir = true;
+                    exibir = !estaLiberado;
                 } else if (modoOperacaoAtual === 'alterar') {
-                    exibir = true; 
+                    exibir = true; // Admin vê tudo
                 }
 
                 // Filtros de Data e TAG
@@ -925,6 +1040,7 @@
         // ====================================================
         function abrirLubrificacao() {
             const tbody = document.getElementById('tabelaLubrificacaoBody');
+            if(!tbody) return;
             tbody.innerHTML = '';
             if (lubDatabase.length === 0) adicionarLinhaLubrificacao();
             else lubDatabase.forEach(item => adicionarLinhaLubrificacao(item));
@@ -933,6 +1049,7 @@
 
         function adicionarLinhaLubrificacao(dado = {}) {
             const tbody = document.getElementById('tabelaLubrificacaoBody');
+            if(!tbody) return;
             const tr = document.createElement('tr');
             tr.className = "border-b border-gray-100 hover:bg-gray-50";
 
@@ -972,11 +1089,11 @@
                 data.push({
                     id: tr.dataset.id,
                     sistema_origem: "PRECOR",
-                    os_numero: tr.querySelector('.lub-os-numero').value,
-                    data: tr.querySelector('.lub-data').value,
-                    tag: tr.querySelector('.lub-tag').value,
-                    resp: tr.querySelector('.lub-resp').value,
-                    cidade: tr.querySelector('.lub-cidade').value
+                    os_numero: tr.querySelector('.lub-os-numero')?.value || '',
+                    data: tr.querySelector('.lub-data')?.value || '',
+                    tag: tr.querySelector('.lub-tag')?.value || '',
+                    resp: tr.querySelector('.lub-resp')?.value || '',
+                    cidade: tr.querySelector('.lub-cidade')?.value || ''
                 });
             });
             lubDatabase = data;
@@ -991,11 +1108,17 @@
             const pad = (n) => String(n).padStart(2, '0');
 
             linhas.forEach((tr, index) => {
-                const tag = tr.querySelector('.lub-tag').value;
-                const dataStr = tr.querySelector('.lub-data').value;
-                const resp = tr.querySelector('.lub-resp').value;
-                const cidade = tr.querySelector('.lub-cidade').value;
-                const osNumero = tr.querySelector('.lub-os-numero').value;
+                const tagEl = tr.querySelector('.lub-tag');
+                const dataEl = tr.querySelector('.lub-data');
+                const respEl = tr.querySelector('.lub-resp');
+                const cidadeEl = tr.querySelector('.lub-cidade');
+                const osNumeroEl = tr.querySelector('.lub-os-numero');
+                
+                const tag = tagEl ? tagEl.value : '';
+                const dataStr = dataEl ? dataEl.value : '';
+                const resp = respEl ? respEl.value : '';
+                const cidade = cidadeEl ? cidadeEl.value : '';
+                const osNumero = osNumeroEl ? osNumeroEl.value : '';
 
                 if (!tag && !resp) return;
 
@@ -1016,15 +1139,22 @@
                     status: "LIBERADO"
                 };
 
+                // Aplica a Assinatura Geral se o nome do lubrificador da linha coincidir
+                if (assinaturaGeralAtiva.nome && resp === assinaturaGeralAtiva.nome) {
+                    payload.assinatura = assinaturaGeralAtiva.base64;
+                }
+
                 localStorage.setItem(chaveUnica, JSON.stringify(payload));
                 registrosSalvos++;
             });
 
             if (registrosSalvos > 0) {
                 alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos no dispositivo.`);
-                document.getElementById('tabelaLubrificacaoBody').innerHTML = '';
+                const tbody = document.getElementById('tabelaLubrificacaoBody');
+                if(tbody) tbody.innerHTML = '';
                 adicionarLinhaLubrificacao();
                 lubDatabase = [];
+                assinaturaGeralAtiva = { nome: null, base64: null }; // Reseta assinatura após salvar
                 localStorage.removeItem('PRECOR_LUB_DB');
                 showView('view-home');
             } else {
@@ -1080,8 +1210,14 @@
         function salvarAutomaticamente() {
             const prefix = tipoOSAtual === 'normal' ? '' : 'r_';
             const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
-            const temTag = document.getElementById(`${prefix}os_tag`).value;
-            const temKm = document.getElementById(`${prefix}os_km`).value;
+            
+            const tagEl = document.getElementById(`${prefix}os_tag`);
+            const kmEl = document.getElementById(`${prefix}os_km`);
+            
+            if(!tagEl || !kmEl) return;
+            
+            const temTag = tagEl.value;
+            const temKm = kmEl.value;
 
             if (!currentOSId && !temTag && !temKm) return; 
 
@@ -1090,7 +1226,8 @@
             if (!currentOSId) {
                 const tipoPrefixo = tipoOSAtual === 'normal' ? 'OS' : 'RAP';
                 currentOSId = gerarIdCosmosDB(tipoPrefixo, temTag);
-                document.getElementById(`${prefix}label_os_id`).textContent = currentOSId;
+                const labelOs = document.getElementById(`${prefix}label_os_id`);
+                if(labelOs) labelOs.textContent = currentOSId;
             }
 
             const dados = {
@@ -1112,50 +1249,61 @@
 
             if (tipoOSAtual === 'normal') {
                 dados.cabecalho = {
-                    os_numero: document.getElementById('os_numero').value,
-                    os_tipo: document.getElementById('os_tipo').value,
-                    os_tag: document.getElementById('os_tag').value,
-                    equipamento: document.getElementById('equipamento').value,
-                    os_local: document.getElementById('os_local').value,
-                    os_km: document.getElementById('os_km').value,
-                    status_equipamento: document.getElementById('os_status_equip').value,
-                    data_parada: document.getElementById('data_parada').value,
-                    hora_parada: document.getElementById('hora_parada').value,
-                    data_prev_lib_inicial: document.getElementById('data_prev_lib_inicial').value,
-                    data_prev_lib_atual: document.getElementById('data_prev_lib_atual').value,
-                    data_liberacao: document.getElementById('data_liberacao').value,
-                    hora_liberacao: document.getElementById('hora_liberacao').value
+                    os_numero: document.getElementById('os_numero')?.value || '',
+                    os_tipo: document.getElementById('os_tipo')?.value || '',
+                    os_tag: document.getElementById('os_tag')?.value || '',
+                    equipamento: document.getElementById('equipamento')?.value || '',
+                    os_local: document.getElementById('os_local')?.value || '',
+                    os_km: document.getElementById('os_km')?.value || '',
+                    status_equipamento: document.getElementById('os_status_equip')?.value || '',
+                    data_parada: document.getElementById('data_parada')?.value || '',
+                    hora_parada: document.getElementById('hora_parada')?.value || '',
+                    data_prev_lib_inicial: document.getElementById('data_prev_lib_inicial')?.value || '',
+                    data_prev_lib_atual: document.getElementById('data_prev_lib_atual')?.value || '',
+                    data_liberacao: document.getElementById('data_liberacao')?.value || '',
+                    hora_liberacao: document.getElementById('hora_liberacao')?.value || ''
                 };
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`prob_${p}`).checked; });
-                dados.problemas.obs = document.getElementById('os_obs_problema').value;
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                    const chk = document.getElementById(`prob_${p}`);
+                    if(chk) dados.problemas[p] = chk.checked; 
+                });
+                
+                const obsProb = document.getElementById('os_obs_problema');
+                if(obsProb) dados.problemas.obs = obsProb.value;
 
                 document.querySelectorAll('#tabelaServicosBody tr').forEach(tr => {
                     const inputs = tr.querySelectorAll('input');
-                    if(inputs.length > 0) dados.servicos.push({ desc: inputs[0].value, inicio: inputs[1].value, fim: inputs[2].value, total: inputs[3].value });
+                    if(inputs.length > 0) dados.servicos.push({ desc: inputs[0]?.value || '', inicio: inputs[1]?.value || '', fim: inputs[2]?.value || '', total: inputs[3]?.value || '' });
                 });
                 document.querySelectorAll('#tabelaPecasBody tr').forEach(tr => {
                     const inputs = tr.querySelectorAll('input, select');
-                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0].value, qtd: inputs[1].value, unid: inputs[2].value });
+                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0]?.value || '', qtd: inputs[1]?.value || '', unid: inputs[2]?.value || '' });
                 });
             } else {
                 dados.cabecalho = {
-                    r_os_numero: document.getElementById('r_os_numero').value,
-                    r_os_tag: document.getElementById('r_os_tag').value,
-                    r_equipamento: document.getElementById('r_equipamento').value,
-                    r_os_km: document.getElementById('r_os_km').value,
-                    r_status_equipamento: document.getElementById('r_os_status_equip').value,
-                    r_data: document.getElementById('r_data').value,
-                    r_hora_inicio: document.getElementById('r_hora_inicio').value,
-                    r_hora_fim: document.getElementById('r_hora_fim').value
+                    r_os_numero: document.getElementById('r_os_numero')?.value || '',
+                    r_os_tag: document.getElementById('r_os_tag')?.value || '',
+                    r_equipamento: document.getElementById('r_equipamento')?.value || '',
+                    r_os_km: document.getElementById('r_os_km')?.value || '',
+                    r_os_local: document.getElementById('r_os_local')?.value || '',
+                    r_status_equipamento: document.getElementById('r_os_status_equip')?.value || '',
+                    r_data: document.getElementById('r_data')?.value || '',
+                    r_hora_inicio: document.getElementById('r_hora_inicio')?.value || '',
+                    r_hora_fim: document.getElementById('r_hora_fim')?.value || ''
                 };
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { dados.problemas[p] = document.getElementById(`r_prob_${p}`).checked; });
-                dados.servicos_rapido = document.getElementById('r_servicos_executados').value;
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                    const chk = document.getElementById(`r_prob_${p}`);
+                    if(chk) dados.problemas[p] = chk.checked; 
+                });
+                
+                const rServs = document.getElementById('r_servicos_executados');
+                if(rServs) dados.servicos_rapido = rServs.value;
                 
                 document.querySelectorAll('#r_tabelaPecasBody tr').forEach(tr => {
                     const inputs = tr.querySelectorAll('input, select');
-                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0].value, qtd: inputs[1].value, unid: inputs[2].value });
+                    if(inputs.length > 0) dados.pecas.push({ desc: inputs[0]?.value || '', qtd: inputs[1]?.value || '', unid: inputs[2]?.value || '' });
                 });
             }
 
@@ -1227,32 +1375,43 @@
             renderizarMiniaturasFotos(tipoOSAtual);
 
             if (tipoOSAtual === 'normal') {
-                document.getElementById('label_os_id').textContent = idOS;
-                document.getElementById('os_numero').value = draft.cabecalho.os_numero || '';
-                document.getElementById('os_tipo').value = draft.cabecalho.os_tipo || '';
-                document.getElementById('os_tag').value = draft.cabecalho.os_tag || '';
-                document.getElementById('equipamento').value = draft.cabecalho.equipamento || '';
-                document.getElementById('os_local').value = draft.cabecalho.os_local || '';
-                document.getElementById('os_km').value = draft.cabecalho.os_km || '';
-                document.getElementById('os_status_equip').value = draft.cabecalho.status_equipamento || '';
-                document.getElementById('data_parada').value = draft.cabecalho.data_parada || '';
-                document.getElementById('hora_parada').value = draft.cabecalho.hora_parada || '';
+                const labelOs = document.getElementById('label_os_id');
+                if(labelOs) labelOs.textContent = idOS;
                 
-                document.getElementById('data_prev_lib_inicial').value = draft.cabecalho.data_prev_lib_inicial || '';
-                document.getElementById('data_prev_lib_atual').value = draft.cabecalho.data_prev_lib_atual || '';
-                document.getElementById('data_liberacao').value = draft.cabecalho.data_liberacao || '';
-                document.getElementById('hora_liberacao').value = draft.cabecalho.hora_liberacao || '';
+                const safeSet = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`prob_${p}`).checked = draft.problemas[p] || false; });
-                document.getElementById('os_obs_problema').value = draft.problemas.obs || '';
+                safeSet('os_numero', draft.cabecalho.os_numero);
+                safeSet('os_tipo', draft.cabecalho.os_tipo);
+                safeSet('os_tag', draft.cabecalho.os_tag);
+                safeSet('equipamento', draft.cabecalho.equipamento);
+                safeSet('os_local', draft.cabecalho.os_local);
+                safeSet('os_km', draft.cabecalho.os_km);
+                safeSet('os_status_equip', draft.cabecalho.status_equipamento);
+                safeSet('data_parada', draft.cabecalho.data_parada);
+                safeSet('hora_parada', draft.cabecalho.hora_parada);
+                
+                safeSet('data_prev_lib_inicial', draft.cabecalho.data_prev_lib_inicial);
+                safeSet('data_prev_lib_atual', draft.cabecalho.data_prev_lib_atual);
+                safeSet('data_liberacao', draft.cabecalho.data_liberacao);
+                safeSet('hora_liberacao', draft.cabecalho.hora_liberacao);
+                
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                    const chk = document.getElementById(`prob_${p}`);
+                    if(chk) chk.checked = draft.problemas[p] || false; 
+                });
+                safeSet('os_obs_problema', draft.problemas.obs);
 
                 const tbodyServ = document.getElementById('tabelaServicosBody');
-                if (draft.servicos && draft.servicos.length > 0) { draft.servicos.forEach(s => adicionarLinhaServico('tabelaServicosBody', s.desc, s.inicio, s.fim, s.total));
-                } else { adicionarLinhaServico('tabelaServicosBody'); }
+                if(tbodyServ) {
+                    if (draft.servicos && draft.servicos.length > 0) { draft.servicos.forEach(s => adicionarLinhaServico('tabelaServicosBody', s.desc, s.inicio, s.fim, s.total));
+                    } else { adicionarLinhaServico('tabelaServicosBody'); }
+                }
 
                 const tbodyPecas = document.getElementById('tabelaPecasBody');
-                if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('tabelaPecasBody', p.desc, p.qtd, p.unid));
-                } else { adicionarLinhaPeca('tabelaPecasBody'); }
+                if(tbodyPecas) {
+                    if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('tabelaPecasBody', p.desc, p.qtd, p.unid));
+                    } else { adicionarLinhaPeca('tabelaPecasBody'); }
+                }
 
                 restaurarImagemCanvas('canvasAssinaturaEngenheiro', draft.assinaturas?.engenheiro);
                 restaurarImagemCanvas('canvasAssinaturaControlador', draft.assinaturas?.controlador);
@@ -1261,22 +1420,32 @@
                 aplicarRegrasModo(modoOperacaoAtual);
                 showView('view-form');
             } else {
-                document.getElementById('r_label_os_id').textContent = idOS;
-                document.getElementById('r_os_numero').value = draft.cabecalho.r_os_numero || '';
-                document.getElementById('r_os_tag').value = draft.cabecalho.r_os_tag || '';
-                document.getElementById('r_equipamento').value = draft.cabecalho.r_equipamento || '';
-                document.getElementById('r_os_km').value = draft.cabecalho.r_os_km || '';
-                document.getElementById('r_os_status_equip').value = draft.cabecalho.r_status_equipamento || '';
-                document.getElementById('r_data').value = draft.cabecalho.r_data || '';
-                document.getElementById('r_hora_inicio').value = draft.cabecalho.r_hora_inicio || '';
-                document.getElementById('r_hora_fim').value = draft.cabecalho.r_hora_fim || '';
+                const rLabelOs = document.getElementById('r_label_os_id');
+                if(rLabelOs) rLabelOs.textContent = idOS;
                 
-                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { document.getElementById(`r_prob_${p}`).checked = draft.problemas[p] || false; });
-                document.getElementById('r_servicos_executados').value = draft.servicos_rapido || '';
+                const safeSet = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+
+                safeSet('r_os_numero', draft.cabecalho.r_os_numero);
+                safeSet('r_os_tag', draft.cabecalho.r_os_tag);
+                safeSet('r_equipamento', draft.cabecalho.r_equipamento);
+                safeSet('r_os_km', draft.cabecalho.r_os_km);
+                safeSet('r_os_local', draft.cabecalho.r_os_local);
+                safeSet('r_os_status_equip', draft.cabecalho.r_status_equipamento);
+                safeSet('r_data', draft.cabecalho.r_data);
+                safeSet('r_hora_inicio', draft.cabecalho.r_hora_inicio);
+                safeSet('r_hora_fim', draft.cabecalho.r_hora_fim);
+                
+                ['motor', 'estrutura', 'caixa', 'freio', 'eletrica', 'hidraulica', 'material_rodante'].forEach(p => { 
+                    const chk = document.getElementById(`r_prob_${p}`);
+                    if(chk) chk.checked = draft.problemas[p] || false; 
+                });
+                safeSet('r_servicos_executados', draft.servicos_rapido);
                 
                 const r_tbodyPecas = document.getElementById('r_tabelaPecasBody');
-                if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('r_tabelaPecasBody', p.desc, p.qtd, p.unid));
-                } else { adicionarLinhaPeca('r_tabelaPecasBody'); }
+                if(r_tbodyPecas) {
+                    if (draft.pecas && draft.pecas.length > 0) { draft.pecas.forEach(p => adicionarLinhaPeca('r_tabelaPecasBody', p.desc, p.qtd, p.unid));
+                    } else { adicionarLinhaPeca('r_tabelaPecasBody'); }
+                }
 
                 restaurarImagemCanvas('r_canvasAssinatura', draft.assinaturas?.tecnico_rapido);
                 showView('view-rapido');
@@ -1291,16 +1460,22 @@
             document.querySelectorAll(`#${viewId} input[type="checkbox"]`).forEach(el => el.checked = false);
             
             if (tipo === 'normal') {
-                document.getElementById('tabelaServicosBody').innerHTML = '';
-                document.getElementById('tabelaPecasBody').innerHTML = '';
-                document.getElementById('containerMiniaturas').innerHTML = '';
+                const tServ = document.getElementById('tabelaServicosBody');
+                if(tServ) tServ.innerHTML = '';
+                const tPeca = document.getElementById('tabelaPecasBody');
+                if(tPeca) tPeca.innerHTML = '';
+                const cMini = document.getElementById('containerMiniaturas');
+                if(cMini) cMini.innerHTML = '';
+                
                 ['canvasAssinaturaEngenheiro', 'canvasAssinaturaControlador', 'canvasAssinaturaMecanico'].forEach(id => {
                     const cvs = document.getElementById(id); 
                     if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
                 });
             } else {
-                document.getElementById('r_tabelaPecasBody').innerHTML = '';
-                document.getElementById('r_containerMiniaturas').innerHTML = '';
+                const rtPeca = document.getElementById('r_tabelaPecasBody');
+                if(rtPeca) rtPeca.innerHTML = '';
+                const rcMini = document.getElementById('r_containerMiniaturas');
+                if(rcMini) rcMini.innerHTML = '';
                 const cvs = document.getElementById('r_canvasAssinatura'); 
                 if(cvs) cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
             }
@@ -1363,6 +1538,7 @@
         function renderizarMiniaturasFotos(tipoView) {
             const containerId = tipoView === 'normal' ? 'containerMiniaturas' : 'r_containerMiniaturas';
             const container = document.getElementById(containerId);
+            if(!container) return;
             container.innerHTML = '';
             if(!currentOSId || !osDatabase[currentOSId]?.fotos) return;
             
@@ -1374,9 +1550,92 @@
             });
         }
 
+        let assinaturaGeralAtiva = { nome: null, base64: null };
         let activeCanvasId = null;
         let ctxModal = null;
         let desenhandoModal = false;
+        
+        let ctxModalGeral = null;
+        let desenhandoModalGeral = false;
+
+        function inicializarEventosModalAssinaturaGeral() {
+            const canvasGeral = document.getElementById('canvasAssinaturaGeral');
+            if(!canvasGeral) return;
+            ctxModalGeral = canvasGeral.getContext('2d');
+
+            const obterPosicao = (e) => {
+                const rect = canvasGeral.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            };
+
+            const iniciar = (e) => { e.preventDefault(); desenhandoModalGeral = true; const pos = obterPosicao(e); ctxModalGeral.beginPath(); ctxModalGeral.moveTo(pos.x, pos.y); };
+            const desenhar = (e) => { if (!desenhandoModalGeral) return; e.preventDefault(); const pos = obterPosicao(e); ctxModalGeral.lineTo(pos.x, pos.y); ctxModalGeral.stroke(); };
+            const parar = () => { if (desenhandoModalGeral) { desenhandoModalGeral = false; ctxModalGeral.closePath(); } };
+
+            canvasGeral.addEventListener('mousedown', iniciar);
+            canvasGeral.addEventListener('mousemove', desenhar);
+            window.addEventListener('mouseup', parar);
+            
+            canvasGeral.addEventListener('touchstart', iniciar, { passive: false });
+            canvasGeral.addEventListener('touchmove', desenhar, { passive: false });
+            window.addEventListener('touchend', parar);
+        }
+
+        function abrirModalAssinaturaGeral() {
+            const modal = document.getElementById('modalAssinaturaGeral');
+            const canvas = document.getElementById('canvasAssinaturaGeral');
+            if(!modal || !canvas) return;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            ctxModalGeral.lineWidth = 3;
+            ctxModalGeral.lineCap = 'round';
+            ctxModalGeral.lineJoin = 'round';
+            ctxModalGeral.strokeStyle = '#000000';
+            ctxModalGeral.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function fecharModalAssinaturaGeral() {
+            const modal = document.getElementById('modalAssinaturaGeral');
+            if(modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function limparCanvasAssinaturaGeral() {
+            if(!ctxModalGeral) return;
+            const canvas = document.getElementById('canvasAssinaturaGeral');
+            if(canvas) ctxModalGeral.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function confirmarAssinaturaGeral() {
+            const selectLub = document.getElementById('lubrificador_assinatura');
+            const nome = selectLub ? selectLub.value : null;
+            
+            if(!nome) {
+                alert("Por favor, selecione um lubrificador no topo da tela antes de confirmar a assinatura.");
+                return;
+            }
+            
+            const canvas = document.getElementById('canvasAssinaturaGeral');
+            if(canvas) {
+                assinaturaGeralAtiva = {
+                    nome: nome.toUpperCase(),
+                    base64: canvas.toDataURL()
+                };
+            }
+            
+            alert(`Assinatura registrada temporariamente para o lubrificador: ${nome.toUpperCase()}. Ela será gravada em todos os registros salvos com este nome.`);
+            fecharModalAssinaturaGeral();
+        }
 
         function inicializarEventosModalAssinatura() {
             const canvasModal = document.getElementById('canvasModal');
@@ -1407,6 +1666,7 @@
             activeCanvasId = idCanvasDestino;
             const modal = document.getElementById('modalAssinatura');
             const canvasModal = document.getElementById('canvasModal');
+            if(!modal || !canvasModal) return;
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1424,25 +1684,29 @@
 
         function fecharModalAssinatura() {
             const modal = document.getElementById('modalAssinatura');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            if(modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
             activeCanvasId = null;
         }
 
         function limparCanvasModal() {
             if(!ctxModal) return;
             const canvasModal = document.getElementById('canvasModal');
-            ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
+            if(canvasModal) ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
         }
 
         function confirmarAssinatura() {
             if (!activeCanvasId) return;
             const canvasDestino = document.getElementById(activeCanvasId);
-            const ctxDestino = canvasDestino.getContext('2d');
             const canvasModal = document.getElementById('canvasModal');
             
-            ctxDestino.clearRect(0, 0, canvasDestino.width, canvasDestino.height);
-            ctxDestino.drawImage(canvasModal, 0, 0, canvasDestino.width, canvasDestino.height);
+            if(canvasDestino && canvasModal) {
+                const ctxDestino = canvasDestino.getContext('2d');
+                ctxDestino.clearRect(0, 0, canvasDestino.width, canvasDestino.height);
+                ctxDestino.drawImage(canvasModal, 0, 0, canvasDestino.width, canvasDestino.height);
+            }
             
             salvarAutomaticamente();
             fecharModalAssinatura();
@@ -1450,69 +1714,94 @@
 
         function limparCanvasEspecifico(idCanvas) {
             const canvas = document.getElementById(idCanvas);
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            if(canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
             salvarAutomaticamente();
         }
 
         function restaurarImagemCanvas(idCanvas, dataUrl) {
             if (!dataUrl || dataUrl.length < 50) return;
             const canvas = document.getElementById(idCanvas);
+            if(!canvas) return;
             const ctx = canvas.getContext('2d');
             const img = new Image();
             img.onload = () => ctx.drawImage(img, 0, 0);
             img.src = dataUrl;
         }
 
+        // FUNÇÃO AUXILIAR PARA ADICIONAR EVENTOS DE FORMA SEGURA
+        function addSafeListener(id, event, handler) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener(event, handler);
+            } else {
+                console.warn(`Aviso: Elemento com ID '${id}' não encontrado para adicionar o evento '${event}'.`);
+            }
+        }
+
         function configurarEventosUI() {
-            document.getElementById('os_tag').addEventListener('change', function() { document.getElementById('equipamento').value = relacaoFrota[this.value] || ''; salvarAutomaticamente(); });
-            document.getElementById('r_os_tag').addEventListener('change', function() { document.getElementById('r_equipamento').value = relacaoFrota[this.value] || ''; salvarAutomaticamente(); });
-            document.getElementById('os_km').addEventListener('input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
-            document.getElementById('r_os_km').addEventListener('input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
+            addSafeListener('os_tag', 'change', function() { 
+                const eq = document.getElementById('equipamento');
+                if(eq) eq.value = relacaoFrota[this.value] || ''; 
+                salvarAutomaticamente(); 
+            });
             
-            // File Inputs para Fotos
-            document.getElementById('inputFotos').addEventListener('change', (e) => manipularUploadDeFotos(e, 'normal'));
-            document.getElementById('r_inputFotos').addEventListener('change', (e) => manipularUploadDeFotos(e, 'rapido'));
+            addSafeListener('r_os_tag', 'change', function() { 
+                const req = document.getElementById('r_equipamento');
+                if(req) req.value = relacaoFrota[this.value] || ''; 
+                salvarAutomaticamente(); 
+            });
+            
+            addSafeListener('os_km', 'input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
+            addSafeListener('r_os_km', 'input', function() { this.value = this.value.replace(/[^0-9.,]/g, ''); });
+            
+            addSafeListener('inputFotos', 'change', (e) => manipularUploadDeFotos(e, 'normal'));
+            addSafeListener('r_inputFotos', 'change', (e) => manipularUploadDeFotos(e, 'rapido'));
 
             document.body.addEventListener('blur', function(e) {
-                if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp') && !e.target.classList.contains('lub-obs')) { e.target.value = e.target.value.toUpperCase(); salvarAutomaticamente(); }
+                if (e.target.matches('input[type="text"], textarea') && !e.target.classList.contains('lub-resp') && !e.target.classList.contains('lub-obs')) { 
+                    e.target.value = e.target.value.toUpperCase(); 
+                    salvarAutomaticamente(); 
+                }
             }, true);
 
             document.body.addEventListener('change', (e) => {
                 if (!e.target.matches('button') && !e.target.closest('#view-lubrificacao') && e.target.type !== 'file' && e.target.id !== 'filtro_data_galeria' && e.target.id !== 'filtro_tag_galeria') salvarAutomaticamente();
             });
             
-            document.getElementById('tabelaLubrificacaoBody').addEventListener('change', salvarLubrificacao);
-            document.getElementById('tabelaLubrificacaoBody').addEventListener('input', function(e) { 
+            addSafeListener('tabelaLubrificacaoBody', 'change', salvarLubrificacao);
+            addSafeListener('tabelaLubrificacaoBody', 'input', function(e) { 
                 if(e.target.matches('.lub-resp') || e.target.matches('.lub-obs')) { 
                     e.target.value = e.target.value.toUpperCase(); 
                     salvarLubrificacao(); 
                 } 
             });
 
-            // Delegação Tabela Serviços (Cálculo de Tempo)
-            document.getElementById('tabelaServicosBody').addEventListener('change', function(e) {
+            addSafeListener('tabelaServicosBody', 'change', function(e) {
                 if (e.target.type === 'time') {
                     const tr = e.target.closest('tr');
                     const [in1, in2] = tr.querySelectorAll('input[type="time"]');
                     const totalInput = tr.querySelector('input[readonly]');
-                    if (in1.value && in2.value) {
+                    if (in1 && in2 && in1.value && in2.value) {
                         const [h1, m1] = in1.value.split(':').map(Number);
                         const [h2, m2] = in2.value.split(':').map(Number);
                         let min1 = (h1 * 60) + m1, min2 = (h2 * 60) + m2;
                         if (min2 < min1) min2 += 24 * 60; 
-                        totalInput.value = ((min2 - min1) / 60).toFixed(2);
-                    } else { totalInput.value = '0.0'; }
+                        if(totalInput) totalInput.value = ((min2 - min1) / 60).toFixed(2);
+                    } else { 
+                        if(totalInput) totalInput.value = '0.0'; 
+                    }
                     salvarAutomaticamente();
                 }
             });
 
-            // Botões Adicionar Tabela
-            document.getElementById('btnAddServico').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaServico('tabelaServicosBody'); salvarAutomaticamente(); });
-            document.getElementById('btnAddPeca').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaPeca('tabelaPecasBody'); salvarAutomaticamente(); });
-            document.getElementById('r_btnAddPeca').addEventListener('click', (e) => { e.preventDefault(); adicionarLinhaPeca('r_tabelaPecasBody'); salvarAutomaticamente(); });
+            addSafeListener('btnAddServico', 'click', (e) => { e.preventDefault(); adicionarLinhaServico('tabelaServicosBody'); salvarAutomaticamente(); });
+            addSafeListener('btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('tabelaPecasBody'); salvarAutomaticamente(); });
+            addSafeListener('r_btnAddPeca', 'click', (e) => { e.preventDefault(); adicionarLinhaPeca('r_tabelaPecasBody'); salvarAutomaticamente(); });
         }
 
         function adicionarLinhaServico(idTbody, desc = '', inicio = '', fim = '', total = '0.0') {
+            const tbody = document.getElementById(idTbody);
+            if(!tbody) return;
             const tr = document.createElement('tr');
             tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
             tr.innerHTML = `
@@ -1521,10 +1810,12 @@
                 <td class="p-2 text-center"><input type="time" value="${fim}" class="w-fit border rounded px-2 py-1 text-center mx-auto block"></td>
                 <td class="p-2 text-center"><input type="text" readonly value="${total}" class="w-20 border-none bg-gray-100 rounded px-2 py-1 text-center font-bold text-gray-700 mx-auto block"></td>
             `;
-            document.getElementById(idTbody).appendChild(tr);
+            tbody.appendChild(tr);
         }
 
         function adicionarLinhaPeca(idTbody, desc = '', qtd = '', unid = 'UN') {
+            const tbody = document.getElementById(idTbody);
+            if(!tbody) return;
             const tr = document.createElement('tr');
             tr.className = 'border-b border-gray-100 last:border-0 hover:bg-gray-50';
             tr.innerHTML = `
@@ -1536,7 +1827,7 @@
                     </select>
                 </td>
             `;
-            document.getElementById(idTbody).appendChild(tr);
+            tbody.appendChild(tr);
         }
     </script>
 </body>
