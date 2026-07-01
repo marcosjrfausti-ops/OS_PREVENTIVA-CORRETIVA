@@ -531,7 +531,6 @@
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_hidraulica" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">HIDRÁULICA</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="r_prob_material_rodante" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">DIREÇÃO</span></label>
                     <label class="flex items-center gap-3 p-3 border rounded-lg hover:bg-gray-50"><input type="checkbox" id="prob_ar" class="w-5 h-5 accent-conterLaranja rounded"><span class="text-sm font-medium text-gray-700">AR</span></label>
-
                 </div>
             </section>
 
@@ -660,13 +659,76 @@
             <section class="flex flex-col sm:flex-row gap-4 pt-2">
                 <button type="button" onclick="abrirTelaAssinaturaGeral()" class="w-full py-4 bg-gray-100 border-2 border-conterLaranja text-conterLaranja font-bold rounded-lg shadow-sm hover:bg-orange-50 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="pen-tool" class="w-6 h-6"></i>
-                   ASSINATURA GERAL
+                    ASSINATURA GERAL
                 </button>
                 <button type="button" onclick="finalizarLoteLubrificacao()" class="w-full py-4 bg-conterLaranja text-white font-bold rounded-lg shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 text-lg">
                     <i data-lucide="save" class="w-6 h-6"></i>
                     SALVAR LUBRIFICAÇÕES
                 </button>
             </section>
+        </main>
+    </section>
+
+    <section id="view-assinatura-lote" class="hidden min-h-screen flex-col pb-20">
+        <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
+            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="showView('view-lubrificacao')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
+                    ASSINATURAS PENDENTES
+                </h1>
+                <div class="w-6"></div>
+            </div>
+        </header>
+
+        <main class="max-w-5xl mx-auto w-full mt-6 px-4 space-y-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row gap-4">
+                <div class="flex-1 space-y-1">
+                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Data</label>
+                    <input type="date" id="filtro_data_pendente" onchange="renderizarPendentesAssinatura()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-conterAmarelo">
+                </div>
+                <div class="flex-1 space-y-1">
+                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Lubrificador</label>
+                    <select id="filtro_resp_pendente" onchange="renderizarPendentesAssinatura()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAmarelo">
+                        <option value="">Todos os Lubrificadores</option>
+                        <option value="CAIQUE AUGUSTO">CAIQUE AUGUSTO</option>
+                        <option value="GABRIEL GUILHERME">GABRIEL GUILHERME</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-sm border-b">
+                                <th class="p-3 font-medium text-center w-28">Nº OS</th>
+                                <th class="p-3 font-medium text-center w-32">Data</th>
+                                <th class="p-3 font-medium text-center w-40">TAG</th>
+                                <th class="p-3 font-medium w-48">Lubrificador</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_pendentes">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col items-center">
+                <p class="text-sm font-bold uppercase text-conterAmarelo mb-3">Assinatura Aplicável aos Registros Acima</p>
+                <div class="w-full max-w-[500px] border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 overflow-hidden relative touch-none">
+                    <canvas id="canvasAssinaturaPendente" class="w-full h-[150px] bg-transparent cursor-crosshair"></canvas>
+                </div>
+                <button type="button" onclick="limparCanvasPendente()" class="mt-3 text-sm text-red-500 font-bold flex items-center gap-1 hover:text-red-700">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i> Limpar Quadro
+                </button>
+            </div>
+
+            <button type="button" onclick="salvarAssinaturasPendentes()" class="w-full py-5 bg-conterAzul text-white font-bold rounded-lg shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg">
+                <i data-lucide="check-square" class="w-7 h-7"></i>
+                APLICAR ASSINATURA AOS REGISTROS
+            </button>
         </main>
     </section>
 
@@ -690,48 +752,12 @@
         </div>
     </div>
 
-    <div id="modalAssinaturaGeral" class="hidden fixed inset-0 bg-white z-[100] flex-col p-4">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold text-conterAmarelo">Assinatura Geral de Lote</h2>
-            <button type="button" onclick="fecharModalAssinaturaGeral()" class="text-gray-500 hover:text-gray-800 p-2">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-        </div>
-        
-       <div class="mb-4">
-            <label class="text-sm font-medium text-gray-600">Selecione o Lubrificador que está assinando:</label>
-            <select id="lubrificador_assinatura" class="w-full border rounded-lg px-3 py-3 mt-1 bg-white focus:outline-none focus:border-conterLaranja font-semibold text-conterAzul">
-                <option value="" disabled selected>Selecione seu nome...</option>
-                <option value="CAIQUE AUGUSTO">CAIQUE AUGUSTO</option>
-                <option value="GABRIEL GUILHERME">GABRIEL GUILHERME</option>
-            </select>
-        </div>
-
-        <div class="flex-1 border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 relative touch-none">
-            <canvas id="canvasAssinaturaGeral" class="absolute inset-0 w-full h-full cursor-crosshair rounded-xl"></canvas>
-        </div>
-        <div class="mt-4 flex gap-4 pb-4">
-            <button type="button" onclick="limparCanvasAssinaturaGeral()" class="flex-1 py-4 bg-red-100 text-red-600 font-bold rounded-lg hover:bg-red-200 transition-colors flex items-center justify-center gap-2 shadow-sm">
-                <i data-lucide="trash-2" class="w-5 h-5"></i> Limpar
-            </button>
-            <button type="button" onclick="confirmarAssinaturaGeral()" class="flex-[2] py-4 bg-conterAzul text-white font-bold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg">
-                <i data-lucide="check" class="w-5 h-5"></i> Salvar Assinatura
-            </button>
-        </div>
-    </div>
-
     <script type="module">
-      // 1. Importações do SDK do Firebase v10+ (Utilizando ES Modules estaveis via CDN)
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
       import { 
-        getFirestore, 
-        doc, 
-        setDoc, 
-        collection,
-        getDocs,
-        enableIndexedDbPersistence 
+        getFirestore, doc, setDoc, collection, getDocs, enableIndexedDbPersistence 
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-      // 2. Credenciais Reais do Projeto (os-coretiva-preventiva)
+      
       const firebaseConfig = {
         apiKey: "AIzaSyBLTPfj097saA-VrtxqWCLWDdS5acjgbEs",
         authDomain: "os-coretiva-preventiva.firebaseapp.com",
@@ -741,18 +767,15 @@
         appId: "1:1074947472672:web:c797327b7c398fa94b2b45",
         measurementId: "G-H01XP1X013"
       };
-      // 3. Inicialização do Firebase e Firestore
+      
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-      // 4. Ativação da Persistência Offline Automática
+      
       enableIndexedDbPersistence(db).catch((err) => {
-        if (err.code == 'failed-precondition') {
-          console.warn("Persistência offline falhou: Múltiplas abas abertas.");
-        } else if (err.code == 'unimplemented') {
-          console.warn("O navegador atual não suporta persistência offline.");
-        }
+        if (err.code == 'failed-precondition') console.warn("Persistência offline falhou: Múltiplas abas abertas.");
+        else if (err.code == 'unimplemented') console.warn("O navegador atual não suporta persistência offline.");
       });
-      // Exponha o banco 'db' e as funções do Firestore globalmente para que o app.js consiga utilizá-los
+      
       window.db = db;
       window.firestoreDoc = doc;
       window.firestoreSetDoc = setDoc;
@@ -763,7 +786,7 @@
     <script>
         let currentOSId = null;
         let tipoOSAtual = 'normal'; 
-        let modoOperacaoAtual = 'nova'; // Controla a Máquina de Estados ('nova', 'atualizar', 'finalizar', 'alterar')
+        let modoOperacaoAtual = 'nova'; 
         let osDatabase = JSON.parse(localStorage.getItem('PRECOR_OS_DB')) || {};
         let lubDatabase = JSON.parse(localStorage.getItem('PRECOR_LUB_DB')) || [];
 
@@ -794,22 +817,15 @@
            "CON-077": "RETROESCAVADEIRA", "CON-078": "RETROESCAVADEIRA", "CON-079": "ESCAVADEIRA HIDRAÚLICA"
         };
 
-        // GARANTIA DE CARREGAMENTO: O DOMContentLoaded assegura que o HTML foi 100% lido antes do JS rodar
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            gerarOpcoesTAG(); // Injeta dinamicamente as opções assim que a tela está pronta
+            gerarOpcoesTAG(); 
             configurarEventosUI();
-            // Inicializa a lógica central de Assinatura no Modal
             inicializarEventosModalAssinatura();
-            inicializarEventosModalAssinaturaGeral(); // Modal de Assinatura Universal
-
-            // Sincroniza dados com o Firestore ao iniciar
+            inicializarCanvasPendente(); 
             sincronizarDadosComNuvem();
         });
 
-        // ====================================================
-        // NAVEGAÇÃO SPA E MÁQUINA DE ESTADOS
-        // ====================================================
         function showView(viewId) {
             const views = ['view-home', 'view-gallery', 'view-form', 'view-rapido', 'view-lubrificacao', 'view-assinatura-lote'];
             views.forEach(id => {
@@ -825,7 +841,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Aplica as regras visuais da OS Normal dependendo do estado atual do ciclo da O.S.
         function aplicarRegrasModo(modo) {
             const cInicial = document.getElementById('container_prev_inicial');
             const cAtual = document.getElementById('container_prev_atual');
@@ -833,7 +848,7 @@
             const iInicial = document.getElementById('data_prev_lib_inicial');
             const iAtual = document.getElementById('data_prev_lib_atual');
             const btn = document.getElementById('btnAcaoForm');
-            // Limpa as restrições padrão
+            
             cInicial.classList.remove('hidden');
             cAtual.classList.remove('hidden');
             cLib.classList.remove('hidden');
@@ -858,10 +873,8 @@
             lucide.createIcons();
         }
 
-        // REFACTOR: Obter o número da OS de forma inteligente baseado no maior registro salvo
         function obterProximoNumeroOS(atualizarCache = false) {
             let maxNum = 0;
-            // 1. Varre a base de dados em busca do maior número já registrado
             Object.values(osDatabase).forEach(os => {
                 let numStr = os.cabecalho?.os_numero || os.cabecalho?.r_os_numero || os.os_numero || "";
                 let match = String(numStr).match(/\d+/);
@@ -870,11 +883,10 @@
                     if (num > maxNum) maxNum = num;
                 }
             });
-            // 2. Compara com o cache local (útil para não repetir números na Lubrificação)
+            
             let ultimoLocal = parseInt(localStorage.getItem('ultimo_numero_os') || "0", 10);
             let proximo = Math.max(maxNum, ultimoLocal) + 1;
             
-            // 3. Só trava o número no cache se for uma criação em lote (ex: Lubrificação)
             if (atualizarCache) {
                 localStorage.setItem('ultimo_numero_os', proximo);
             }
@@ -927,9 +939,7 @@
                 else titleEl.textContent = 'Alterar Registros (Admin)';
             }
 
-            // PUXA OS DADOS REAIS DO FIREBASE
             await sincronizarDadosComNuvem();
-            // Desenha a tela aplicando os filtros atuais
             renderizarGaleria();
         }
 
@@ -958,7 +968,6 @@
                 const os = osDatabase[id];
                 let exibir = false;
 
-                // Regra Principal de Exibição Inteligente
                 const statusOS = os.status?.toUpperCase() || '';
                 const statusEquip = os.cabecalho?.status_equipamento || os.cabecalho?.r_status_equipamento || '';
                 const estaLiberado = (statusOS === 'LIBERADO' || statusEquip === 'liberado');
@@ -966,10 +975,9 @@
                 if (modoOperacaoAtual === 'atualizar' || modoOperacaoAtual === 'finalizar') {
                     exibir = !estaLiberado;
                 } else if (modoOperacaoAtual === 'alterar') {
-                    exibir = true; // Admin vê tudo
+                    exibir = true; 
                 }
 
-                // Filtros de Data e TAG
                 if (exibir) {
                     const tagOS = os.cabecalho?.os_tag || os.cabecalho?.r_os_tag || os.tag || '';
                     const dataOS = os.cabecalho?.data_parada || os.cabecalho?.r_data || os.data_apontamento || ''; 
@@ -1027,7 +1035,6 @@
             const tbody = document.getElementById('tabelaLubrificacaoBody');
             if(!tbody) return;
             const tr = document.createElement('tr');
-            // Adicionada a classe 'linha-lubrificacao' para o Javascript achar e filtrar
             tr.className = "border-b border-gray-100 hover:bg-gray-50 linha-lubrificacao";
             const itemId = dado.id || gerarIdCosmosDB('LUB', dado.tag);
             tr.dataset.id = itemId;
@@ -1068,7 +1075,7 @@
             `;
             tbody.appendChild(tr);
             salvarLubrificacao();
-            filtrarTabelaLubrificacao(); // Re-aplica filtro caso seja adicionado enquanto filtrado
+            filtrarTabelaLubrificacao(); 
         }
 
         function salvarLubrificacao() {
@@ -1109,12 +1116,10 @@
                 const cidade = cidadeEl ? cidadeEl.value : '';
                 const osNumero = osNumeroEl ? osNumeroEl.value : '';
 
-                // Sem bloqueios de obrigatoriedade. Se vazio, vira SEM-TAG.
                 const tagLimpa = tag ? tag : 'SEM-TAG';
                 const dataItem = new Date(now.getTime() + (index * 1000));
                 const dataHoraFlat = `${dataItem.getFullYear()}${pad(dataItem.getMonth()+1)}${pad(dataItem.getDate())}_${pad(dataItem.getHours())}${pad(dataItem.getMinutes())}${pad(dataItem.getSeconds())}`;
                 
-                // Reaproveita o ID se já existir e for do formato correto (para edição pelo Alterar Registro)
                 let chaveUnica = tr.dataset.id;
                 if (!chaveUnica || chaveUnica === 'undefined' || !chaveUnica.includes('PRECOR_LUB_')) {
                     chaveUnica = `PRECOR_LUB_${tagLimpa}_${dataHoraFlat}`;
@@ -1133,10 +1138,6 @@
                     status: "LIBERADO"
                 };
 
-                if (assinaturaGeralAtiva.nome && resp === assinaturaGeralAtiva.nome) {
-                    payload.assinatura = assinaturaGeralAtiva.base64;
-                }
-
                 osDatabase[chaveUnica] = payload;
                 
                 if (window.db && window.firestoreSetDoc) {
@@ -1147,14 +1148,12 @@
                 registrosSalvos++;
             });
 
-            // Mostra o sucesso independente de validações pesadas e reseta a tela
             localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
             alert(`Sucesso! ${registrosSalvos} registro(s) de lubrificação foram salvos.`);
             const tbody = document.getElementById('tabelaLubrificacaoBody');
             if(tbody) tbody.innerHTML = '';
             adicionarLinhaLubrificacao();
             lubDatabase = [];
-            assinaturaGeralAtiva = { nome: null, base64: null };
             localStorage.removeItem('PRECOR_LUB_DB');
             showView('view-home');
         }
@@ -1168,7 +1167,7 @@
             try {
                 const querySnapshot = await window.firestoreGetDocs(window.firestoreCollection(window.db, "registros"));
                 let bancoNuvem = {};
-                let maxNumNuvem = 0; // Variável para rastrear a OS mais alta na nuvem
+                let maxNumNuvem = 0; 
 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
@@ -1221,7 +1220,6 @@
             const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
             
             const tagEl = document.getElementById(`${prefix}os_tag`);
-            // Retirado o bloqueio obrigatório. Assumiremos SEM-TAG caso vazio.
             const temTag = (tagEl && tagEl.value) ? tagEl.value : 'SEM-TAG';
 
             const isEdicao = !!currentOSId && !!osDatabase[currentOSId];
@@ -1313,7 +1311,6 @@
         }
 
         function executarAcaoFormulario() {
-            // Removida a barreira obrigatória. Força a geração de um rascunho se não tiver.
             if (!currentOSId) { salvarAutomaticamente(); }
             if (!osDatabase[currentOSId]) return;
             
@@ -1380,7 +1377,6 @@
                 return;
             }
 
-            // Tratamento Original Rápido e Normal
             limparFormularioOS(tipoOSAtual);
             const viewId = tipoOSAtual === 'normal' ? 'view-form' : 'view-rapido';
             setMecanicosArray(viewId, draft.mecanicos);
@@ -1489,77 +1485,6 @@
             }
         }
 
-        <!-- ========================================== -->
-    <!-- VIEW 6: ASSINATURAS PENDENTES EM LOTE      -->
-    <!-- ========================================== -->
-    <section id="view-assinatura-lote" class="hidden min-h-screen flex-col pb-20">
-        <header class="bg-conterAmarelo text-white sticky top-0 z-50 shadow-md">
-            <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-                <button onclick="showView('view-lubrificacao')" class="flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
-                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
-                </button>
-                <h1 class="text-base sm:text-lg font-semibold tracking-wide flex-1 text-center truncate px-2">
-                    ASSINATURAS PENDENTES
-                </h1>
-                <div class="w-6"></div>
-            </div>
-        </header>
-
-        <main class="max-w-5xl mx-auto w-full mt-6 px-4 space-y-6">
-            <!-- Bloco de Filtros -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row gap-4">
-                <div class="flex-1 space-y-1">
-                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Data</label>
-                    <input type="date" id="filtro_data_pendente" onchange="renderizarPendentesAssinatura()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-conterAmarelo">
-                </div>
-                <div class="flex-1 space-y-1">
-                    <label class="text-xs font-medium text-gray-500 uppercase">Filtrar por Lubrificador</label>
-                    <select id="filtro_resp_pendente" onchange="renderizarPendentesAssinatura()" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-conterAmarelo">
-                        <option value="">Todos os Lubrificadores</option>
-                        <option value="CAIQUE AUGUSTO">CAIQUE AUGUSTO</option>
-                        <option value="GABRIEL GUILHERME">GABRIEL GUILHERME</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Tabela de Registros Sem Assinatura -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px]">
-                        <thead>
-                            <tr class="bg-gray-50 text-gray-600 text-sm border-b">
-                                <th class="p-3 font-medium text-center w-28">Nº OS</th>
-                                <th class="p-3 font-medium text-center w-32">Data</th>
-                                <th class="p-3 font-medium text-center w-40">TAG</th>
-                                <th class="p-3 font-medium w-48">Lubrificador</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody_pendentes">
-                            <!-- Injetado via JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Área de Assinatura -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col items-center">
-                <p class="text-sm font-bold uppercase text-conterAmarelo mb-3">Assinatura Aplicável aos Registros Acima</p>
-                <div class="w-full max-w-[500px] border-2 border-dashed border-conterLaranja rounded-xl bg-gray-50 overflow-hidden relative touch-none">
-                    <canvas id="canvasAssinaturaPendente" class="w-full h-[150px] bg-transparent cursor-crosshair"></canvas>
-                </div>
-                <button type="button" onclick="limparCanvasPendente()" class="mt-3 text-sm text-red-500 font-bold flex items-center gap-1 hover:text-red-700">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i> Limpar Quadro
-                </button>
-            </div>
-
-            <!-- Botão Salvar -->
-            <button type="button" onclick="salvarAssinaturasPendentes()" class="w-full py-5 bg-conterAzul text-white font-bold rounded-lg shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg">
-                <i data-lucide="check-square" class="w-7 h-7"></i>
-                APLICAR ASSINATURA AOS REGISTROS
-            </button>
-        </main>
-    </section>
-
         // ====================================================
         // EVENTOS GERAIS E MULTIMÍDIA (CANVAS/FOTOS)
         // ====================================================
@@ -1659,99 +1584,11 @@
             });
         }
 
-        let assinaturaGeralAtiva = { nome: null, base64: null };
-        let activeCanvasId = null;
-        let ctxModal = null;
-        let desenhandoModal = false;
-        
-        let ctxModalGeral = null;
-        let desenhandoModalGeral = false;
-        
-        function inicializarEventosModalAssinaturaGeral() {
-            const canvasGeral = document.getElementById('canvasAssinaturaGeral');
-            if(!canvasGeral) return;
-            ctxModalGeral = canvasGeral.getContext('2d');
-
-            const obterPosicao = (e) => {
-                const rect = canvasGeral.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            };
-
-            const iniciar = (e) => { e.preventDefault();
-                desenhandoModalGeral = true; const pos = obterPosicao(e); ctxModalGeral.beginPath(); ctxModalGeral.moveTo(pos.x, pos.y); };
-            const desenhar = (e) => { if (!desenhandoModalGeral) return;
-                e.preventDefault(); const pos = obterPosicao(e); ctxModalGeral.lineTo(pos.x, pos.y); ctxModalGeral.stroke(); };
-            const parar = () => { if (desenhandoModalGeral) { desenhandoModalGeral = false;
-                ctxModalGeral.closePath(); } };
-
-            canvasGeral.addEventListener('mousedown', iniciar);
-            canvasGeral.addEventListener('mousemove', desenhar);
-            window.addEventListener('mouseup', parar);
-            
-            canvasGeral.addEventListener('touchstart', iniciar, { passive: false });
-            canvasGeral.addEventListener('touchmove', desenhar, { passive: false });
-            window.addEventListener('touchend', parar);
-        }
-
-        function abrirModalAssinaturaGeral() {
-            const modal = document.getElementById('modalAssinaturaGeral');
-            const canvas = document.getElementById('canvasAssinaturaGeral');
-            if(!modal || !canvas) return;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            ctxModalGeral.lineWidth = 3;
-            ctxModalGeral.lineCap = 'round';
-            ctxModalGeral.lineJoin = 'round';
-            ctxModalGeral.strokeStyle = '#000000';
-            ctxModalGeral.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function fecharModalAssinaturaGeral() {
-            const modal = document.getElementById('modalAssinaturaGeral');
-            if(modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function limparCanvasAssinaturaGeral() {
-            if(!ctxModalGeral) return;
-            const canvas = document.getElementById('canvasAssinaturaGeral');
-            if(canvas) ctxModalGeral.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function confirmarAssinaturaGeral() {
-            const selectLub = document.getElementById('lubrificador_assinatura');
-            const nome = selectLub ? selectLub.value : null;
-            
-            if(!nome) {
-                alert("Por favor, selecione um lubrificador no topo da tela antes de confirmar a assinatura.");
-                return;
-            }
-            
-            const canvas = document.getElementById('canvasAssinaturaGeral');
-            if(canvas) {
-                assinaturaGeralAtiva = {
-                    nome: nome.toUpperCase(),
-                    base64: canvas.toDataURL()
-                };
-            }
-            
-            alert(`Assinatura registrada temporariamente para o lubrificador: ${nome.toUpperCase()}. Ela será gravada em todos os registros salvos com este nome.`);
-            fecharModalAssinaturaGeral();
-        }
-
         function inicializarEventosModalAssinatura() {
             const canvasModal = document.getElementById('canvasModal');
             if(!canvasModal) return;
-            ctxModal = canvasModal.getContext('2d');
+            let ctxModal = canvasModal.getContext('2d');
+            let desenhandoModal = false;
 
             const obterPosicao = (e) => {
                 const rect = canvasModal.getBoundingClientRect();
@@ -1776,6 +1613,8 @@
             window.addEventListener('touchend', parar);
         }
 
+        let activeCanvasId = null;
+
         function abrirModalAssinatura(idCanvasDestino) {
             activeCanvasId = idCanvasDestino;
             const modal = document.getElementById('modalAssinatura');
@@ -1789,6 +1628,7 @@
             canvasModal.width = rect.width;
             canvasModal.height = rect.height;
             
+            let ctxModal = canvasModal.getContext('2d');
             ctxModal.lineWidth = 3;
             ctxModal.lineCap = 'round';
             ctxModal.lineJoin = 'round';
@@ -1806,9 +1646,11 @@
         }
 
         function limparCanvasModal() {
-            if(!ctxModal) return;
             const canvasModal = document.getElementById('canvasModal');
-            if(canvasModal) ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
+            if(canvasModal) {
+                let ctxModal = canvasModal.getContext('2d');
+                ctxModal.clearRect(0, 0, canvasModal.width, canvasModal.height);
+            }
         }
 
         function confirmarAssinatura() {
@@ -1924,6 +1766,7 @@
             `;
             tbody.appendChild(tr);
         }
+
         // ====================================================
         // LÓGICA DA TELA DE ASSINATURAS PENDENTES EM LOTE
         // ====================================================
@@ -1960,7 +1803,6 @@
         function abrirTelaAssinaturaGeral() {
             showView('view-assinatura-lote');
             
-            // Ajusta o tamanho do canvas de acordo com a tela do celular/PC
             const canvas = document.getElementById('canvasAssinaturaPendente');
             if(canvas) {
                 const rect = canvas.parentElement.getBoundingClientRect();
@@ -1993,7 +1835,6 @@
             
             let count = 0;
             
-            // Varre o banco procurando lubrificações sem assinatura salva
             Object.keys(osDatabase).forEach(id => {
                 const rec = osDatabase[id];
                 if (rec.tipoRegistro === 'LUBRIFICACAO' && (!rec.assinatura || rec.assinatura.trim() === '')) {
@@ -2027,7 +1868,6 @@
         function salvarAssinaturasPendentes() {
             const canvas = document.getElementById('canvasAssinaturaPendente');
             
-            // Verifica se o canvas está em branco
             const blank = document.createElement('canvas');
             blank.width = canvas.width;
             blank.height = canvas.height;
@@ -2045,13 +1885,11 @@
             }
 
             let salvos = 0;
-            // Varre as linhas da tabela e aplica a assinatura na base de dados
             linhas.forEach(tr => {
                 const id = tr.dataset.id;
                 if (osDatabase[id]) {
                     osDatabase[id].assinatura = assinaturaBase64;
                     
-                    // Sincroniza com Firestore imediatamente
                     if (window.db && window.firestoreSetDoc) {
                         window.firestoreSetDoc(window.firestoreDoc(window.db, "registros", id), {assinatura: assinaturaBase64}, { merge: true })
                         .catch((e) => console.log("Salvo offline para sincronismo futuro."));
@@ -2064,7 +1902,7 @@
                 localStorage.setItem('PRECOR_OS_DB', JSON.stringify(osDatabase));
                 alert(`Sucesso! A assinatura foi aplicada permanentemente a ${salvos} registro(s).`);
                 limparCanvasPendente();
-                renderizarPendentesAssinatura(); // Atualiza a tabela (eles devem sumir da tela)
+                renderizarPendentesAssinatura(); 
             }
         }
     </script>
